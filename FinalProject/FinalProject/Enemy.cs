@@ -7,5 +7,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FinalProject {
     abstract class Enemy : Entity{
+
+        //Placeholder constructor
+        public Enemy(Rectangle rect, Texture2D _texture) : base(rect, _texture) {
+
+        }
     }
 }

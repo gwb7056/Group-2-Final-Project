@@ -28,7 +28,7 @@ namespace FinalProject {
 
         //Player Textures:
         Texture2D playerTexture;
-
+        Player player;
         //Game Objects and Fields:
         Board gameBoard;
         Rectangle playerPosition;

@@ -9,6 +9,8 @@ namespace FinalProject {
 
         SpriteFont font;
         Board boardTest;
+        Texture2D playerTexture;
+        Rectangle playerPosition;
 
         public Game1() {
             _graphics = new GraphicsDeviceManager(this);
@@ -32,6 +34,7 @@ namespace FinalProject {
             font = Content.Load<SpriteFont>("Arial12");
 
             // TODO: use this.Content to load your game content here
+            playerTexture = Content.Load<Texture2D>("among us");
         }
 
         protected override void Update(GameTime gameTime) {

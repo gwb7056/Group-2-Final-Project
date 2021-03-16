@@ -7,5 +7,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FinalProject {
     abstract class Tower : Entity{
+
+        //Placeholder constructor
+        public Tower(Rectangle rect, Texture2D _texture) : base(rect, _texture) {
+
+        }
     }
 }

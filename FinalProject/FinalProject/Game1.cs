@@ -16,9 +16,7 @@ namespace FinalProject {
 
         //Fonts:
         SpriteFont font;
-        Board boardTest;
-        Texture2D playerTexture;
-        Rectangle playerPosition;
+        
 
         //Tile Textures:
         Texture2D pathTexture;
@@ -28,8 +26,12 @@ namespace FinalProject {
 
         //Enemy Texture:
 
-        //Game Objects:
+        //Player Textures:
+        Texture2D playerTexture;
+
+        //Game Objects and Fields:
         Board gameBoard;
+        Rectangle playerPosition;
 
         public Game1() {
             _graphics = new GraphicsDeviceManager(this);
@@ -38,7 +40,7 @@ namespace FinalProject {
         }
 
         protected override void Initialize() {
-            //zCreating gameBoard
+            //Creating gameBoard
             gameBoard = new Board(1);
 
             base.Initialize();
@@ -63,7 +65,7 @@ namespace FinalProject {
 
             //Enemy Textures:
 
-            // TODO: use this.Content to load your game content here
+            //Player Textures:
             playerTexture = Content.Load<Texture2D>("among us");
         }
 
@@ -71,22 +73,17 @@ namespace FinalProject {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.ForestGreen);
-
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
             //Draw the board
             gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
 
             _spriteBatch.End();
-
             base.Draw(gameTime);
         }
     }

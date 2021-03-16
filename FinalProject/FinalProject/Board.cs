@@ -9,7 +9,10 @@ using System.Diagnostics;
 
 namespace FinalProject {
     /// <summary>
-    /// Griffin Brown
+    /// Griffin Brown:
+    /// Create a class that can read the level design from a file given the level number
+    /// also holds all of the entities on the board, and keeps track of the coming waves.
+    /// Handles all interactions between all entities on the board.
     /// </summary>
     class Board {
         List<Entity> entityBoard;
@@ -31,6 +34,101 @@ namespace FinalProject {
             entityBoard = new List<Entity>();
             boardSpaces = new string[levelHeight, levelWidth];
 
+            GetLevelFromFile(levelNum);
+        }
+
+        /// <summary>
+        /// The current Level, Setting this also causes the board to read the new level num from the file
+        /// </summary>
+        public int LevelNum {
+            get {
+                return levelNum;
+            }
+            set {
+                levelNum = value;
+                GetLevelFromFile(levelNum);
+            }
+        }
+
+        /// <summary>
+        /// Get/Set the current wave number
+        /// </summary>
+        public int WaveNum {
+            get {
+                return waveNum;
+            }
+            set {
+                waveNum = value;
+            }
+        }
+
+        /// <summary>
+        /// Indexer for the board array. Can be set
+        /// </summary>
+        /// <param name="x">
+        /// X cord of space
+        /// </param>
+        /// <param name="y">
+        /// Y cord of space
+        /// </param>
+        /// <returns>
+        /// Returns the value in the array at the given cords
+        /// </returns>
+        public string this[int x, int y] {
+            get {
+                return boardSpaces[y, x];
+            }
+            set {
+                boardSpaces[y, x] = value;
+            }
+        }
+
+
+        /// <summary>
+        /// Board Class ToString()
+        /// </summary>
+        /// <returns>
+        /// Returns the board in an X by Y grid in one string
+        /// </returns>
+        public override string ToString() {
+            string output = "";
+            for(int y = 0; y < levelHeight; y++) {
+                for(int x = 0; x < levelWidth; x++) {
+                    output += (boardSpaces[y, x] + " ");
+                }
+                output += "\n";
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Draws the board on the screen
+        /// </summary>
+        /// <param name="sb">
+        /// The SpriteBatch object
+        /// </param>
+        /// <param name="pathTexture">
+        /// Texture2D for the path tiles
+        /// </param>
+        /// <param name="closedSpaceTexture">
+        /// Texture2D for the closed space tiles
+        /// </param>
+        public void Draw(SpriteBatch sb, Texture2D pathTexture, Texture2D closedSpaceTexture) {
+            Rectangle tileBoundingBox;
+            for(int y = 0; y < levelHeight; y++) {
+                for(int x = 0; x < levelWidth; x++) {
+                    tileBoundingBox = new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
+                    if(boardSpaces[y, x].Equals("p")) {
+                        sb.Draw(pathTexture, tileBoundingBox, Color.White);
+                    }
+                    if(boardSpaces[y, x].Equals("x")) {
+                        sb.Draw(closedSpaceTexture, tileBoundingBox, Color.White);
+                    }
+                }
+            }
+        }
+        
+        public void GetLevelFromFile(int level) {
             try {
                 input = new StreamReader("..\\..\\..\\LevelBoards.txt");
                 string line = "";
@@ -57,50 +155,6 @@ namespace FinalProject {
             }
             catch (Exception e) {
                 Debug.WriteLine(e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Board Class ToString()
-        /// </summary>
-        /// <returns>
-        /// Returns the board in an X by Y grid in one string
-        /// </returns>
-        public override string ToString() {
-            string output = "";
-            for(int y = 0; y < levelHeight; y++) {
-                for(int x = 0; x < levelWidth; x++) {
-                    output += (boardSpaces[y, x] + " ");
-                }
-                output += "\n";
-            }
-            return output;
-        }
-
-        /// <summary>
-        /// Draws the board on the scree
-        /// </summary>
-        /// <param name="sb">
-        /// The SpriteBatch object
-        /// </param>
-        /// <param name="pathTexture">
-        /// Texture2D for the path tiles
-        /// </param>
-        /// <param name="closedSpaceTexture">
-        /// Texture2D for the closed space tiles
-        /// </param>
-        public void Draw(SpriteBatch sb, Texture2D pathTexture, Texture2D closedSpaceTexture) {
-            Rectangle tileBoundingBox;
-            for(int y = 0; y < levelHeight; y++) {
-                for(int x = 0; x < levelWidth; x++) {
-                    tileBoundingBox = new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
-                    if(boardSpaces[y, x].Equals("p")) {
-                        sb.Draw(pathTexture, tileBoundingBox, Color.White);
-                    }
-                    if(boardSpaces[y, x].Equals("x")) {
-                        sb.Draw(closedSpaceTexture, tileBoundingBox, Color.White);
-                    }
-                }
             }
         }
     }

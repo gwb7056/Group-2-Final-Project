@@ -17,8 +17,10 @@ namespace FinalProject {
         //Fonts:
         SpriteFont font;
         Board boardTest;
+        //player stuff:
         Texture2D playerTexture;
         Rectangle playerPosition;
+        Player player;
 
         //Tile Textures:
         Texture2D pathTexture;
@@ -40,7 +42,7 @@ namespace FinalProject {
         protected override void Initialize() {
             //zCreating gameBoard
             gameBoard = new Board(1);
-
+            
             base.Initialize();
 
              //Change the window size
@@ -65,6 +67,8 @@ namespace FinalProject {
 
             // TODO: use this.Content to load your game content here
             playerTexture = Content.Load<Texture2D>("among us");
+            //creating player
+            player = new Player(playerTexture, 50, 50, 100, 100);
         }
 
         protected override void Update(GameTime gameTime) {
@@ -81,7 +85,8 @@ namespace FinalProject {
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-
+            //drawing player
+            player.Draw(_spriteBatch, Color.White);
             //Draw the board
             gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
 

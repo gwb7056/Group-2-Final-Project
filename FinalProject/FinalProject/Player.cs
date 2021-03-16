@@ -68,6 +68,13 @@ namespace FinalProject
                 health = value;
             }
         }
+        public Rectangle Rectangle
+        {
+            get
+            {
+                return playerPosition;
+            }
+        }
         //maybe a deck property?
         
         //methods: stuff the player can do
@@ -78,6 +85,7 @@ namespace FinalProject
         //lose mana
         //gain max mana
         //gain mana
+        //player needs to be drawn
        /// <summary>
        /// subtracts enemy damage amount from health
        /// </summary>
@@ -87,6 +95,9 @@ namespace FinalProject
         {
             health -= damage;
         }
-
+        public void Draw(SpriteBatch sb, Color color)
+        {
+            sb.Draw(playerTexture, playerPosition, color);
+        }
     }
 }

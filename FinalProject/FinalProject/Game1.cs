@@ -68,7 +68,7 @@ namespace FinalProject {
             //Player Textures:
             playerTexture = Content.Load<Texture2D>("among us");
             //creating player
-            player = new Player(playerTexture, 50, 50, 100, 100);
+            player = new Player(playerTexture, 500 - playerPosition.Width, 200, 100, 100);
         }
 
         protected override void Update(GameTime gameTime) {
@@ -81,11 +81,10 @@ namespace FinalProject {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.ForestGreen);
             _spriteBatch.Begin();
-            //drawing player
-            player.Draw(_spriteBatch, Color.White);
             //Draw the board
             gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
-
+            //drawing player
+            player.Draw(_spriteBatch, Color.White);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

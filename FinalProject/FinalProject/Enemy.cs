@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 namespace FinalProject 
 {
 
-    abstract class Enemy : Entity
+    abstract class Enemy
     {
 
         // Field
@@ -25,7 +25,7 @@ namespace FinalProject
         public int Speed { get { return speed; } set { speed = value; } }
 
         //Placeholder constructor
-        public Enemy(Rectangle rect, Texture2D _texture, int health, int speed) : base(rect, _texture) 
+        public Enemy(Rectangle rect, Texture2D _texture, int health, int speed)
         {
 
             this.health = health;

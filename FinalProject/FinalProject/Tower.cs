@@ -5,12 +5,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace FinalProject {
-    abstract class Tower : Entity{
+namespace FinalProject 
+{
+    public class Tower
+    {
 
-        //Placeholder constructor
-        public Tower(Rectangle rect, Texture2D _texture) : base(rect, _texture) {
-
-        }
     }
 }

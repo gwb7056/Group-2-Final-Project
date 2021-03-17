@@ -20,6 +20,8 @@ namespace FinalProject {
         List<List<Enemy>> enemyWaveList;
         int levelNum;
         int waveNum;
+        int[] pathStartCords;
+        int[] pathEndCords;
 
         int levelWidth = 15;
         int levelHeight = 15;
@@ -83,6 +85,31 @@ namespace FinalProject {
             }
         }
 
+        /// <summary>
+        /// The cords in tile space of the starting tile
+        /// </summary>
+        public int[] PathStartCords {
+            get {
+                return pathStartCords;
+            }
+        }
+
+        /// <summary>
+        /// The cords in tile space of the ending tile
+        /// </summary>
+        public int[] PathEndCords {
+            get {
+                return pathEndCords;
+            }
+        }
+
+        /// <summary>
+        /// Returns a rectangle object for the tile at the given cords
+        /// </summary>
+        public Rectangle GetRectangleAtIndex(int x, int y) {
+            return new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
+        }
+
 
         /// <summary>
         /// Board Class ToString()
@@ -118,7 +145,7 @@ namespace FinalProject {
             for(int y = 0; y < levelHeight; y++) {
                 for(int x = 0; x < levelWidth; x++) {
                     tileBoundingBox = new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
-                    if(boardSpaces[y, x].Equals("p")) {
+                    if(boardSpaces[y, x].Equals("p") || boardSpaces[y, x].Equals("s") || boardSpaces[y, x].Equals("e")) {
                         sb.Draw(pathTexture, tileBoundingBox, Color.White);
                     }
                     if(boardSpaces[y, x].Equals("x")) {
@@ -148,6 +175,13 @@ namespace FinalProject {
                     for(int x = 0; x < levelWidth; x++) {
                         //Store each tiles starting value in the array
                         boardSpaces[y, x] = splitLine[x];
+                        if(boardSpaces[y, x].Equals("s")) {
+                            pathStartCords = new int[] {x, y};
+                        }
+
+                        if(boardSpaces[y, x].Equals("e")) {
+                            pathEndCords = new int[] {x, y};
+                        }
                     }
                 }
 

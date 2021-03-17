@@ -68,7 +68,7 @@ namespace FinalProject {
             //Player Textures:
             playerTexture = Content.Load<Texture2D>("among us");
             //creating player
-            player = new Player(playerTexture, gameBoard.GetRectangleAtIndex(14, 6).X, gameBoard.GetRectangleAtIndex(14, 6).Y, 40, 40);
+            player = new Player(playerTexture, 500 - playerPosition.Width, 200, 100, 100);
         }
 
         protected override void Update(GameTime gameTime) {

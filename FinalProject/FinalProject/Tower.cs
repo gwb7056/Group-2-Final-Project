@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FinalProject 
 {
-    public class Tower
+    /*abstract*/ public class Tower
     {
 
     }

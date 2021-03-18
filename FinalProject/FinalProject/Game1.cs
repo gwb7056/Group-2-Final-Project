@@ -36,7 +36,7 @@ namespace FinalProject {
         public Game1() {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = true;          
         }
 
         protected override void Initialize() {

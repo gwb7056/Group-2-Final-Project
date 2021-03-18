@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 namespace FinalProject 
 {
 
-    abstract class Enemy
+    /*abstract*/ public class Enemy
     {
 
         // Field

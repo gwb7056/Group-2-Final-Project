@@ -15,13 +15,21 @@ namespace FinalProject {
     /// Handles all interactions between all entities on the board.
     /// </summary>
     class Board {
-        List<Entity> entityBoard;
+        List<Tower> towersOnBoard;
+        List<Enemy> enemiesOnBoard;
+
         string[,] boardSpaces;
-        List<List<Enemy>> enemyWaveList;
-        int levelNum;
-        int waveNum;
+        List<int[]> path;
         int[] pathStartCords;
         int[] pathEndCords;
+
+        List<List<Enemy>> enemyWaveList;
+
+        int levelNum;
+        int waveNum;
+
+        List<Texture2D> towerTextures;
+        List<Texture2D> enemyTextures;
 
         int levelWidth = 15;
         int levelHeight = 15;
@@ -30,11 +38,16 @@ namespace FinalProject {
         StreamReader input;
 
         //Read the correct level given to create the board object
-        public Board(int level) {
+        public Board(int level, List<Texture2D> _towerTextures, List<Texture2D> _enemyTextures) {
             levelNum = level;
-            waveNum = 0;
-            entityBoard = new List<Entity>();
+
+            towersOnBoard = new List<Tower>();
+            enemiesOnBoard = new List<Enemy>();
+
             boardSpaces = new string[levelHeight, levelWidth];
+
+            towerTextures = _towerTextures;
+            enemyTextures = _enemyTextures;
 
             GetLevelFromFile(levelNum);
         }
@@ -104,6 +117,15 @@ namespace FinalProject {
         }
 
         /// <summary>
+        /// Get the size of each tile in pixels
+        /// </summary>
+        public int TileSize {
+            get {
+                return tileSize;
+            }
+        }
+
+        /// <summary>
         /// Returns a rectangle object for the tile at the given cords
         /// </summary>
         public Rectangle GetRectangleAtIndex(int x, int y) {
@@ -153,10 +175,24 @@ namespace FinalProject {
                     }
                 }
             }
+
+            //Draw all enemies
+            foreach(Enemy e in enemiesOnBoard) {
+                e.Draw(sb);
+            }
+
+            //Draw all towers
+            /*foreach(Tower t in towersOnBoard) {
+                t.Draw(sb);
+            }*/
         }
         
+        /// <summary>
+        /// Read the level data from the file given the level number
+        /// </summary>
         public void GetLevelFromFile(int level) {
             try {
+                //Create StreamReader
                 input = new StreamReader("..\\..\\..\\LevelBoards.txt");
                 string line = "";
                 string[] splitLine;
@@ -175,6 +211,8 @@ namespace FinalProject {
                     for(int x = 0; x < levelWidth; x++) {
                         //Store each tiles starting value in the array
                         boardSpaces[y, x] = splitLine[x];
+
+                        //Store the path start and end cords seperately
                         if(boardSpaces[y, x].Equals("s")) {
                             pathStartCords = new int[] {x, y};
                         }
@@ -185,11 +223,79 @@ namespace FinalProject {
                     }
                 }
 
+                //Load the waves of the level
+                waveNum = 0;
+                enemyWaveList = new List<List<Enemy>>();
+
+                //Go until there are no more waves to load
+                while(line != "~~~") {
+                    line = input.ReadLine();
+                    //Create temp list
+                    List<Enemy> waveTempList = new List<Enemy>();
+                    //Create enemies based on data in file
+                    int.TryParse(line, out int enemyNum);
+                    for(int i = 0; i < enemyNum; i++) {
+                        waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), 
+                            enemyTextures[0], 
+                            100, //Health
+                            1)); //Speed (num tiles per time unit)
+                    }
+                    //Put the list for that wave into the wave list
+                    enemyWaveList.Add(waveTempList);
+                }
+
+                CreateNextWave();
+
                 input.Close();
             }
             catch (Exception e) {
                 Debug.WriteLine(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Moves each enemy on the board along the path, if there are no enemies left, starts the next wave
+        /// </summary>
+        public void MoveEnemies() {
+            if(enemiesOnBoard.Count == 0) {
+                CreateNextWave();
+            }
+
+            foreach(Enemy e in enemiesOnBoard) {
+                int enemyX = e.X / tileSize;
+                int enemyY = e.Y / tileSize;
+                for(int i = 0; i < e.Speed; i++) {
+                    if((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
+                        enemyX += 1;
+                        e.LastPos = new int[2] {(enemyX - 1) * tileSize, enemyY * tileSize};
+                    }
+                    else if(boardSpaces[enemyY + 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY + 1) {
+                        enemyY += 1;
+                        e.LastPos = new int[2] {enemyX * tileSize, (enemyY - 1)* tileSize};
+                    }
+                    else if(boardSpaces[enemyY, enemyX - 1].Equals("p") && e.LastPos[0] / tileSize != enemyX - 1) {
+                        enemyX -= 1;
+                        e.LastPos = new int[2] {(enemyX + 1) * tileSize, enemyY * tileSize};
+                    }
+                    else if(boardSpaces[enemyY - 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY - 1) {
+                        enemyY -= 1;
+                        e.LastPos = new int[2] {enemyX * tileSize, (enemyY + 1) * tileSize};
+                    }
+                }
+                e.X = enemyX * tileSize;
+                e.Y = enemyY * tileSize;
+            }
+        }
+
+        /// <summary>
+        /// Get the next wave from the enemyWaveList and puts it on the board
+        /// </summary>
+        public void CreateNextWave() {
+            for(int i = 0; i < enemyWaveList[0].Count; i++) {
+                enemiesOnBoard.Add(enemyWaveList[0][i]);
+            }
+            enemyWaveList.RemoveAt(0);
+            waveNum += 1;
         }
     }
 }

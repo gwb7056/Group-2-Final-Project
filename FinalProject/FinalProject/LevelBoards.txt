@@ -2,10 +2,10 @@ x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
-o o o o o o o o o o o o p p p
+o o o o o o o o o o o o p p e
 o o o o o o o o o o o o p o o
 o p p p p p p o o o p p p o o
-p p o o o o p o o o p o o o o
+s p o o o o p o o o p o o o o
 o o o o o o p o o o p o o o o
 o o o o o o p p p p p o o o o
 x x x x x x x x x x x x x x x
@@ -13,6 +13,7 @@ x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
+1
 ~~~
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
@@ -20,7 +21,7 @@ x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 o o o o p p p p p p o o o o o
 o o o o p o o o o p o o o o o
-p p p o p o o p p p o o o p p
+s p p o p o o p p p o o o p e
 o o p o p o p p o o o o p p o
 o o p o p o p o o o o p p o o
 o o p p p o p o o o p p o o o
@@ -29,4 +30,5 @@ o o o o o o p p p p o o o o o
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
+1
 ~~~

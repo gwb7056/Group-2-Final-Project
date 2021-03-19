@@ -9,6 +9,15 @@ namespace FinalProject
 {
     /*abstract*/ public class Tower
     {
+        //tower properties
+        Texture2D towerTexture;
+        Texture2D towerLaserTexture;
+        Rectangle towerBulletBox;
+        int damage;
 
+        public Tower()
+        {
+
+        }
     }
 }

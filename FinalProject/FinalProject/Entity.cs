@@ -11,7 +11,10 @@ namespace FinalProject
     {
         Rectangle boundingBox;
         Texture2D texture;
+        public Entity()
+        {
 
+        }
         public Entity(Rectangle rect, Texture2D _texture)
         {
             boundingBox = rect;

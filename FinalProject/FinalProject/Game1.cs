@@ -32,6 +32,7 @@ namespace FinalProject {
         //Player Textures:
         Texture2D playerTexture;
         Player player;
+        Texture2D playerHealthTexture;
 
         //Game Objects and Fields:
         Board gameBoard;
@@ -72,16 +73,17 @@ namespace FinalProject {
 
             //Enemy Textures:
             enemyTextures = new List<Texture2D>();
-            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("closedSpaceTexture"));
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("fallguy"));
 
             //Player Textures:
             playerTexture = Content.Load<Texture2D>("among us");
+            playerHealthTexture = Content.Load<Texture2D>("health");
 
             //Creating gameBoard
             gameBoard = new Board(1, towerTextures, enemyTextures);
 
             //Creating player
-            player = new Player(playerTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize, gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+            player = new Player(playerTexture, playerHealthTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize, gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
         }
 
         protected override void Update(GameTime gameTime) {

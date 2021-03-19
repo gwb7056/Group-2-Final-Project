@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 namespace FinalProject 
 {
 
-    class Enemy : Entity
+    public class Enemy
     {
 
         // Field
@@ -23,23 +23,43 @@ namespace FinalProject
         private Texture2D texture;
 
         // Properties
+
+        /// <summary>
+        /// Get or Set the Health of the enemy
+        /// </summary>
         public int Health { get { return health; } set { health = value; } }
 
+        /// <summary>
+        /// Get or Set speed of the enemy
+        /// </summary>
         public int Speed { get { return speed; } set { speed = value; } }
 
+        /// <summary>
+        /// Get or Set the X position of the enemy
+        /// </summary>
         public int X { get { return rect.X; } set { rect.X = value; } }
+
+        /// <summary>
+        /// Get or Set the Y position of the enemy
+        /// </summary>
         public int Y { get { return rect.Y; } set { rect.Y = value; } }
-        public int[] LastPos {
-            get {
-                return lastPos;
-            }
-            set {
-                lastPos = value;
-            }
-        }
+
+        /// <summary>
+        /// Get or Set the last position of the enemy
+        /// </summary>
+        public int[] LastPos { get { return lastPos; } set { lastPos = value; } }
 
         //Placeholder constructor
+
+        /// <summary>
+        /// Create an enemy character 
+        /// </summary>
+        /// <param name="rect">Where the enemy is on screen?</param>
+        /// <param name="texture">What the enemy looks like?</param>
+        /// <param name="health">How much health does he have?</param>
+        /// <param name="speed">How fast is he?</param>
         public Enemy(Rectangle rect, Texture2D texture, int health, int speed)
+            
         {
             this.health = health;
             this.speed = speed;
@@ -48,9 +68,15 @@ namespace FinalProject
             this.texture = texture;
         }
 
+        /// <summary>
+        /// Draw the enemy on the screen
+        /// </summary>
+        /// <param name="sb"></param>
         public void Draw(SpriteBatch sb)
         {
+
             sb.Draw(texture, rect, Color.White);
+
         }
     }
 

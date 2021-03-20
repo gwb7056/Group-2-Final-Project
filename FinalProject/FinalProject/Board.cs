@@ -405,6 +405,7 @@ namespace FinalProject {
         public void RemoveTowers() {
             for (int i = 0; i < towersOnBoard.Count; i++) {
                 if (towersOnBoard[i].CurrentDuration == 0) {
+                    boardSpaces[towersOnBoard[i].Y / tileSize, towersOnBoard[i].X / tileSize] = "o";
                     towersOnBoard.RemoveAt(i);
                     i--;
                 }

@@ -32,11 +32,11 @@ namespace FinalProject
 		public int Y { get { return rect.Y; } set { rect.Y = value; } }
 
 		//constructor
-		public Tower(int fr, int dmg, int rng, int curDur, int maxDur, Texture2D texture, Rectangle rect){
+		public Tower(int fr, int dmg, int rng, int maxDur, Texture2D texture, Rectangle rect){
 			this.fireRate = fr;
 			this.damage = dmg;
 			this.range = rng;
-			this.currentDuration = curDur;
+			this.currentDuration = maxDur;
 			this.maxDuration = maxDur;
 			this.texture = texture;
 			this.rect = rect;

@@ -13,6 +13,7 @@ namespace FinalProject
     /// </summary>
     class Player 
     {
+
         //player properties
         Texture2D playerTexture;
         Texture2D playerHealthTexture;
@@ -84,6 +85,7 @@ namespace FinalProject
                 return playerPosition;
 
             }
+
         }
 
 

@@ -28,12 +28,15 @@ namespace FinalProject
 		public int MaxDurration { get{ return maxDuration; } }
 
 		//constructor
-		public Tower(int fr, int dmg, int rng, int curDur, int maxDur){
+		public Tower(int fr, int dmg, int rng, int curDur, int maxDur)
+		{
+
 			this.fireRate = fr;
 			this.damage = dmg;
 			this.range = rng;
 			this.currentDuration = curDur;
 			this.maxDuration = maxDur;
+
 		}
 
 		//methods

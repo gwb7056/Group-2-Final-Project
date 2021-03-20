@@ -343,98 +343,151 @@ namespace FinalProject {
                     List<Enemy> waveTempList = new List<Enemy>();
                     //Create enemies based on data in file
                     int.TryParse(line, out int enemyNum);
-                    for(int i = 0; i < enemyNum; i++) {
+                    for(int i = 0; i < enemyNum; i++) 
+                    {
+
                         waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), 
                             enemyTextures[0], 
                             100, //Health
                             2)); //Speed (num tiles per time unit)
+
                     }
                     //Put the list for that wave into the wave list
                     enemyWaveList.Add(waveTempList);
+
                 }
 
                 CreateNextWave();
 
                 input.Close();
+
             }
-            catch (Exception e) {
+            catch (Exception e) 
+            {
+
                 Debug.WriteLine(e.Message);
+
             }
+
         }
 
         /// <summary>
         /// Moves each enemy on the board along the path, if there are no enemies left, starts the next wave
         /// </summary>
-        public List<Enemy> MoveEnemies() {
-            if(enemiesOnBoard.Count == 0) {
+        public List<Enemy> MoveEnemies() 
+        {
+
+            if(enemiesOnBoard.Count == 0) 
+            {
+
                 CreateNextWave();
+
             }
 
             List<Enemy> output = new List<Enemy>();
 
             waveStepsTaken += 1;
             int enemyToMoveNum = Math.Min(waveStepsTaken, enemiesOnBoard.Count);
-            for(int s = 0; s < enemyToMoveNum; s++) {
+
+            for(int s = 0; s < enemyToMoveNum; s++) 
+            {
+
                 Enemy e = enemiesOnBoard[s];
                 int enemyX = e.X / tileSize;
                 int enemyY = e.Y / tileSize;
                 bool spaceFound = false;
-                for(int i = 0; i < e.Speed; i++) {
-                    if((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
+
+                for(int i = 0; i < e.Speed; i++) 
+                {
+
+                    if((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) 
+                    {
+
                         enemyX += 1;
                         e.LastPos = new int[2] {(enemyX - 1) * tileSize, enemyY * tileSize};
                         spaceFound = true;
+
                     }
-                    else if(boardSpaces[enemyY + 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY + 1) {
+                    else if(boardSpaces[enemyY + 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY + 1) 
+                    {
+
                         enemyY += 1;
                         e.LastPos = new int[2] {enemyX * tileSize, (enemyY - 1)* tileSize};
                         spaceFound = true;
+
                     }
-                    else if(boardSpaces[enemyY, enemyX - 1].Equals("p") && e.LastPos[0] / tileSize != enemyX - 1) {
+                    else if(boardSpaces[enemyY, enemyX - 1].Equals("p") && e.LastPos[0] / tileSize != enemyX - 1) 
+                    {
+
                         enemyX -= 1;
                         e.LastPos = new int[2] {(enemyX + 1) * tileSize, enemyY * tileSize};
                         spaceFound = true;
+
                     }
-                    else if(boardSpaces[enemyY - 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY - 1) {
+                    else if(boardSpaces[enemyY - 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY - 1) 
+                    {
+
                         enemyY -= 1;
                         e.LastPos = new int[2] {enemyX * tileSize, (enemyY + 1) * tileSize};
                         spaceFound = true;
+
                     }
 
-                    if (!spaceFound) {
-                        if(boardSpaces[enemyY, enemyX + 1].Equals("e")) {
+                    if (!spaceFound) 
+                    {
+
+                        if(boardSpaces[enemyY, enemyX + 1].Equals("e")) 
+                        {
+
                             output.Add(e);
                             i = e.Speed;
                             enemiesOnBoard.RemoveAt(s);
                             s--;
                             enemyToMoveNum--;
+
                         }
+
                     }
+
                 }
+
                 e.X = enemyX * tileSize;
                 e.Y = enemyY * tileSize;
+
             }
 
             return output;
+
         }
 
         /// <summary>
         /// Get the next wave from the enemyWaveList and puts it on the board
         /// </summary>
-        public void CreateNextWave() {
+        public void CreateNextWave() 
+        {
+
             waveStepsTaken = 0;
             waveNum += 1;
 
-            if(enemyWaveList.Count == 0) {
+            if(enemyWaveList.Count == 0) 
+            {
+
                 //Add what happens at the end of the level
+
             }
-            else { 
-                for(int i = 0; i < enemyWaveList[0].Count; i++) {
+            else 
+            { 
+
+                for(int i = 0; i < enemyWaveList[0].Count; i++) 
+                {
+
                     enemiesOnBoard.Add(enemyWaveList[0][i]);
+
                 }
 
                 enemyWaveList.RemoveAt(0);
             }  
+
         }
 
         /// <summary>
@@ -446,13 +499,20 @@ namespace FinalProject {
         /// <returns>
         /// Returns true if the addition was successful, falso otherwise
         /// </returns>
-        /*public bool AddTowerToBoard(Tower t) {
-            if(boardSpaces[t.Y, t.X].Equals("o")) {
+        /*public bool AddTowerToBoard(Tower t) 
+        {
+            if(boardSpaces[t.Y, t.X].Equals("o")) 
+            {
+
                 boardSpaces[t.Y, t.X] = "t";
                 towersOnBoard.Add(t);
                 return true;
+
             }
+
             return false;
         }*/
+
     }
+
 }

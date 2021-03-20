@@ -347,7 +347,7 @@ namespace FinalProject {
                         waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), 
                             enemyTextures[0], 
                             100, //Health
-                            1)); //Speed (num tiles per time unit)
+                            2)); //Speed (num tiles per time unit)
                     }
                     //Put the list for that wave into the wave list
                     enemyWaveList.Add(waveTempList);
@@ -365,10 +365,12 @@ namespace FinalProject {
         /// <summary>
         /// Moves each enemy on the board along the path, if there are no enemies left, starts the next wave
         /// </summary>
-        public void MoveEnemies() {
+        public List<Enemy> MoveEnemies() {
             if(enemiesOnBoard.Count == 0) {
                 CreateNextWave();
             }
+
+            List<Enemy> output = new List<Enemy>();
 
             waveStepsTaken += 1;
             int enemyToMoveNum = Math.Min(waveStepsTaken, enemiesOnBoard.Count);
@@ -400,14 +402,20 @@ namespace FinalProject {
                     }
 
                     if (!spaceFound) {
-                        if(boardSpaces[enemyY + 1, enemyX].Equals("e")) {
-
+                        if(boardSpaces[enemyY, enemyX + 1].Equals("e")) {
+                            output.Add(e);
+                            i = e.Speed;
+                            enemiesOnBoard.RemoveAt(s);
+                            s--;
+                            enemyToMoveNum--;
                         }
                     }
                 }
                 e.X = enemyX * tileSize;
                 e.Y = enemyY * tileSize;
             }
+
+            return output;
         }
 
         /// <summary>
@@ -417,11 +425,16 @@ namespace FinalProject {
             waveStepsTaken = 0;
             waveNum += 1;
 
-            for(int i = 0; i < enemyWaveList[0].Count; i++) {
-                enemiesOnBoard.Add(enemyWaveList[0][i]);
+            if(enemyWaveList.Count == 0) {
+                //Add what happens at the end of the level
             }
+            else { 
+                for(int i = 0; i < enemyWaveList[0].Count; i++) {
+                    enemiesOnBoard.Add(enemyWaveList[0][i]);
+                }
 
-            enemyWaveList.RemoveAt(0);
+                enemyWaveList.RemoveAt(0);
+            }  
         }
 
         /// <summary>

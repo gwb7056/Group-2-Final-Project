@@ -268,22 +268,33 @@ namespace FinalProject {
                 Enemy e = enemiesOnBoard[s];
                 int enemyX = e.X / tileSize;
                 int enemyY = e.Y / tileSize;
+                bool spaceFound = false;
                 for(int i = 0; i < e.Speed; i++) {
                     if((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
                         enemyX += 1;
                         e.LastPos = new int[2] {(enemyX - 1) * tileSize, enemyY * tileSize};
+                        spaceFound = true;
                     }
                     else if(boardSpaces[enemyY + 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY + 1) {
                         enemyY += 1;
                         e.LastPos = new int[2] {enemyX * tileSize, (enemyY - 1)* tileSize};
+                        spaceFound = true;
                     }
                     else if(boardSpaces[enemyY, enemyX - 1].Equals("p") && e.LastPos[0] / tileSize != enemyX - 1) {
                         enemyX -= 1;
                         e.LastPos = new int[2] {(enemyX + 1) * tileSize, enemyY * tileSize};
+                        spaceFound = true;
                     }
                     else if(boardSpaces[enemyY - 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY - 1) {
                         enemyY -= 1;
                         e.LastPos = new int[2] {enemyX * tileSize, (enemyY + 1) * tileSize};
+                        spaceFound = true;
+                    }
+
+                    if (!spaceFound) {
+                        if(boardSpaces[enemyY + 1, enemyX].Equals("e")) {
+
+                        }
                     }
                 }
                 e.X = enemyX * tileSize;

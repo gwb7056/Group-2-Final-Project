@@ -64,12 +64,9 @@ namespace FinalProject
         /// </summary>
         public Rectangle PlayerPosition
         {
-
             get
             {
-
                 return playerPosition;
-
             }
         }
 
@@ -80,17 +77,14 @@ namespace FinalProject
         /// <param name="damage">Damages dealt on enemy</param>
         public void TakeDamage(List<Enemy> enemies)
         {
-
             health -= enemies.Count * 5;
-
         }
         /// <summary>
         /// draws the player on the board
         /// </summary>
         /// <param name="sb">sprite batch to draw from</param>
         /// <param name="color">color to draw the player</param>
-        public void Draw(SpriteBatch sb, Color color)
-        {
+        public void Draw(SpriteBatch sb, Color color) { 
 
             sb.Draw(playerTexture, playerPosition, color);
 

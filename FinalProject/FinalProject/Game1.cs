@@ -45,6 +45,7 @@ namespace FinalProject {
         //Just for Testing
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~
         int counter = 0;
+        int startingLevelNum = 1;
 
         public Game1() {
             _graphics = new GraphicsDeviceManager(this);
@@ -85,7 +86,7 @@ namespace FinalProject {
             playerHealthTexture = Content.Load<Texture2D>("health");
 
             //Creating gameBoard
-            gameBoard = new Board(1, towerTextures, enemyTextures);
+            gameBoard = new Board(startingLevelNum, towerTextures, enemyTextures);
 
             //Creating player
             player = new Player(playerTexture, playerHealthTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize, gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
@@ -99,7 +100,7 @@ namespace FinalProject {
             //Just for testing
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if(counter == 0) {
-            gameBoard.MoveEnemies();
+                player.TakeDamage(gameBoard.MoveEnemies());
                 counter = 15;
             }
             else {

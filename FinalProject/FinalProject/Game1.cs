@@ -123,6 +123,7 @@ namespace FinalProject
             {
 
                 player.TakeDamage(gameBoard.MoveEnemies());
+                gameBoard.ReduceTowerTimers();
                 counter = 15;
 
             }

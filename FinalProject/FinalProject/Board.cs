@@ -410,6 +410,23 @@ namespace FinalProject {
 
             return false;
         }
+
+        public void ReduceTowerTimers() {
+            foreach(Tower t in towersOnBoard) {
+                t.CurrentDuration -= 1;
+            }
+
+            RemoveTowers();
+        }
+
+        public void RemoveTowers() {
+            for(int i = 0; i < towersOnBoard.Count; i++) {
+                if(towersOnBoard[i].CurrentDuration == 0) {
+                    towersOnBoard.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
     }
 
 }

@@ -175,7 +175,7 @@ namespace FinalProject
             gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
 
             //Drawing player
-            player.Draw(_spriteBatch, Color.White);
+            player.Draw(_spriteBatch);
 
             _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 50), Color.White);
 

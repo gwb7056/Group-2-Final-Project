@@ -18,6 +18,9 @@ namespace FinalProject
         Texture2D playerHealthTexture;
         Rectangle playerPosition;
         int health;
+        int currentHealth;
+        int previousHealth;
+        Color color;
 
         /// <summary>
         /// initializes player properties upon object creation
@@ -37,7 +40,17 @@ namespace FinalProject
             health = 100;
 
         }
-
+        public Color Color
+        {
+            get
+            {
+                return color;
+            }
+            set
+            {
+                color = value;
+            }
+        }
         /// <summary>
         /// gets and sets player health
         /// </summary>
@@ -80,16 +93,24 @@ namespace FinalProject
         /// <param name="damage">Damages dealt on enemy</param>
         public void TakeDamage(List<Enemy> enemies)
         {
-
+            previousHealth = health;
             health -= enemies.Count * 5;
-
+            currentHealth = health;
+            if (currentHealth < previousHealth)
+            {
+                color = Color.Red;
+            }
+            else
+            {
+                color = Color.White;
+            }
         }
         /// <summary>
         /// draws the player on the board
         /// </summary>
         /// <param name="sb">sprite batch to draw from</param>
         /// <param name="color">color to draw the player</param>
-        public void Draw(SpriteBatch sb, Color color)
+        public void Draw(SpriteBatch sb)
         {
 
             sb.Draw(playerTexture, playerPosition, color);

@@ -46,6 +46,11 @@ namespace FinalProject
         public int Y { get { return rect.Y; } set { rect.Y = value; } }
 
         /// <summary>
+        /// Gets the width of the enemy rectangle for collision detection with tower range
+        /// </summary>
+        public int Width { get { return rect.Width; } }
+
+        /// <summary>
         /// Get or Set the last position of the enemy
         /// </summary>
         public int[] LastPos { get { return lastPos; } set { lastPos = value; } }
@@ -81,16 +86,7 @@ namespace FinalProject
             this.texture = texture;
         }
 
-        /// <summary>
-        /// Loose health points from player attack
-        /// </summary>
-        /// <param name="damage">Damages dealt on enemy</param>
-        public void TakeDamage(int damage)
-        {
 
-            health -= damage;
-
-        }
 
         /// <summary>
         /// Draw the enemy on the screen

@@ -27,8 +27,7 @@ namespace FinalProject {
         List<Texture2D> towerTextures;
         Texture2D towerTexture;
         List<Rectangle> towerPositions;
-
-
+        MouseState previousMouseState;
 
         //Enemy Texture:
         List<Texture2D> enemyTextures;
@@ -109,7 +108,7 @@ namespace FinalProject {
             }
             //spawning towers
             MouseState mouseState = Mouse.GetState();
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
             {
                 towerCount++;
                 for (int width = 0; width < 15; width++)
@@ -134,6 +133,7 @@ namespace FinalProject {
                     }
                 }
             }
+            previousMouseState = mouseState;
             base.Update(gameTime);
         }
 

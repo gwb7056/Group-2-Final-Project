@@ -46,6 +46,11 @@ namespace FinalProject
         public int Y { get { return rect.Y; } set { rect.Y = value; } }
 
         /// <summary>
+        /// Gets the width of the enemy rectangle for collision detection with tower range
+        /// </summary>
+        public int Width { get { return rect.Width; } }
+
+        /// <summary>
         /// Get or Set the last position of the enemy
         /// </summary>
         public int[] LastPos { get { return lastPos; } set { lastPos = value; } }
@@ -83,8 +88,9 @@ namespace FinalProject
             this.rect = rect;
             lastPos = new int[2] {rect.X, rect.Y};
             this.texture = texture;
-
         }
+
+
 
         /// <summary>
         /// Draw the enemy on the screen

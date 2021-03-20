@@ -38,7 +38,8 @@ namespace FinalProject
 			this.range = rng;
 			this.currentDuration = curDur;
 			this.maxDuration = maxDur;
-			rect = new Rectangle(x, y, 40, 40);
+			this.texture = texture;
+			this.rect = rect;
 		}
 
 		//methods

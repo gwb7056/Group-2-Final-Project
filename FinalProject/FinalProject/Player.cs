@@ -13,7 +13,6 @@ namespace FinalProject
     /// </summary>
     class Player 
     {
-
         //player properties
         Texture2D playerTexture;
         Texture2D playerHealthTexture;
@@ -65,11 +64,15 @@ namespace FinalProject
         /// </summary>
         public Rectangle PlayerPosition
         {
+
             get
             {
+
                 return playerPosition;
+
             }
         }
+
 
         /// <summary>
         /// Loose health points from player attack
@@ -77,7 +80,9 @@ namespace FinalProject
         /// <param name="damage">Damages dealt on enemy</param>
         public void TakeDamage(List<Enemy> enemies)
         {
+
             health -= enemies.Count * 5;
+
         }
         /// <summary>
         /// draws the player on the board

@@ -19,6 +19,7 @@ namespace FinalProject
 		private int range;
 		private int currentDuration;
 		private int maxDuration;
+		private Texture2D texture;
 		private Rectangle rect;
 
 		//properties
@@ -31,7 +32,7 @@ namespace FinalProject
 		public int Y { get { return rect.Y; } set { rect.Y = value; } }
 
 		//constructor
-		public Tower(int fr, int dmg, int rng, int curDur, int maxDur, int x, int y){
+		public Tower(int fr, int dmg, int rng, int curDur, int maxDur, Texture2D texture, Rectangle rect){
 			this.fireRate = fr;
 			this.damage = dmg;
 			this.range = rng;
@@ -55,5 +56,9 @@ namespace FinalProject
 
 
 
+
+		public void Draw(SpriteBatch sb) {
+			sb.Draw(texture, rect, Color.White);
+        }
 	}
 }

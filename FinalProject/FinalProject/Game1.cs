@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace FinalProject {
+namespace FinalProject 
+{
 
-    enum GameState {
+    enum GameState 
+    {
 
         MainMenu,
         Game,
@@ -14,7 +16,8 @@ namespace FinalProject {
         GameOver
 
     }
-    public class Game1 : Game {
+    public class Game1 : Game 
+    {
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -52,7 +55,8 @@ namespace FinalProject {
         int counter = 0;
         int startingLevelNum = 0;
 
-        public Game1() {
+        public Game1() 
+        {
 
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -60,7 +64,8 @@ namespace FinalProject {
 
         }
 
-        protected override void Initialize() {
+        protected override void Initialize() 
+        {
 
             towerPositions = new List<Rectangle>();
             base.Initialize();
@@ -72,7 +77,8 @@ namespace FinalProject {
 
         }
 
-        protected override void LoadContent() {
+        protected override void LoadContent() 
+        {
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -103,7 +109,8 @@ namespace FinalProject {
             gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
         }
 
-        protected override void Update(GameTime gameTime) {
+        protected override void Update(GameTime gameTime) 
+        {
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -129,14 +136,19 @@ namespace FinalProject {
             //Spawning towers
             MouseState mouseState = Mouse.GetState();
 
-            if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released) {
+            if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released) 
+            {
 
                 towerCount++;
-                for (int width = 0; width < 15; width++) {
+                for (int width = 0; width < 15; width++) 
+                {
 
-                    for (int height = 0; height < 15; height++) {
+                    for (int height = 0; height < 15; height++) 
+                    {
 
-                        if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position)) {
+                        if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position)) 
+                        {
+
                             gameBoard.AddTowerToBoard(new Tower(2, 10, 1, 50, 50, towerTexture, gameBoard.GetRectangleAtIndex(width, height)));
 
                         }
@@ -153,7 +165,8 @@ namespace FinalProject {
 
         }
 
-        protected override void Draw(GameTime gameTime) {
+        protected override void Draw(GameTime gameTime) 
+        {
 
             GraphicsDevice.Clear(Color.ForestGreen);
             _spriteBatch.Begin();

@@ -119,14 +119,16 @@ namespace FinalProject
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             //Just for testing
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            if (counter == 0) {
+            if (counter == 0) 
+            {
 
                 player.TakeDamage(gameBoard.MoveEnemies());
                 gameBoard.ReduceTowerTimers();
                 counter = 15;
 
             }
-            else {
+            else 
+            {
 
                 counter -= 1;
 

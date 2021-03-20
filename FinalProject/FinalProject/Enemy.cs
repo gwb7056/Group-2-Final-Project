@@ -83,16 +83,6 @@ namespace FinalProject
             this.rect = rect;
             lastPos = new int[2] {rect.X, rect.Y};
             this.texture = texture;
-        }
-
-        /// <summary>
-        /// Loose health points from player attack
-        /// </summary>
-        /// <param name="damage">Damages dealt on enemy</param>
-        public void TakeDamage(int damage)
-        {
-
-            health -= damage;
 
         }
 

@@ -65,13 +65,11 @@ namespace FinalProject
         /// </summary>
         public Rectangle PlayerPosition
         {
-
             get
             {
-
                 return playerPosition;
-
             }
+        }
 
         /// <summary>
         /// Loose health points from player attack

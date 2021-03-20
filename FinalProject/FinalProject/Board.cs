@@ -164,14 +164,9 @@ namespace FinalProject {
         /// </summary>
         public int TileSize 
         {
-
-            get 
-            {
-
+            get { 
                 return tileSize;
-
             }
-
         }
 
         /// <summary>
@@ -179,9 +174,7 @@ namespace FinalProject {
         /// </summary>
         public Rectangle GetRectangleAtIndex(int x, int y) 
         {
-
             return new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
-
         }
 
         /// <summary>
@@ -192,21 +185,16 @@ namespace FinalProject {
         /// </returns>
         public override string ToString() 
         {
-
             string output = "";
 
             for(int y = 0; y < levelHeight; y++) 
             {
-
                 for(int x = 0; x < levelWidth; x++) 
                 {
-
                     output += (boardSpaces[y, x] + " ");
-
                 }
 
                 output += "\n";
-
             }
 
             return output;

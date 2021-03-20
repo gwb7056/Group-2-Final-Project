@@ -69,6 +69,24 @@ namespace FinalProject
         }
 
         /// <summary>
+        /// Loose health points from player attack
+        /// </summary>
+        /// <param name="damage">Damages dealt on enemy</param>
+        public void TakeDamage(int damage)
+        {
+
+            health -= damage;
+
+        }
+
+        public void Attack(Player player)
+        {
+
+            player.TakeDamage(10);
+
+        }
+
+        /// <summary>
         /// Draw the enemy on the screen
         /// </summary>
         /// <param name="sb"></param>

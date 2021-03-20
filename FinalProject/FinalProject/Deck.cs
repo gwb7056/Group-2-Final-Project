@@ -5,7 +5,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace FinalProject {
-    class Deck {
+namespace FinalProject 
+{
+
+    class Deck 
+    {
+
+
     }
+
 }
+

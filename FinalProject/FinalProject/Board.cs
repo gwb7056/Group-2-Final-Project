@@ -39,7 +39,9 @@ namespace FinalProject {
         StreamReader input;
 
         //Read the correct level given to create the board object
-        public Board(int level, List<Texture2D> _towerTextures, List<Texture2D> _enemyTextures) {
+        public Board(int level, List<Texture2D> _towerTextures, List<Texture2D> _enemyTextures) 
+        {
+
             levelNum = level;
 
             towersOnBoard = new List<Tower>();
@@ -51,31 +53,50 @@ namespace FinalProject {
             enemyTextures = _enemyTextures;
 
             GetLevelFromFile(levelNum);
+
         }
 
         /// <summary>
         /// The current Level, Setting this also causes the board to read the new level num from the file
         /// </summary>
-        public int LevelNum {
-            get {
+        public int LevelNum 
+        {
+
+            get 
+            {
+
                 return levelNum;
+
             }
-            set {
+            set 
+            {
+
                 levelNum = value;
                 GetLevelFromFile(levelNum);
+
             }
+
         }
 
         /// <summary>
         /// Get/Set the current wave number
         /// </summary>
-        public int WaveNum {
-            get {
+        public int WaveNum 
+        {
+
+            get 
+            {
+
                 return waveNum;
+
             }
-            set {
+            set 
+            {
+
                 waveNum = value;
+
             }
+
         }
 
         /// <summary>
@@ -90,49 +111,78 @@ namespace FinalProject {
         /// <returns>
         /// Returns the value in the array at the given cords
         /// </returns>
-        public string this[int x, int y] {
-            get {
+        public string this[int x, int y] 
+        {
+
+            get 
+            {
+
                 return boardSpaces[y, x];
+
             }
-            set {
+            set 
+            {
+
                 boardSpaces[y, x] = value;
+
             }
+
         }
 
         /// <summary>
         /// The cords in tile space of the starting tile
         /// </summary>
-        public int[] PathStartCords {
-            get {
+        public int[] PathStartCords 
+        {
+
+            get 
+            {
+
                 return pathStartCords;
+
             }
+
         }
 
         /// <summary>
         /// The cords in tile space of the ending tile
         /// </summary>
-        public int[] PathEndCords {
-            get {
+        public int[] PathEndCords 
+        {
+
+            get 
+            {
+
                 return pathEndCords;
+
             }
+
         }
 
         /// <summary>
         /// Get the size of each tile in pixels
         /// </summary>
-        public int TileSize {
-            get {
+        public int TileSize 
+        {
+
+            get 
+            {
+
                 return tileSize;
+
             }
+
         }
 
         /// <summary>
         /// Returns a rectangle object for the tile at the given cords
         /// </summary>
-        public Rectangle GetRectangleAtIndex(int x, int y) {
-            return new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
-        }
+        public Rectangle GetRectangleAtIndex(int x, int y) 
+        {
 
+            return new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
+
+        }
 
         /// <summary>
         /// Board Class ToString()
@@ -140,14 +190,25 @@ namespace FinalProject {
         /// <returns>
         /// Returns the board in an X by Y grid in one string
         /// </returns>
-        public override string ToString() {
+        public override string ToString() 
+        {
+
             string output = "";
-            for(int y = 0; y < levelHeight; y++) {
-                for(int x = 0; x < levelWidth; x++) {
+
+            for(int y = 0; y < levelHeight; y++) 
+            {
+
+                for(int x = 0; x < levelWidth; x++) 
+                {
+
                     output += (boardSpaces[y, x] + " ");
+
                 }
+
                 output += "\n";
+
             }
+
             return output;
         }
 
@@ -163,7 +224,9 @@ namespace FinalProject {
         /// <param name="closedSpaceTexture">
         /// Texture2D for the closed space tiles
         /// </param>
-        public void Draw(SpriteBatch sb, Texture2D pathTexture, Texture2D closedSpaceTexture) {
+        public void Draw(SpriteBatch sb, Texture2D pathTexture, Texture2D closedSpaceTexture) 
+        {
+
             Rectangle tileBoundingBox;
             for(int y = 0; y < levelHeight; y++) {
                 for(int x = 0; x < levelWidth; x++) {

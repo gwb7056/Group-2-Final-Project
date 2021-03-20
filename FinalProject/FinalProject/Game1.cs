@@ -121,9 +121,13 @@ namespace FinalProject
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             if (counter == 0) {
 
+                gameBoard.TowersDamageEnemies();
+
                 player.TakeDamage(gameBoard.MoveEnemies());
+
                 gameBoard.ReduceTowerTimers();
-                counter = 15;
+                
+                counter = 30;
 
             }
             else {
@@ -147,7 +151,7 @@ namespace FinalProject
                     for (int height = 0; height < 15; height++) 
                     {
                         if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position)) {
-                            gameBoard.AddTowerToBoard(new Tower(2, 10, 1, 50, towerTexture, gameBoard.GetRectangleAtIndex(width, height)));
+                            gameBoard.AddTowerToBoard(new Tower(1, 10, 100, 50, 50, width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                         }
                     }
                 }

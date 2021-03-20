@@ -250,7 +250,7 @@ namespace FinalProject {
 
                         waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize),
                             enemyTextures[0],
-                            100, //Health
+                            10, //Health
                             1)); //Speed (num tiles per time unit)
                     }
                     //Put the list for that wave into the wave list
@@ -388,10 +388,10 @@ namespace FinalProject {
                 boardSpaces[t.Y / tileSize, t.X / tileSize] = "t";
                 towersOnBoard.Add(t);
                 return true;
-
             }
-
-            return false;
+            else {
+                return false;
+            }
         }
 
         public void ReduceTowerTimers() {
@@ -411,6 +411,27 @@ namespace FinalProject {
                 }
             }
         }
-    }
 
+        public void TowersDamageEnemies() {
+            for(int j = 0; j < towersOnBoard.Count; j++) {
+                Tower t = towersOnBoard[j];
+                for(int i = 0; i < enemiesOnBoard.Count; i++) {
+                    if (t.EnemyInRange(enemiesOnBoard[i])) {
+                        i = enemiesOnBoard.Count;
+                    }
+                }
+            }
+
+            RemoveEnemies();
+        }
+
+        public void RemoveEnemies() {
+            for(int i = 0; i < enemiesOnBoard.Count; i++) {
+                if(enemiesOnBoard[i].Health == 0) {
+                    enemiesOnBoard.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+    }
 }

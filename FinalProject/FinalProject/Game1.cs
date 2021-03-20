@@ -123,7 +123,8 @@ namespace FinalProject {
                     }
                 }
             }
-            //removing towers
+            
+            //Removing towers
             for (int index = 0; index < towerPositions.Count; index++)
             {
                 if (towerPositions[index].Contains(mouseState.Position))
@@ -155,6 +156,8 @@ namespace FinalProject {
             }
 
             
+            _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 50), Color.White);
+
             _spriteBatch.End();
             base.Draw(gameTime);
         }

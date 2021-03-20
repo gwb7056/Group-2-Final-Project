@@ -27,6 +27,7 @@ namespace FinalProject {
 
         int levelNum;
         int waveNum;
+        int waveStepsTaken;
 
         List<Texture2D> towerTextures;
         List<Texture2D> enemyTextures;
@@ -261,25 +262,39 @@ namespace FinalProject {
                 CreateNextWave();
             }
 
-            foreach(Enemy e in enemiesOnBoard) {
+            waveStepsTaken += 1;
+            int enemyToMoveNum = Math.Min(waveStepsTaken, enemiesOnBoard.Count);
+            for(int s = 0; s < enemyToMoveNum; s++) {
+                Enemy e = enemiesOnBoard[s];
                 int enemyX = e.X / tileSize;
                 int enemyY = e.Y / tileSize;
+                bool spaceFound = false;
                 for(int i = 0; i < e.Speed; i++) {
                     if((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
                         enemyX += 1;
                         e.LastPos = new int[2] {(enemyX - 1) * tileSize, enemyY * tileSize};
+                        spaceFound = true;
                     }
                     else if(boardSpaces[enemyY + 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY + 1) {
                         enemyY += 1;
                         e.LastPos = new int[2] {enemyX * tileSize, (enemyY - 1)* tileSize};
+                        spaceFound = true;
                     }
                     else if(boardSpaces[enemyY, enemyX - 1].Equals("p") && e.LastPos[0] / tileSize != enemyX - 1) {
                         enemyX -= 1;
                         e.LastPos = new int[2] {(enemyX + 1) * tileSize, enemyY * tileSize};
+                        spaceFound = true;
                     }
                     else if(boardSpaces[enemyY - 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY - 1) {
                         enemyY -= 1;
                         e.LastPos = new int[2] {enemyX * tileSize, (enemyY + 1) * tileSize};
+                        spaceFound = true;
+                    }
+
+                    if (!spaceFound) {
+                        if(boardSpaces[enemyY + 1, enemyX].Equals("e")) {
+
+                        }
                     }
                 }
                 e.X = enemyX * tileSize;
@@ -291,11 +306,32 @@ namespace FinalProject {
         /// Get the next wave from the enemyWaveList and puts it on the board
         /// </summary>
         public void CreateNextWave() {
+            waveStepsTaken = 0;
+            waveNum += 1;
+
             for(int i = 0; i < enemyWaveList[0].Count; i++) {
                 enemiesOnBoard.Add(enemyWaveList[0][i]);
             }
+
             enemyWaveList.RemoveAt(0);
-            waveNum += 1;
         }
+
+        /// <summary>
+        /// Attempt to add a tower to the board. If the space is not a valid space, returns false
+        /// </summary>
+        /// <param name="t">
+        /// Tower object to attempt to add
+        /// </param>
+        /// <returns>
+        /// Returns true if the addition was successful, falso otherwise
+        /// </returns>
+        /*public bool AddTowerToBoard(Tower t) {
+            if(boardSpaces[t.Y, t.X].Equals("o")) {
+                boardSpaces[t.Y, t.X] = "t";
+                towersOnBoard.Add(t);
+                return true;
+            }
+            return false;
+        }*/
     }
 }

@@ -58,8 +58,11 @@ namespace FinalProject
 
 
 
-		public void Draw(SpriteBatch sb) {
+		public void Draw(SpriteBatch sb) 
+		{
+
 			sb.Draw(texture, rect, Color.White);
+
         }
 	}
 }

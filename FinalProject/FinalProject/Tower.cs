@@ -28,8 +28,8 @@ namespace FinalProject
 		public int Range { get{ return range; } }
 		public int CurrentDuration { get{ return currentDuration; } set { currentDuration = value; } }
 		public int MaxDurration { get{ return maxDuration; } }
-		public int X { get { return rect.X;} }
-		public int Y { get { return rect.Y;} }
+		public int X { get { return rect.X; } set { rect.X = value; } }
+		public int Y { get { return rect.Y; } set { rect.Y = value; } }
 
 		//constructor
 		public Tower(int fr, int dmg, int rng, int curDur, int maxDur, Texture2D texture, Rectangle rect){
@@ -38,8 +38,7 @@ namespace FinalProject
 			this.range = rng;
 			this.currentDuration = curDur;
 			this.maxDuration = maxDur;
-			this.texture = texture;
-			this.rect = rect;
+			rect = new Rectangle(x, y, 40, 40);
 		}
 
 		//methods
@@ -50,6 +49,13 @@ namespace FinalProject
 		//Damage method
 		//Purpose: To deal damage to the enemies
 		//
+		public void DealDamage(Enemy enemy)
+        {
+
+        }
+
+
+
 
 		public void Draw(SpriteBatch sb) 
 		{

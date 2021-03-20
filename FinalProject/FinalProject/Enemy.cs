@@ -50,6 +50,9 @@ namespace FinalProject
         /// </summary>
         public int[] LastPos { get { return lastPos; } set { lastPos = value; } }
 
+        /// <summary>
+        /// Get the base enemy damage
+        /// </summary>
         public int Damage 
         { 
             get
@@ -60,6 +63,7 @@ namespace FinalProject
                 return damage;
 
             }
+
         }
 
         //Constructor

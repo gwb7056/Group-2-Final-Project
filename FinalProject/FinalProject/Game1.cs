@@ -16,6 +16,7 @@ namespace FinalProject
         GameOver
 
     }
+
     public class Game1 : Game 
     {
 

@@ -133,6 +133,8 @@ namespace FinalProject
 
             }
 
+            
+
             //Spawning towers
             MouseState mouseState = Mouse.GetState();
 
@@ -148,6 +150,7 @@ namespace FinalProject
 
                         if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                         {
+
                             gameBoard.AddTowerToBoard(new Tower(2, 10, 1, 50, 50, towerTexture, gameBoard.GetRectangleAtIndex(width, height)));
 
                         }
@@ -177,6 +180,14 @@ namespace FinalProject
             player.Draw(_spriteBatch, Color.White);
 
             _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 50), Color.White);
+
+            // Tell the player that he lost (used for testing)
+            if (player.Health <= 0)
+            {
+
+                _spriteBatch.DrawString(font, "GAME OVER", new Vector2(200, 200), Color.Black);
+
+            }
 
             _spriteBatch.End();
             base.Draw(gameTime);

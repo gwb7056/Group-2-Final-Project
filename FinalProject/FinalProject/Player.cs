@@ -65,10 +65,14 @@ namespace FinalProject
         /// </summary>
         public Rectangle PlayerPosition
         {
+
             get
             {
+
                 return playerPosition;
+
             }
+
         }
 
 

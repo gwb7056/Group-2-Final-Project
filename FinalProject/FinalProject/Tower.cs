@@ -51,8 +51,11 @@ namespace FinalProject
 		//Purpose: To deal damage to the enemies
 		//
 
-		public void Draw(SpriteBatch sb) {
+		public void Draw(SpriteBatch sb) 
+		{
+
 			sb.Draw(texture, rect, Color.White);
+
         }
 	}
 }

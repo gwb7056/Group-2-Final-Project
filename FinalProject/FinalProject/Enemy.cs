@@ -62,7 +62,7 @@ namespace FinalProject
             }
         }
 
-        //Placeholder constructor
+        //Constructor
 
         /// <summary>
         /// Create an enemy character 

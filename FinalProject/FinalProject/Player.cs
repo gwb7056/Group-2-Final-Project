@@ -71,8 +71,6 @@ namespace FinalProject
             }
         }
 
-        }
-
 
         /// <summary>
         /// Loose health points from player attack

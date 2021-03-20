@@ -46,7 +46,7 @@ namespace FinalProject {
         //Just for Testing
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~
         int counter = 0;
-        int startingLevelNum = 1;
+        int startingLevelNum = 0;
 
         public Game1() {
             _graphics = new GraphicsDeviceManager(this);
@@ -107,7 +107,8 @@ namespace FinalProject {
             else {
                 counter -= 1;
             }
-            //spawning towers
+
+            //Spawning towers
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
             {
@@ -118,23 +119,12 @@ namespace FinalProject {
                     {
                         if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                         {
-                            towerPositions.Add(gameBoard.GetRectangleAtIndex(width, height));
+                            gameBoard.AddTowerToBoard(new Tower(2, 10, 1, 50, 50, towerTexture, gameBoard.GetRectangleAtIndex(width, height)));
                         }
                     }
                 }
             }
             
-            //Removing towers
-            for (int index = 0; index < towerPositions.Count; index++)
-            {
-                if (towerPositions[index].Contains(mouseState.Position))
-                {
-                    if (mouseState.RightButton == ButtonState.Pressed)
-                    {
-                        towerPositions.RemoveAt(index);
-                    }
-                }
-            }
             previousMouseState = mouseState;
             base.Update(gameTime);
         }
@@ -143,19 +133,12 @@ namespace FinalProject {
             GraphicsDevice.Clear(Color.ForestGreen);
             _spriteBatch.Begin();
            
-            //Draw the board
+            //Draw the board and entities on the board
             gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
 
             //Drawing player
             player.Draw(_spriteBatch, Color.White);
 
-            //Drawing towers
-            for (int index = 0; index < towerPositions.Count; index++)
-            {
-                _spriteBatch.Draw(towerTexture, towerPositions[index], Color.White);
-            }
-
-            
             _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 50), Color.White);
 
             _spriteBatch.End();

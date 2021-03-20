@@ -67,13 +67,10 @@ namespace FinalProject
         /// Loose health points from player attack
         /// </summary>
         /// <param name="damage">Damages dealt on enemy</param>
-        public void TakeDamage(int damage)
+        public void TakeDamage(List<Enemy> enemies)
         {
-
-            health -= damage;
-
+            health -= enemies.Count * 5;
         }
-
         /// <summary>
         /// draws the player on the board
         /// </summary>

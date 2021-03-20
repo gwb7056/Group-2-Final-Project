@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 /// <summary>
 /// Kylian Hervet
+/// Purpose: Create a basic enemy with base health, base speed, and base damage
 /// </summary>
 
 namespace FinalProject 

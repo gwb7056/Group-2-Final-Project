@@ -3,15 +3,22 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace FinalProject {
-    enum GameState {
+namespace FinalProject 
+{
+
+    enum GameState 
+    {
+
         MainMenu,
         Game,
         Pause,
         Credits,
         GameOver
+
     }
-    public class Game1 : Game {
+    public class Game1 : Game 
+    {
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -48,13 +55,18 @@ namespace FinalProject {
         int counter = 0;
         int startingLevelNum = 0;
 
-        public Game1() {
+        public Game1() 
+        {
+
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;          
+            IsMouseVisible = true; 
+            
         }
 
-        protected override void Initialize() {
+        protected override void Initialize() 
+        {
+
             towerPositions = new List<Rectangle>();
             base.Initialize();
 
@@ -62,9 +74,12 @@ namespace FinalProject {
             _graphics.PreferredBackBufferWidth = 600;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
+
         }
 
-        protected override void LoadContent() {
+        protected override void LoadContent() 
+        {
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Fonts:
@@ -90,46 +105,68 @@ namespace FinalProject {
             gameBoard = new Board(startingLevelNum, towerTextures, enemyTextures);
 
             //Creating player
-            player = new Player(playerTexture, playerHealthTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize, gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+            player = new Player(playerTexture, playerHealthTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize,
+                gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+
         }
 
-        protected override void Update(GameTime gameTime) {
+        protected override void Update(GameTime gameTime) 
+        {
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             //Just for testing
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            if(counter == 0) {
+            if(counter == 0) 
+            {
+
                 player.TakeDamage(gameBoard.MoveEnemies());
                 counter = 15;
+
             }
-            else {
+            else 
+            {
+
                 counter -= 1;
+
             }
 
             //Spawning towers
             MouseState mouseState = Mouse.GetState();
+
             if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
             {
+
                 towerCount++;
                 for (int width = 0; width < 15; width++)
                 {
+
                     for (int height = 0; height < 15; height++)
                     {
+
                         if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                         {
                             gameBoard.AddTowerToBoard(new Tower(2, 10, 1, 50, 50, towerTexture, gameBoard.GetRectangleAtIndex(width, height)));
+
                         }
+
                     }
+
                 }
+
             }
             
+
             previousMouseState = mouseState;
             base.Update(gameTime);
+
         }
 
-        protected override void Draw(GameTime gameTime) {
+        protected override void Draw(GameTime gameTime) 
+        {
+
             GraphicsDevice.Clear(Color.ForestGreen);
             _spriteBatch.Begin();
            
@@ -143,6 +180,9 @@ namespace FinalProject {
 
             _spriteBatch.End();
             base.Draw(gameTime);
+
         }
+
     }
+
 }

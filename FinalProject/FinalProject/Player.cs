@@ -13,6 +13,7 @@ namespace FinalProject
     /// </summary>
     class Player 
     {
+
         //player properties
         Texture2D playerTexture;
         Texture2D playerHealthTexture;
@@ -30,10 +31,12 @@ namespace FinalProject
         /// <param name="height">height of the player</param>
         public Player(Texture2D playerTexture, Texture2D playerHealthTexture, int x, int y, int width, int height)
         {
+
             this.playerTexture = playerTexture;
             this.playerHealthTexture = playerHealthTexture;
             playerPosition = new Rectangle(x, y, width, height);
             health = 100;
+
         }
 
         /// <summary>
@@ -41,36 +44,34 @@ namespace FinalProject
         /// </summary>
         public int Health
         {
+
             get
             {
+
                 return health;
+
             }
             set
             {
-                health = value;
-            }
-        }
 
+                health = value;
+
+            }
+
+        }
 
         /// <summary>
         /// gets and sets player rectangle
         /// </summary>
         public Rectangle PlayerPosition
         {
+
             get
             {
+
                 return playerPosition;
+
             }
-        }
-
-        /// <summary>
-        /// Loose health points from player attack
-        /// </summary>
-        /// <param name="damage">Damages dealt on enemy</param>
-        public void TakeDamage(int damage)
-        {
-
-            health -= damage;
 
         }
 
@@ -81,7 +82,9 @@ namespace FinalProject
         /// <param name="color">color to draw the player</param>
         public void Draw(SpriteBatch sb, Color color)
         {
+
             sb.Draw(playerTexture, playerPosition, color);
+
         }
     }
 }

@@ -21,9 +21,14 @@ namespace FinalProject {
         //Tile Textures:
         Texture2D pathTexture;
         Texture2D closedSpaceTexture;
-        
+
         //Tower Textures:
+        int towerCount = 0;
         List<Texture2D> towerTextures;
+        Texture2D towerTexture;
+        List<Rectangle> towerPositions;
+
+
 
         //Enemy Texture:
         List<Texture2D> enemyTextures;
@@ -50,6 +55,7 @@ namespace FinalProject {
         }
 
         protected override void Initialize() {
+            towerPositions = new List<Rectangle>();
             base.Initialize();
 
              //Change the window size
@@ -70,6 +76,7 @@ namespace FinalProject {
 
             //Tower Textures:
             towerTextures = new List<Texture2D>();
+            towerTexture = Content.Load<Texture2D>("tower");
 
             //Enemy Textures:
             enemyTextures = new List<Texture2D>();
@@ -100,19 +107,53 @@ namespace FinalProject {
             else {
                 counter -= 1;
             }
-
+            //spawning towers
+            MouseState mouseState = Mouse.GetState();
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                towerCount++;
+                for (int width = 0; width < 15; width++)
+                {
+                    for (int height = 0; height < 15; height++)
+                    {
+                        if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                        {
+                            towerPositions.Add(gameBoard.GetRectangleAtIndex(width, height));
+                        }
+                    }
+                }
+            }
+            //removing towers
+            for (int index = 0; index < towerPositions.Count; index++)
+            {
+                if (towerPositions[index].Contains(mouseState.Position))
+                {
+                    if (mouseState.RightButton == ButtonState.Pressed)
+                    {
+                        towerPositions.RemoveAt(index);
+                    }
+                }
+            }
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.ForestGreen);
             _spriteBatch.Begin();
-
+           
             //Draw the board
             gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
 
             //Drawing player
             player.Draw(_spriteBatch, Color.White);
+
+            //Drawing towers
+            for (int index = 0; index < towerPositions.Count; index++)
+            {
+                _spriteBatch.Draw(towerTexture, towerPositions[index], Color.White);
+            }
+
+            
             _spriteBatch.End();
             base.Draw(gameTime);
         }

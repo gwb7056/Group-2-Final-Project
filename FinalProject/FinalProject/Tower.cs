@@ -11,13 +11,14 @@ namespace FinalProject
     {
         //tower properties
         Texture2D towerTexture;
-        Texture2D towerLaserTexture;
+        Texture2D towerBulletTexture;
         Rectangle towerBulletBox;
+        Rectangle towerPosition;
         int damage;
 
-        public Tower()
+        public Tower(Texture2D towerTexture, Texture2D towerBulletTexture, Rectangle towerBullet)
         {
-
+            damage = 5;
         }
     }
 }

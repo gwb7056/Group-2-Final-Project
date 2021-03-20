@@ -16,6 +16,7 @@ namespace FinalProject
         GameOver
 
     }
+
     public class Game1 : Game 
     {
 
@@ -24,7 +25,7 @@ namespace FinalProject
 
         //Fonts:
         SpriteFont font;
-        
+
         //Tile Textures:
         Texture2D pathTexture;
         Texture2D closedSpaceTexture;
@@ -60,8 +61,8 @@ namespace FinalProject
 
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true; 
-            
+            IsMouseVisible = true;
+
         }
 
         protected override void Initialize() 
@@ -70,7 +71,7 @@ namespace FinalProject
             towerPositions = new List<Rectangle>();
             base.Initialize();
 
-             //Change the window size
+            //Change the window size
             _graphics.PreferredBackBufferWidth = 600;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
@@ -106,8 +107,7 @@ namespace FinalProject
 
             //Creating player
             player = new Player(playerTexture, playerHealthTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize,
-                gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
-
+            gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
         }
 
         protected override void Update(GameTime gameTime) 
@@ -115,54 +115,46 @@ namespace FinalProject
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             //Just for testing
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            if(counter == 0) 
-            {
+            if (counter == 0) {
 
                 player.TakeDamage(gameBoard.MoveEnemies());
                 gameBoard.ReduceTowerTimers();
                 counter = 15;
 
             }
-            else 
-            {
+            else {
 
                 counter -= 1;
 
             }
 
+            
+
             //Spawning towers
             MouseState mouseState = Mouse.GetState();
 
-            if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+            if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released) 
             {
 
                 towerCount++;
-                for (int width = 0; width < 15; width++)
+                for (int width = 0; width < 15; width++) 
                 {
 
-                    for (int height = 0; height < 15; height++)
+                    for (int height = 0; height < 15; height++) 
                     {
-
-                        if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
-                        {
-                            gameBoard.AddTowerToBoard(new Tower(2, 10, 1, 50, 50, towerTexture, gameBoard.GetRectangleAtIndex(width, height)));
-
+                        if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position)) {
+                            gameBoard.AddTowerToBoard(new Tower(2, 10, 1, 50, towerTexture, gameBoard.GetRectangleAtIndex(width, height)));
                         }
-
                     }
-
                 }
-
             }
-            
 
             previousMouseState = mouseState;
             base.Update(gameTime);
-
         }
 
         protected override void Draw(GameTime gameTime) 
@@ -170,7 +162,7 @@ namespace FinalProject
 
             GraphicsDevice.Clear(Color.ForestGreen);
             _spriteBatch.Begin();
-           
+
             //Draw the board and entities on the board
             gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
 
@@ -178,6 +170,14 @@ namespace FinalProject
             player.Draw(_spriteBatch, Color.White);
 
             _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 50), Color.White);
+
+            // Tell the player that he lost (used for testing)
+            if (player.Health <= 0)
+            {
+
+                _spriteBatch.DrawString(font, "GAME OVER", new Vector2(200, 200), Color.Black);
+
+            }
 
             _spriteBatch.End();
             base.Draw(gameTime);

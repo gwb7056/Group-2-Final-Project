@@ -37,7 +37,7 @@ namespace FinalProject
 			this.fireRate = fr;
 			this.damage = dmg;
 			this.range = rng;
-			this.currentDuration = curDur;
+			this.currentDuration = maxDur;
 			this.maxDuration = maxDur;
 			rect = new Rectangle(x, y, 40, 40);
 			this.texture = texture;
@@ -71,7 +71,6 @@ namespace FinalProject
 
 
 
-		public void Draw(SpriteBatch sb) {
 			sb.Draw(texture, rect, Color.White);
         }
 	}

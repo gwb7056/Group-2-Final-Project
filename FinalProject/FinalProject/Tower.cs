@@ -69,8 +69,12 @@ namespace FinalProject
 		}
 
 
-
-		public void Draw(SpriteBatch sb) {
+		//Draw method
+		//Purpose: Draw the tower, duh
+		//Restrictions: accepts a spritebatch
+		//No return values.
+		public void Draw(SpriteBatch sb)
+		{ 
 			sb.Draw(texture, rect, Color.White);
         }
 	}

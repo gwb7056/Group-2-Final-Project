@@ -27,6 +27,7 @@ namespace FinalProject {
 
         int levelNum;
         int waveNum;
+        int waveStepsTaken;
 
         List<Texture2D> towerTextures;
         List<Texture2D> enemyTextures;
@@ -261,7 +262,10 @@ namespace FinalProject {
                 CreateNextWave();
             }
 
-            foreach(Enemy e in enemiesOnBoard) {
+            waveStepsTaken += 1;
+            int enemyToMoveNum = Math.Min(waveStepsTaken, enemiesOnBoard.Count);
+            for(int s = 0; s < enemyToMoveNum; s++) {
+                Enemy e = enemiesOnBoard[s];
                 int enemyX = e.X / tileSize;
                 int enemyY = e.Y / tileSize;
                 for(int i = 0; i < e.Speed; i++) {
@@ -291,11 +295,32 @@ namespace FinalProject {
         /// Get the next wave from the enemyWaveList and puts it on the board
         /// </summary>
         public void CreateNextWave() {
+            waveStepsTaken = 0;
+            waveNum += 1;
+
             for(int i = 0; i < enemyWaveList[0].Count; i++) {
                 enemiesOnBoard.Add(enemyWaveList[0][i]);
             }
+
             enemyWaveList.RemoveAt(0);
-            waveNum += 1;
         }
+
+        /// <summary>
+        /// Attempt to add a tower to the board. If the space is not a valid space, returns false
+        /// </summary>
+        /// <param name="t">
+        /// Tower object to attempt to add
+        /// </param>
+        /// <returns>
+        /// Returns true if the addition was successful, falso otherwise
+        /// </returns>
+        /*public bool AddTowerToBoard(Tower t) {
+            if(boardSpaces[t.Y, t.X].Equals("o")) {
+                boardSpaces[t.Y, t.X] = "t";
+                towersOnBoard.Add(t);
+                return true;
+            }
+            return false;
+        }*/
     }
 }

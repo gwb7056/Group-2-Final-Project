@@ -28,8 +28,6 @@ namespace FinalProject {
         Texture2D towerTexture;
         List<Rectangle> towerPositions;
 
-
-
         //Enemy Texture:
         List<Texture2D> enemyTextures;
         Texture2D enemyTestTexture;

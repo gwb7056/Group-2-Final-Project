@@ -228,63 +228,106 @@ namespace FinalProject {
         {
 
             Rectangle tileBoundingBox;
-            for(int y = 0; y < levelHeight; y++) {
-                for(int x = 0; x < levelWidth; x++) {
+
+            for(int y = 0; y < levelHeight; y++) 
+            {
+
+                for(int x = 0; x < levelWidth; x++) 
+                {
+
                     tileBoundingBox = new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
-                    if(boardSpaces[y, x].Equals("p") || boardSpaces[y, x].Equals("s") || boardSpaces[y, x].Equals("e")) {
+
+                    if(boardSpaces[y, x].Equals("p") || boardSpaces[y, x].Equals("s") || boardSpaces[y, x].Equals("e")) 
+                    {
+
                         sb.Draw(pathTexture, tileBoundingBox, Color.White);
+
                     }
-                    if(boardSpaces[y, x].Equals("x")) {
+
+                    if(boardSpaces[y, x].Equals("x")) 
+                    {
+
                         sb.Draw(closedSpaceTexture, tileBoundingBox, Color.White);
+
                     }
+
                 }
+
             }
 
             //Draw all enemies
-            foreach(Enemy e in enemiesOnBoard) {
+            foreach(Enemy e in enemiesOnBoard) 
+            {
+
                 e.Draw(sb);
+
             }
 
             //Draw all towers
             /*foreach(Tower t in towersOnBoard) {
                 t.Draw(sb);
             }*/
+
         }
         
         /// <summary>
         /// Read the level data from the file given the level number
         /// </summary>
-        public void GetLevelFromFile(int level) {
-            try {
+        public void GetLevelFromFile(int level) 
+        {
+
+            try 
+            {
+
                 //Create StreamReader
                 input = new StreamReader("..\\..\\..\\LevelBoards.txt");
                 string line = "";
                 string[] splitLine;
 
                 //Go to the correct level in the file
-                for(int i = 0; i < levelNum; i++) {
-                    while(line != "~~~") {
+                for(int i = 0; i < levelNum; i++) 
+                {
+
+                    while(line != "~~~") 
+                    {
+
                         line = input.ReadLine();
+
                     }
+
                 }
 
                 //Get each line of the level, and split it into individual tiles
-                for(int y = 0; y < levelHeight; y++) {
+                for(int y = 0; y < levelHeight; y++) 
+                {
+
                     line = input.ReadLine();
+
                     splitLine = line.Split(' ');
-                    for(int x = 0; x < levelWidth; x++) {
+
+                    for(int x = 0; x < levelWidth; x++) 
+                    {
+
                         //Store each tiles starting value in the array
                         boardSpaces[y, x] = splitLine[x];
 
                         //Store the path start and end cords seperately
-                        if(boardSpaces[y, x].Equals("s")) {
+                        if(boardSpaces[y, x].Equals("s")) 
+                        {
+
                             pathStartCords = new int[] {x, y};
+
                         }
 
-                        if(boardSpaces[y, x].Equals("e")) {
+                        if(boardSpaces[y, x].Equals("e")) 
+                        {
+
                             pathEndCords = new int[] {x, y};
+
                         }
+
                     }
+
                 }
 
                 //Load the waves of the level
@@ -292,7 +335,9 @@ namespace FinalProject {
                 enemyWaveList = new List<List<Enemy>>();
 
                 //Go until there are no more waves to load
-                while(line != "~~~") {
+                while(line != "~~~") 
+                {
+
                     line = input.ReadLine();
                     //Create temp list
                     List<Enemy> waveTempList = new List<Enemy>();

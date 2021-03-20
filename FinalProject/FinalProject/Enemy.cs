@@ -49,6 +49,18 @@ namespace FinalProject
         /// </summary>
         public int[] LastPos { get { return lastPos; } set { lastPos = value; } }
 
+        public int Damage 
+        { 
+            get
+            {
+
+                int damage = 5;
+
+                return damage;
+
+            }
+        }
+
         //Placeholder constructor
 
         /// <summary>
@@ -76,13 +88,6 @@ namespace FinalProject
         {
 
             health -= damage;
-
-        }
-
-        public void Attack(Player player)
-        {
-
-            player.TakeDamage(10);
 
         }
 

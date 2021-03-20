@@ -50,6 +50,8 @@ namespace FinalProject
                 health = value;
             }
         }
+
+
         /// <summary>
         /// gets and sets player rectangle
         /// </summary>
@@ -60,6 +62,18 @@ namespace FinalProject
                 return playerPosition;
             }
         }
+
+        /// <summary>
+        /// Loose health points from player attack
+        /// </summary>
+        /// <param name="damage">Damages dealt on enemy</param>
+        public void TakeDamage(int damage)
+        {
+
+            health -= damage;
+
+        }
+
         /// <summary>
         /// draws the player on the board
         /// </summary>

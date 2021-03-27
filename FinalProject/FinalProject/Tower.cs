@@ -47,9 +47,6 @@ namespace FinalProject
 
 		//methods
 
-
-		//*************************Make a circle, have tower attack the enemy closest to the gate & in circle,
-		//*************************So just add circle colision with detection and utilize that.	
 		//Enemy in Rnage method
 		//Purpose: To deal damage to the enemies if they are in range
 		//Restrictions: accepts an enemy entitiy

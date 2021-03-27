@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace FinalProject 
 {
-
+    
     enum GameState 
     {
 
@@ -19,7 +19,7 @@ namespace FinalProject
 
     public class Game1 : Game 
     {
-
+        private GameState activeState = GameState.MainMenu;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -116,51 +116,116 @@ namespace FinalProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            KeyboardState state = Keyboard.GetState();
+
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             //Just for testing
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            if (counter == 0) 
-            {
-
-                gameBoard.TowersDamageEnemies();
-
-                player.TakeDamage(gameBoard.MoveEnemies());
-
-                gameBoard.ReduceTowerTimers();
-                
-                counter = 30;
-
-            }
-            else 
-            {
-
-                counter -= 1;
-
-            }
 
             
 
-            //Spawning towers
-            MouseState mouseState = Mouse.GetState();
-
-            if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released) 
+            //switch to determine what gamestate we're in
+            //  Temporarily making the switches determined by key press rather than button press
+            switch (activeState)
             {
-
-                towerCount++;
-                for (int width = 0; width < 15; width++) 
-                {
-
-                    for (int height = 0; height < 15; height++) 
+                //In the main menu
+                case GameState.MainMenu:
+                    //
+                    if (state.IsKeyDown(Keys.Space))
                     {
-                        if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position)) {
-                            gameBoard.AddTowerToBoard(new Tower(1, 10, 100, 50, 50, width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                        activeState = GameState.Game;
+                    }
+                    //
+                    if (state.IsKeyDown(Keys.C))
+                    {
+                        activeState = GameState.Credits;
+                    }
+                    //No options menu for now
+                    break;
+
+                case GameState.Game:
+                    //changing enum states
+                    if (state.IsKeyDown(Keys.P))
+                    {
+                        activeState = GameState.Pause;
+                    }
+                    //The rest of the code for game
+                    if (counter == 0)
+                    {
+
+                        gameBoard.TowersDamageEnemies();
+
+                        player.TakeDamage(gameBoard.MoveEnemies());
+
+                        gameBoard.ReduceTowerTimers();
+
+                        counter = 30;
+
+                    }
+                    else
+                    {
+
+                        counter -= 1;
+
+                    }
+
+
+
+                    //Spawning towers
+                    MouseState mouseState = Mouse.GetState();
+
+                    if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+                    {
+
+                        towerCount++;
+                        for (int width = 0; width < 15; width++)
+                        {
+
+                            for (int height = 0; height < 15; height++)
+                            {
+                                if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                {
+                                    gameBoard.AddTowerToBoard(new Tower(1, 10, 100, 50, 50, width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                }
+                            }
                         }
                     }
-                }
-            }
 
-            previousMouseState = mouseState;
-            base.Update(gameTime);
+                    if (player.Health <= 0)
+                    {
+                        activeState = GameState.GameOver;
+                    }
+
+                        previousMouseState = mouseState;
+                    base.Update(gameTime);
+                    break;
+
+                case GameState.Pause:
+                    if (state.IsKeyDown(Keys.M))
+                    {
+                        activeState = GameState.MainMenu;
+                    }
+                    if (state.IsKeyDown(Keys.Space))
+                    {
+                        activeState = GameState.Game;
+                    }
+                    break;
+
+                case GameState.Credits:
+                    if (state.IsKeyDown(Keys.M))
+                    {
+                        activeState = GameState.MainMenu;
+                    }
+                    break;
+
+                case GameState.GameOver:
+                    if (state.IsKeyDown(Keys.M))
+                    {
+                        activeState = GameState.MainMenu;
+                    }
+                    break;
+            }
+            
         }
 
         protected override void Draw(GameTime gameTime) 
@@ -168,22 +233,43 @@ namespace FinalProject
 
             GraphicsDevice.Clear(Color.ForestGreen);
             _spriteBatch.Begin();
-
-            //Draw the board and entities on the board
-            gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
-
-            //Drawing player
-            player.Draw(_spriteBatch);
-
-            _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 50), Color.White);
-
-            // Tell the player that he lost (used for testing)
-            if (player.Health <= 0)
+            switch (activeState)
             {
+                case GameState.MainMenu:
+                    _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(200, 200), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(150, 250), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"C\" for credits.", new Vector2(150, 300), Color.Black);
+                    break;
 
-                _spriteBatch.DrawString(font, "GAME OVER", new Vector2(200, 200), Color.Black);
+                case GameState.Game:
+                    //Draw the board and entities on the board
+                    gameBoard.Draw(_spriteBatch, pathTexture, closedSpaceTexture);
 
+                    //Drawing player
+                    player.Draw(_spriteBatch);
+
+                    _spriteBatch.DrawString(font, "Press \"P\" to pause.", new Vector2(50, 50), Color.White);
+                    _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 100), Color.White);
+                    break;
+
+                case GameState.Pause:
+                    _spriteBatch.DrawString(font, "PAUSE MENU", new Vector2(200, 200), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(150, 250), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(150, 300), Color.Black);
+                    break;
+
+                case GameState.Credits:
+                    _spriteBatch.DrawString(font, "CREDITS MENU", new Vector2(200, 200), Color.Black);
+                    _spriteBatch.DrawString(font, "Griffin Brown, Kylian Hervet, Liam Alexiou, Lance Noble", new Vector2(100, 250), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(150, 300), Color.Black);
+                    break;
+
+                case GameState.GameOver:
+                    _spriteBatch.DrawString(font, "GAME OVER", new Vector2(200, 200), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(150, 250), Color.Black);
+                    break;
             }
+
 
             _spriteBatch.End();
             base.Draw(gameTime);

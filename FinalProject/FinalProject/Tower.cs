@@ -75,7 +75,9 @@ namespace FinalProject
 		//No return values.
 		public void Draw(SpriteBatch sb)
 		{ 
+
 			sb.Draw(texture, rect, Color.White);
+
         }
 	}
 }

@@ -24,7 +24,6 @@ namespace FinalProject
         private Texture2D texture;
 
         // Properties
-
         /// <summary>
         /// Get or Set the Health of the enemy
         /// </summary>

@@ -427,7 +427,7 @@ namespace FinalProject {
 
         public void RemoveEnemies() {
             for(int i = 0; i < enemiesOnBoard.Count; i++) {
-                if(enemiesOnBoard[i].Health == 0) {
+                if(enemiesOnBoard[i].Health <= 0) {
                     enemiesOnBoard.RemoveAt(i);
                     i--;
                 }

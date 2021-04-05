@@ -31,7 +31,6 @@ namespace FinalProject
         Texture2D closedSpaceTexture;
 
         //Tower Textures:
-        int towerCount = 0;
         List<Texture2D> towerTextures;
         Texture2D towerTexture;
         List<Rectangle> towerPositions;
@@ -49,11 +48,8 @@ namespace FinalProject
         //Game Objects and Fields:
         Board gameBoard;
         Rectangle playerPosition;
-
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //Just for Testing
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        int counter = 0;
+        int frameCounter = 0;
+        int towerCount = 0;
         int startingLevelNum = 0;
 
         public Game1() 
@@ -118,12 +114,6 @@ namespace FinalProject
 
             KeyboardState state = Keyboard.GetState();
 
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            //Just for testing
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-            
-
             //switch to determine what gamestate we're in
             //  Temporarily making the switches determined by key press rather than button press
             switch (activeState)
@@ -150,26 +140,13 @@ namespace FinalProject
                         activeState = GameState.Pause;
                     }
                     //The rest of the code for game
-                    if (counter == 0)
-                    {
+                    frameCounter += 1;
+                    gameBoard.TowersDamageEnemies(frameCounter);
+                    player.TakeDamage(gameBoard.MoveEnemies());
 
-                        gameBoard.TowersDamageEnemies();
-
-                        player.TakeDamage(gameBoard.MoveEnemies());
-
+                    if(frameCounter % 60 == 0) {
                         gameBoard.ReduceTowerTimers();
-
-                        counter = 30;
-
                     }
-                    else
-                    {
-
-                        counter -= 1;
-
-                    }
-
-
 
                     //Spawning towers
                     MouseState mouseState = Mouse.GetState();
@@ -185,7 +162,7 @@ namespace FinalProject
                             {
                                 if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                 {
-                                    gameBoard.AddTowerToBoard(new Tower(1, 10, 100, 50, 50, width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                    gameBoard.AddTowerToBoard(new Tower(1, 10, 100, 10, 10, width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                                 }
                             }
                         }

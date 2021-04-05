@@ -27,7 +27,7 @@ namespace FinalProject {
 
         int levelNum;
         int waveNum;
-        int waveStepsTaken;
+        int enemiesMovingOnBoard;
 
         List<Texture2D> towerTextures;
         List<Texture2D> enemyTextures;
@@ -242,16 +242,19 @@ namespace FinalProject {
                 //Go until there are no more waves to load
                 while (line != "~~~") {
                     line = input.ReadLine();
+                    splitLine = line.Split(' ');
                     //Create temp list
                     List<Enemy> waveTempList = new List<Enemy>();
                     //Create enemies based on data in file
-                    int.TryParse(line, out int enemyNum);
+                    int.TryParse(splitLine[0], out int enemyNum);
+                    int.TryParse(splitLine[1], out int speed);
+                    int.TryParse(splitLine[2], out int health);
                     for (int i = 0; i < enemyNum; i++) {
 
                         waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize),
                             enemyTextures[0],
-                            10, //Health
-                            1)); //Speed (num tiles per time unit)
+                            health, //Health
+                            speed)); //Speed (num pixels moved per frame)
                     }
                     //Put the list for that wave into the wave list
                     enemyWaveList.Add(waveTempList);
@@ -280,23 +283,37 @@ namespace FinalProject {
 
                 CreateNextWave();
 
-            }
-
+            } 
             List<Enemy> output = new List<Enemy>();
 
-            waveStepsTaken += 1;
-            int enemyToMoveNum = Math.Min(waveStepsTaken, enemiesOnBoard.Count);
+            //Stand in as currently when we run out of waves the game crashes
+            //This just stops this
+            if(enemiesOnBoard.Count == 0) {
+                return output;
+            }
 
-            for (int s = 0; s < enemyToMoveNum; s++) {
+            int enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
 
-                Enemy e = enemiesOnBoard[s];
-                int enemyX = e.X / tileSize;
-                int enemyY = e.Y / tileSize;
-                bool spaceFound = false;
+            if((enemiesOnBoard[0].X == enemiesOnBoard[0].TargetX && enemiesOnBoard[0].Y == enemiesOnBoard[0].TargetY) || enemiesMovingOnBoard == 0) {
 
-                for (int i = 0; i < e.Speed; i++) {
+                enemiesMovingOnBoard += 1;
+                enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
 
-                    if ((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
+                for (int s = 0; s < enemyToMoveNum; s++) {
+
+                    Enemy e = enemiesOnBoard[s];
+                    int enemyX = e.X / tileSize;
+                    int enemyY = e.Y / tileSize;
+                    bool spaceFound = false;
+
+                    if(e.X == pathEndCords[0] * tileSize && e.Y == pathEndCords[1] * tileSize) {
+                        output.Add(e);
+                        enemiesOnBoard.RemoveAt(s);
+                        s--;
+                        enemyToMoveNum--;
+                        spaceFound = true;
+                    }   
+                    else if ((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
 
                         enemyX += 1;
                         e.LastPos = new int[2] { (enemyX - 1) * tileSize, enemyY * tileSize };
@@ -328,24 +345,35 @@ namespace FinalProject {
                     //Check to see if the next step is the final step
                     if (!spaceFound) {
                         if (boardSpaces[enemyY, enemyX + 1].Equals("e")) {
-                            output.Add(e);
-                            i = e.Speed;
-                            enemiesOnBoard.RemoveAt(s);
-                            s--;
-                            enemyToMoveNum--;
-
-                        }
-
+                            enemyX += 1;
+                        } 
                     }
 
+                    e.TargetX = enemyX * tileSize;
+                    e.TargetY = enemyY * tileSize;
                 }
+            }
 
-                e.X = enemyX * tileSize;
-                e.Y = enemyY * tileSize;
+            for(int i = 0; i < enemyToMoveNum; i++) {
+                Enemy e = enemiesOnBoard[i];
 
+                for(int s = 0; s < e.Speed; s++) {
+                    if(e.Y > e.TargetY) {
+                        e.Y -= 1;
+                    }
+                    else if(e.Y < e.TargetY){
+                        e.Y += 1;
+                    }
+
+                    if(e.X > e.TargetX) {
+                        e.X -= 1;
+                    }
+                    else if(e.X < e.TargetX){
+                        e.X += 1;
+                    }
+                }
             }
             return output;
-
         }
 
         /// <summary>
@@ -353,7 +381,7 @@ namespace FinalProject {
         /// </summary>
         public void CreateNextWave() {
 
-            waveStepsTaken = 0;
+            enemiesMovingOnBoard = 0;
             waveNum += 1;
 
             if (enemyWaveList.Count == 0) {
@@ -412,12 +440,16 @@ namespace FinalProject {
             }
         }
 
-        public void TowersDamageEnemies() {
+        public void TowersDamageEnemies(int frameCounter) {
             for(int j = 0; j < towersOnBoard.Count; j++) {
                 Tower t = towersOnBoard[j];
-                for(int i = 0; i < enemiesOnBoard.Count; i++) {
-                    if (t.EnemyInRange(enemiesOnBoard[i])) {
-                        i = enemiesOnBoard.Count;
+
+                if(frameCounter % (tileSize/t.FireRate) == 0) {
+                    for(int i = 0; i < enemiesOnBoard.Count; i++) {
+                        if (t.EnemyInRange(enemiesOnBoard[i])) {
+                            i = enemiesOnBoard.Count;
+                            enemiesMovingOnBoard --;
+                        }
                     }
                 }
             }

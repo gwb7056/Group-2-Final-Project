@@ -127,6 +127,15 @@ namespace FinalProject {
         }
 
         /// <summary>
+        /// Get the list of enemies on the board
+        /// </summary>
+        public List<Enemy> EnemiesOnBoard {
+            get {
+                return enemiesOnBoard;
+            }
+        }
+
+        /// <summary>
         /// Returns a rectangle object for the tile at the given cords
         /// </summary>
         public Rectangle GetRectangleAtIndex(int x, int y) {
@@ -473,10 +482,11 @@ namespace FinalProject {
                 Tower t = towersOnBoard[j];
 
                 if(frameCounter % (tileSize/t.FireRate) == 0) {
+                    //t.EnemyInRange(enemiesOnBoard);
+
                     for(int i = 0; i < enemiesOnBoard.Count; i++) {
                         if (t.EnemyInRange(enemiesOnBoard[i])) {
                             i = enemiesOnBoard.Count;
-                            enemiesMovingOnBoard --;
                         }
                     }
                 }
@@ -492,6 +502,7 @@ namespace FinalProject {
             for(int i = 0; i < enemiesOnBoard.Count; i++) {
                 if(enemiesOnBoard[i].Health <= 0) {
                     enemiesOnBoard.RemoveAt(i);
+                    enemiesMovingOnBoard --;
                     i--;
                 }
             }

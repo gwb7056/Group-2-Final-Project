@@ -210,6 +210,8 @@ namespace FinalProject {
         /// </summary>
         public void GetLevelFromFile(int level) {
 
+            levelNum = level;
+
             try {
 
                 //Create StreamReader

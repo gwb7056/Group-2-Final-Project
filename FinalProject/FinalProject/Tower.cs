@@ -14,7 +14,7 @@ namespace FinalProject
 	public class Tower
 {
 		//fields
-		private int fireRate;
+		private double fireRate;
 		private int damage;
 		private int range;
 		private int currentDuration;
@@ -24,7 +24,7 @@ namespace FinalProject
 		private Rectangle circle;
 
 		//properties
-		public int FireRate { get{ return fireRate; } }
+		public double FireRate { get{ return fireRate; } }
 		public int Damage { get{ return damage; } }
 		public int Range { get{ return range; } }
 		public int CurrentDuration { get{ return currentDuration; } set { currentDuration = value; } }
@@ -33,7 +33,7 @@ namespace FinalProject
 		public int Y { get { return rect.Y; } set { rect.Y = value; } }
 
 		//constructor
-		public Tower(int fr, int dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture){
+		protected Tower(double fr, int dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture){
 			this.fireRate = fr;
 			this.damage = dmg;
 			this.range = rng;
@@ -51,7 +51,7 @@ namespace FinalProject
 		//Purpose: To deal damage to the enemies if they are in range
 		//Restrictions: accepts an enemy entitiy
 		//Returns a boolean value
-		public bool EnemyInRange(Enemy enemy)
+		public virtual bool EnemyInRange(Enemy enemy)
         {
 			//Detecting if the distance between the two entities is less than their combined radii
 			if (Math.Sqrt((Math.Pow((enemy.X) - (circle.X + range), 2)) + Math.Pow((enemy.Y) - (circle.Y + range), 2)) < (range + enemy.Width))

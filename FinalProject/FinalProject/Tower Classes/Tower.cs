@@ -33,7 +33,7 @@ namespace FinalProject
 		public int Y { get { return rect.Y; } set { rect.Y = value; } }
 
 		//constructor
-		protected Tower(double fr, int dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture){
+		public Tower(double fr, int dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture){
 			this.fireRate = fr;
 			this.damage = dmg;
 			this.range = rng;

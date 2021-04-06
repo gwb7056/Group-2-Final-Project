@@ -6,16 +6,12 @@ using System.Collections.Generic;
 namespace FinalProject 
 {
     
-    enum GameState 
-    {
-
+    enum GameState {
         MainMenu,
         Game,
         Pause,
         Credits,
         GameOver
-
-
     }
 
     public class Game1 : Game 
@@ -125,6 +121,7 @@ namespace FinalProject
                     if (state.IsKeyDown(Keys.Space))
                     {
                         activeState = GameState.Game;
+                        gameBoard.GetLevelFromFile(startingLevelNum);
                     }
                     //
                     if (state.IsKeyDown(Keys.C))
@@ -174,7 +171,7 @@ namespace FinalProject
                         activeState = GameState.GameOver;
                     }
 
-                        previousMouseState = mouseState;
+                    previousMouseState = mouseState;
                     base.Update(gameTime);
                     break;
 

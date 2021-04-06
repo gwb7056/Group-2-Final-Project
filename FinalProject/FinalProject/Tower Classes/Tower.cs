@@ -14,14 +14,14 @@ namespace FinalProject
 	public class Tower
 {
 		//fields
-		private double fireRate;
-		private int damage;
-		private int range;
-		private int currentDuration;
-		private int maxDuration;
-		private Texture2D texture;
-		private Rectangle rect;
-		private Rectangle circle;
+		protected double fireRate;
+		protected int damage;
+		protected int range;
+		protected int currentDuration;
+		protected int maxDuration;
+		protected Texture2D texture;
+		protected Rectangle rect;
+		protected Rectangle circle;
 
 		//properties
 		public double FireRate { get{ return fireRate; } }
@@ -49,20 +49,20 @@ namespace FinalProject
 
 		//Enemy in Rnage method
 		//Purpose: To deal damage to the enemies if they are in range
-		//Restrictions: accepts an enemy entitiy
-		//Returns a boolean value
-		public virtual bool EnemyInRange(Enemy enemy)
+		//Restrictions: accepts a list of enemies
+		//No return value
+		public virtual void EnemyInRange(List<Enemy> enemies)
         {
-			//Detecting if the distance between the two entities is less than their combined radii
-			if (Math.Sqrt((Math.Pow((enemy.X) - (circle.X + range), 2)) + Math.Pow((enemy.Y) - (circle.Y + range), 2)) < (range + enemy.Width))
-			{
-				enemy.Health -= damage;
-                return true;
+            for (int i = 0; i < enemies.Count; i++)
+            {
+				//Detecting if the distance between the two entities is less than their combined radii
+				if (Math.Sqrt((Math.Pow((enemies[i].X) - (circle.X + range), 2)) + Math.Pow((enemies[i].Y) - (circle.Y + range), 2)) < (range + enemies[i].Width))
+				{
+					enemies[i].Health -= damage;
+					break;
+				}
 			}
-			else
-			{
-				return false;
-			}
+			
 		}
 
 

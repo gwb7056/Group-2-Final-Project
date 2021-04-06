@@ -484,13 +484,7 @@ namespace FinalProject {
                 Tower t = towersOnBoard[j];
 
                 if(frameCounter % (tileSize/t.FireRate) == 0) {
-                    //t.EnemyInRange(enemiesOnBoard);
-
-                    for(int i = 0; i < enemiesOnBoard.Count; i++) {
-                        if (t.EnemyInRange(enemiesOnBoard[i])) {
-                            i = enemiesOnBoard.Count;
-                        }
-                    }
+                    t.EnemyInRange(enemiesOnBoard);
                 }
             }
 

@@ -47,7 +47,7 @@ namespace FinalProject
         Rectangle playerPosition;
         int frameCounter = 0;
         int towerCount = 0;
-        int startingLevelNum = 1;
+        int startingLevelNum = 0;
 
         public Game1() 
         {
@@ -160,7 +160,7 @@ namespace FinalProject
                             {
                                 if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                 {
-                                    gameBoard.AddTowerToBoard(new Tower(1, 10, 100, 10, 10, width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                    gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                                 }
                             }
                         }

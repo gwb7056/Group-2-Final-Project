@@ -13,8 +13,9 @@ x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
-12
-12
+5 1 10
+2 5 10
+14 2 10
 ~~~
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
@@ -31,6 +32,6 @@ o o o o o o p p p p o o o o o
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
-4
-5
+4 13 10
+5 4 10
 ~~~

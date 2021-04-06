@@ -22,6 +22,7 @@ namespace FinalProject
         int currentHealth;
         int previousHealth;
         Color color;
+        int mana;
 
         /// <summary>
         /// initializes player properties upon object creation
@@ -39,8 +40,25 @@ namespace FinalProject
             this.playerHealthTexture = playerHealthTexture;
             playerPosition = new Rectangle(x, y, width, height);
             health = 100;
-
+            mana = 10;
         }
+        /// <summary>
+        /// gets and sets the player's mana value
+        /// </summary>
+        public int Mana
+        {
+            get
+            {
+                return mana;
+            }
+            set
+            {
+                mana = value;
+            }
+        }
+        /// <summary>
+        /// gets and sets the player texture's color tint
+        /// </summary>
         public Color Color
         {
             get

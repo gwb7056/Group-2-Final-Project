@@ -27,7 +27,7 @@ namespace FinalProject {
 
         int levelNum;
         int waveNum;
-        int waveStepsTaken;
+        int enemiesMovingOnBoard;
 
         List<Texture2D> towerTextures;
         List<Texture2D> enemyTextures;
@@ -123,6 +123,15 @@ namespace FinalProject {
         public int TileSize {
             get {
                 return tileSize;
+            }
+        }
+
+        /// <summary>
+        /// Get the list of enemies on the board
+        /// </summary>
+        public List<Enemy> EnemiesOnBoard {
+            get {
+                return enemiesOnBoard;
             }
         }
 
@@ -242,16 +251,19 @@ namespace FinalProject {
                 //Go until there are no more waves to load
                 while (line != "~~~") {
                     line = input.ReadLine();
+                    splitLine = line.Split(' ');
                     //Create temp list
                     List<Enemy> waveTempList = new List<Enemy>();
                     //Create enemies based on data in file
-                    int.TryParse(line, out int enemyNum);
+                    int.TryParse(splitLine[0], out int enemyNum);
+                    int.TryParse(splitLine[1], out int speed);
+                    int.TryParse(splitLine[2], out int health);
                     for (int i = 0; i < enemyNum; i++) {
 
                         waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize),
                             enemyTextures[0],
-                            10, //Health
-                            1)); //Speed (num tiles per time unit)
+                            health, //Health
+                            speed)); //Speed (num pixels moved per frame)
                     }
                     //Put the list for that wave into the wave list
                     enemyWaveList.Add(waveTempList);
@@ -276,27 +288,52 @@ namespace FinalProject {
         /// </summary>
         public List<Enemy> MoveEnemies() {
 
+            //Check if a new wave needs to be created
             if (enemiesOnBoard.Count == 0) {
 
                 CreateNextWave();
 
-            }
+            } 
 
+            //All enemies that have made it to the player/end of path
             List<Enemy> output = new List<Enemy>();
 
-            waveStepsTaken += 1;
-            int enemyToMoveNum = Math.Min(waveStepsTaken, enemiesOnBoard.Count);
+            //Stand in as currently when we run out of waves the game crashes
+            //This just stops this
+            if(enemiesOnBoard.Count == 0) {
+                return output;
+            }
 
-            for (int s = 0; s < enemyToMoveNum; s++) {
+            //Keep enemies staggered
+            int enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
 
-                Enemy e = enemiesOnBoard[s];
-                int enemyX = e.X / tileSize;
-                int enemyY = e.Y / tileSize;
-                bool spaceFound = false;
 
-                for (int i = 0; i < e.Speed; i++) {
+            //If the first enemy, and by extention all enemies, are on their target tiles, find the next target
+            //Also if the wave has just begun, set the very first target
+            if((enemiesOnBoard[0].X == enemiesOnBoard[0].TargetX && enemiesOnBoard[0].Y == enemiesOnBoard[0].TargetY) || enemiesMovingOnBoard == 0) {
 
-                    if ((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
+                enemiesMovingOnBoard += 1;
+                enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
+
+                //For each enemy thats moving, find the target
+                for (int s = 0; s < enemyToMoveNum; s++) {
+
+                    //Get the enemy and their current position
+                    Enemy e = enemiesOnBoard[s];
+                    int enemyX = e.X / tileSize;
+                    int enemyY = e.Y / tileSize;
+                    bool spaceFound = false;
+
+                    //If they have reached the end of the path, remove from list and put into output
+                    if(e.X == pathEndCords[0] * tileSize && e.Y == pathEndCords[1] * tileSize) {
+                        output.Add(e);
+                        enemiesOnBoard.RemoveAt(s);
+                        s--;
+                        enemyToMoveNum--;
+                        spaceFound = true;
+                    }   
+                    //Check in all four directions if the next space in that direction is the path and isn't where they last were
+                    else if ((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
 
                         enemyX += 1;
                         e.LastPos = new int[2] { (enemyX - 1) * tileSize, enemyY * tileSize };
@@ -328,24 +365,39 @@ namespace FinalProject {
                     //Check to see if the next step is the final step
                     if (!spaceFound) {
                         if (boardSpaces[enemyY, enemyX + 1].Equals("e")) {
-                            output.Add(e);
-                            i = e.Speed;
-                            enemiesOnBoard.RemoveAt(s);
-                            s--;
-                            enemyToMoveNum--;
-
-                        }
-
+                            enemyX += 1;
+                        } 
                     }
 
+                    //Set the target to the found tile
+                    e.TargetX = enemyX * tileSize;
+                    e.TargetY = enemyY * tileSize;
                 }
-
-                e.X = enemyX * tileSize;
-                e.Y = enemyY * tileSize;
-
             }
-            return output;
 
+            //For each enemy moving, move them one pixel per speed in that direction
+            for(int i = 0; i < enemyToMoveNum; i++) {
+                Enemy e = enemiesOnBoard[i];
+
+                for(int s = 0; s < e.Speed; s++) {
+                    if(e.Y > e.TargetY) {
+                        e.Y -= 1;
+                    }
+                    else if(e.Y < e.TargetY){
+                        e.Y += 1;
+                    }
+
+                    if(e.X > e.TargetX) {
+                        e.X -= 1;
+                    }
+                    else if(e.X < e.TargetX){
+                        e.X += 1;
+                    }
+                }
+            }
+
+            //return the list of enemies that made it to the player to deal damage
+            return output;
         }
 
         /// <summary>
@@ -353,7 +405,7 @@ namespace FinalProject {
         /// </summary>
         public void CreateNextWave() {
 
-            waveStepsTaken = 0;
+            enemiesMovingOnBoard = 0;
             waveNum += 1;
 
             if (enemyWaveList.Count == 0) {
@@ -394,6 +446,10 @@ namespace FinalProject {
             }
         }
 
+        /// <summary>
+        /// Reduce the tower duration by 1 for each tower on the board
+        /// Remove towers that's duration is finished
+        /// </summary>
         public void ReduceTowerTimers() {
             foreach (Tower t in towersOnBoard) {
                 t.CurrentDuration -= 1;
@@ -402,6 +458,9 @@ namespace FinalProject {
             RemoveTowers();
         }
 
+        /// <summary>
+        /// Check all towers to see if they're duration is done, if so remove from board
+        /// </summary>
         public void RemoveTowers() {
             for (int i = 0; i < towersOnBoard.Count; i++) {
                 if (towersOnBoard[i].CurrentDuration == 0) {
@@ -412,12 +471,23 @@ namespace FinalProject {
             }
         }
 
-        public void TowersDamageEnemies() {
+        /// <summary>
+        /// For each enemy, if in the right frame for their firerate, damage the enemy in the front
+        /// </summary>
+        /// <param name="frameCounter">
+        /// Num of frames past
+        /// </param>
+        public void TowersDamageEnemies(int frameCounter) {
             for(int j = 0; j < towersOnBoard.Count; j++) {
                 Tower t = towersOnBoard[j];
-                for(int i = 0; i < enemiesOnBoard.Count; i++) {
-                    if (t.EnemyInRange(enemiesOnBoard[i])) {
-                        i = enemiesOnBoard.Count;
+
+                if(frameCounter % (tileSize/t.FireRate) == 0) {
+                    //t.EnemyInRange(enemiesOnBoard);
+
+                    for(int i = 0; i < enemiesOnBoard.Count; i++) {
+                        if (t.EnemyInRange(enemiesOnBoard[i])) {
+                            i = enemiesOnBoard.Count;
+                        }
                     }
                 }
             }
@@ -425,10 +495,14 @@ namespace FinalProject {
             RemoveEnemies();
         }
 
+        /// <summary>
+        /// Remove all enemies who's health is less than 0
+        /// </summary>
         public void RemoveEnemies() {
             for(int i = 0; i < enemiesOnBoard.Count; i++) {
                 if(enemiesOnBoard[i].Health <= 0) {
                     enemiesOnBoard.RemoveAt(i);
+                    enemiesMovingOnBoard --;
                     i--;
                 }
             }

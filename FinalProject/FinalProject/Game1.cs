@@ -51,7 +51,7 @@ namespace FinalProject
         Rectangle playerPosition;
         int frameCounter = 0;
         int towerCount = 0;
-        int startingLevelNum = 0;
+        int startingLevelNum = 1;
 
         public Game1() 
         {

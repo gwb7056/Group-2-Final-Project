@@ -10,7 +10,7 @@ namespace FinalProject
     //Author: Liam Alexiou
     //Purpose: To create/define a specific tower
     //Restrictions: Calls upon the parent class.
-    class Mortar_Tower :Tower
+    class Cannon_Tower:Tower
     {
         //fields
         private Rectangle circleAOE;
@@ -18,9 +18,9 @@ namespace FinalProject
         private int rangeAOE;
 
         //constructor
-        public Mortar_Tower(int x, int y, Texture2D texture):base(0.12, 10, 80, 55, 55, x, y, texture)
+        public Cannon_Tower(int x, int y, Texture2D texture) : base(0.21, 10, 30, 55, 55, x, y, texture)
         {
-            this.rangeAOE = 10;
+            this.rangeAOE = 5;
         }
 
         //override of EnemyInRange
@@ -35,7 +35,7 @@ namespace FinalProject
                 if (Math.Sqrt((Math.Pow((enemies[i].X) - (circle.X + range), 2)) + Math.Pow((enemies[i].Y) - (circle.Y + range), 2)) < (range + enemies[i].Width))
                 {
                     this.circleAOE = new Rectangle(enemies[i].X - rangeAOE, enemies[i].Y - rangeAOE, rangeAOE, rangeAOE);
-                    
+
                     for (int z = 0; z < enemies.Count; z++)
                     {
                         if (Math.Sqrt((Math.Pow((enemies[z].X) - (circleAOE.X + rangeAOE), 2)) + Math.Pow((enemies[z].Y) - (circleAOE.Y + rangeAOE), 2)) < (rangeAOE + enemies[z].Width))

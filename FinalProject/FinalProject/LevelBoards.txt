@@ -1,3 +1,8 @@
+For Enemy waves:
+Number Speed Health
+
+Notes go above this, everything below is read by the code
+^^^^^
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x
 x x x x x x x x x x x x x x x

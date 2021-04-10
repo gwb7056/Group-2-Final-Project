@@ -219,6 +219,11 @@ namespace FinalProject {
                 string line = "";
                 string[] splitLine;
 
+                //Move past notes
+                while (line != "^^^^^") {
+                    line = input.ReadLine();
+                }
+
                 //Go to the correct level in the file
                 for (int i = 0; i < levelNum; i++) {
                     while (line != "~~~") {

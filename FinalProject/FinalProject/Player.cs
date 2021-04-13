@@ -75,7 +75,6 @@ namespace FinalProject
         /// </summary>
         public int Health
         {
-
             get
             {
 
@@ -136,5 +135,13 @@ namespace FinalProject
             sb.Draw(playerTexture, playerPosition, color);
 
         }
+        /// <summary>
+        /// checks whether or not the player is in the process of summoning a card
+        /// </summary>
+        /// <returns></returns>
+        /*public bool Possession()
+        {
+
+        }*/
     }
 }

@@ -135,6 +135,24 @@ namespace FinalProject
                     break;
 
                 case GameState.Game:
+                    MouseState mouseState = Mouse.GetState();
+                    /*mana system code by lance
+                     it's all commented because there's no card objects that i can make my code interact with, so some of it is pseudocode*/
+                    /*if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && previousMouseState = ButtonState.Released)
+                     {
+                        if (Card1.)
+                     }
+                    else if (Card2.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && previousMouseState = ButtonState.Released)
+                     {
+                        
+                     }
+                    else if (Card3.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && previousMouseState = ButtonState.Released)
+                     {
+                        
+                     }
+                    */
+
+
                     //changing enum states
                     if (state.IsKeyDown(Keys.P))
                     {
@@ -150,7 +168,6 @@ namespace FinalProject
                     }
 
                     //Spawning towers
-                    MouseState mouseState = Mouse.GetState();
 
                     if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
                     {

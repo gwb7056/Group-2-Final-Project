@@ -13,8 +13,6 @@ namespace FinalProject
     class Card 
     {
 
-
-
     }
 
 }

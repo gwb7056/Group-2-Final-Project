@@ -46,6 +46,7 @@ namespace FinalProject
         Board gameBoard;
         Rectangle playerPosition;
         int frameCounter = 0;
+        int frameCounter1 = 0;
         int towerCount = 0;
         int startingLevelNum = 0;
 
@@ -135,20 +136,87 @@ namespace FinalProject
                     MouseState mouseState = Mouse.GetState();
                     /*mana system code by lance
                      it's all commented because there's no card objects that i can make my code interact with, so some of it is pseudocode*/
-                    /*if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && previousMouseState = ButtonState.Released)
+                    /*if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
                      {
-                        if (Card1.)
+                        Card1.Rectangle.X = mouseposition x
+                        Card1.Rectangle.Y = mouseposition y
+                        if (mousestate.leftbutton == buttonstate.released)
+                            {
+                                   for (int width = 0; width < 15; width++)
+                        {
+
+                            for (int height = 0; height < 15; height++)
+                            {
+                                if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                {
+                                    gameBoard.AddCardToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                     mana--;
+                                }
+                            }
+                           if (mousestate.rightbutton == buttonstate.pressed)
+                                 {
+                                     card position = original position;
+                                  } 
+                  
+                          
                      }
-                    else if (Card2.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && previousMouseState = ButtonState.Released)
+                    if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
                      {
-                        
+                        Card1.Rectangle.X = mouseposition x
+                        Card1.Rectangle.Y = mouseposition y
+                        if (mousestate.leftbutton == buttonstate.released)
+                            {
+                                   for (int width = 0; width < 15; width++)
+                        {
+
+                            for (int height = 0; height < 15; height++)
+                            {
+                                if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                {
+                                    gameBoard.AddCardToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                     mana--;
+                                }
+                            }
+                           if (mousestate.rightbutton == buttonstate.pressed)
+                                 {
+                                     card position = original position;
+                                  } 
+                  
+                          
                      }
-                    else if (Card3.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && previousMouseState = ButtonState.Released)
+                   if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
                      {
-                        
+                        Card1.Rectangle.X = mouseposition x
+                        Card1.Rectangle.Y = mouseposition y
+                        if (mousestate.leftbutton == buttonstate.released)
+                            {
+                                   for (int width = 0; width < 15; width++)
+                        {
+
+                            for (int height = 0; height < 15; height++)
+                            {
+                                if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                {
+                                    gameBoard.AddCardToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                     mana--;
+                                }
+                            }
+                           if (mousestate.rightbutton == buttonstate.pressed)
+                                 {
+                                     card position = original position;
+                                  } 
+                  
+                          
                      }
                     */
-
+                    frameCounter1 += 1;
+                    if (frameCounter1 % 60 == 0)
+                    {
+                        if (player.Mana < 10)
+                        {
+                            player.Mana++;
+                        }
+                    }
 
                     //changing enum states
                     if (state.IsKeyDown(Keys.P))

@@ -15,27 +15,34 @@ namespace FinalProject {
     /// Handles all interactions between all entities on the board.
     /// </summary>
     class Board {
+        //Fields:
+        //Entities on board
         List<Tower> towersOnBoard;
         List<Enemy> enemiesOnBoard;
 
+        //Board data
         string[,] boardSpaces;
-        List<int[]> path;
         int[] pathStartCords;
         int[] pathEndCords;
 
+        //Coming waves of enemies
         List<List<Enemy>> enemyWaveList;
 
+        //Number variables
         int levelNum;
         int waveNum;
         int enemiesMovingOnBoard;
 
+        //Textures
         List<Texture2D> towerTextures;
         List<Texture2D> enemyTextures;
 
+        //Board size variables
         int levelWidth = 15;
         int levelHeight = 15;
         int tileSize = 40;
 
+        //File IO reader
         StreamReader input;
 
         //Read the correct level given to create the board object
@@ -81,15 +88,6 @@ namespace FinalProject {
         /// <summary>
         /// Indexer for the board array. Can be set
         /// </summary>
-        /// <param name="x">
-        /// X cord of space
-        /// </param>
-        /// <param name="y">
-        /// Y cord of space
-        /// </param>
-        /// <returns>
-        /// Returns the value in the array at the given cords
-        /// </returns>
         public string this[int x, int y] {
             get {
                 return boardSpaces[y, x];
@@ -143,37 +141,8 @@ namespace FinalProject {
         }
 
         /// <summary>
-        /// Board Class ToString()
-        /// </summary>
-        /// <returns>
-        /// Returns the board in an X by Y grid in one string
-        /// </returns>
-        public override string ToString() {
-            string output = "";
-
-            for (int y = 0; y < levelHeight; y++) {
-                for (int x = 0; x < levelWidth; x++) {
-                    output += (boardSpaces[y, x] + " ");
-                }
-
-                output += "\n";
-            }
-
-            return output;
-        }
-
-        /// <summary>
         /// Draws the board on the screen
         /// </summary>
-        /// <param name="sb">
-        /// The SpriteBatch object
-        /// </param>
-        /// <param name="pathTexture">
-        /// Texture2D for the path tiles
-        /// </param>
-        /// <param name="closedSpaceTexture">
-        /// Texture2D for the closed space tiles
-        /// </param>
         public void Draw(SpriteBatch sb, Texture2D pathTexture, Texture2D closedSpaceTexture) {
 
             Rectangle tileBoundingBox;
@@ -213,7 +182,6 @@ namespace FinalProject {
             levelNum = level;
 
             try {
-
                 //Create StreamReader
                 input = new StreamReader("..\\..\\..\\LevelBoards.txt");
                 string line = "";
@@ -266,7 +234,6 @@ namespace FinalProject {
                     int.TryParse(splitLine[1], out int speed);
                     int.TryParse(splitLine[2], out int health);
                     for (int i = 0; i < enemyNum; i++) {
-
                         waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize),
                             enemyTextures[0],
                             health, //Health
@@ -274,62 +241,52 @@ namespace FinalProject {
                     }
                     //Put the list for that wave into the wave list
                     enemyWaveList.Add(waveTempList);
-
                 }
-
-                CreateNextWave();
 
                 input.Close();
 
+                CreateNextWave();
             }
             catch (Exception e) {
-
                 Debug.WriteLine(e.Message);
-
             }
-
         }
 
         /// <summary>
         /// Moves each enemy on the board along the path, if there are no enemies left, starts the next wave
         /// </summary>
         public List<Enemy> MoveEnemies() {
-
             //Check if a new wave needs to be created
             if (enemiesOnBoard.Count == 0) {
-
                 CreateNextWave();
-
             } 
 
             //All enemies that have made it to the player/end of path
             List<Enemy> output = new List<Enemy>();
 
+            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             //Stand in as currently when we run out of waves the game crashes
             //This just stops this
             if(enemiesOnBoard.Count == 0) {
                 return output;
             }
+            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             //Keep enemies staggered
             int enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
 
-
             //If the first enemy, and by extention all enemies, are on their target tiles, find the next target
             //Also if the wave has just begun, set the very first target
             if((enemiesOnBoard[0].X == enemiesOnBoard[0].TargetX && enemiesOnBoard[0].Y == enemiesOnBoard[0].TargetY) || enemiesMovingOnBoard == 0) {
-
                 enemiesMovingOnBoard += 1;
                 enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
 
                 //For each enemy thats moving, find the target
                 for (int s = 0; s < enemyToMoveNum; s++) {
-
                     //Get the enemy and their current position
                     Enemy e = enemiesOnBoard[s];
                     int enemyX = e.X / tileSize;
                     int enemyY = e.Y / tileSize;
-                    bool spaceFound = false;
 
                     //If they have reached the end of the path, remove from list and put into output
                     if(e.X == pathEndCords[0] * tileSize && e.Y == pathEndCords[1] * tileSize) {
@@ -337,43 +294,27 @@ namespace FinalProject {
                         enemiesOnBoard.RemoveAt(s);
                         s--;
                         enemyToMoveNum--;
-                        spaceFound = true;
                     }   
                     //Check in all four directions if the next space in that direction is the path and isn't where they last were
                     else if ((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
-
                         enemyX += 1;
                         e.LastPos = new int[2] { (enemyX - 1) * tileSize, enemyY * tileSize };
-                        spaceFound = true;
-
                     }
                     else if (boardSpaces[enemyY + 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY + 1) {
-
                         enemyY += 1;
                         e.LastPos = new int[2] { enemyX * tileSize, (enemyY - 1) * tileSize };
-                        spaceFound = true;
-
                     }
                     else if (boardSpaces[enemyY, enemyX - 1].Equals("p") && e.LastPos[0] / tileSize != enemyX - 1) {
-
                         enemyX -= 1;
                         e.LastPos = new int[2] { (enemyX + 1) * tileSize, enemyY * tileSize };
-                        spaceFound = true;
-
                     }
                     else if (boardSpaces[enemyY - 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY - 1) {
-
                         enemyY -= 1;
                         e.LastPos = new int[2] { enemyX * tileSize, (enemyY + 1) * tileSize };
-                        spaceFound = true;
-
                     }
-
                     //Check to see if the next step is the final step
-                    if (!spaceFound) {
-                        if (boardSpaces[enemyY, enemyX + 1].Equals("e")) {
-                            enemyX += 1;
-                        } 
+                    else if (boardSpaces[enemyY, enemyX + 1].Equals("e")) {
+                        enemyX += 1;
                     }
 
                     //Set the target to the found tile
@@ -411,37 +352,26 @@ namespace FinalProject {
         /// Get the next wave from the enemyWaveList and puts it on the board
         /// </summary>
         public void CreateNextWave() {
-
             enemiesMovingOnBoard = 0;
             waveNum += 1;
 
             if (enemyWaveList.Count == 0) {
-
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 //Add what happens at the end of the level
-
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             }
             else {
-
                 for (int i = 0; i < enemyWaveList[0].Count; i++) {
-
                     enemiesOnBoard.Add(enemyWaveList[0][i]);
-
                 }
 
                 enemyWaveList.RemoveAt(0);
             }
-
         }
 
         /// <summary>
         /// Attempt to add a tower to the board. If the space is not a valid space, returns false
         /// </summary>
-        /// <param name="t">
-        /// Tower object to attempt to add
-        /// </param>
-        /// <returns>
-        /// Returns true if the addition was successful, falso otherwise
-        /// </returns>
         public bool AddTowerToBoard(Tower t) {
             if (boardSpaces[t.Y / tileSize, t.X / tileSize].Equals("o")) {
                 boardSpaces[t.Y / tileSize, t.X / tileSize] = "t";
@@ -481,9 +411,6 @@ namespace FinalProject {
         /// <summary>
         /// For each enemy, if in the right frame for their firerate, damage the enemy in the front
         /// </summary>
-        /// <param name="frameCounter">
-        /// Num of frames past
-        /// </param>
         public void TowersDamageEnemies(int frameCounter) {
             for(int j = 0; j < towersOnBoard.Count; j++) {
                 Tower t = towersOnBoard[j];

@@ -93,7 +93,7 @@ namespace FinalProject
             this.texture = texture;
         }
 
-
+        //Method
 
         /// <summary>
         /// Draw the enemy on the screen

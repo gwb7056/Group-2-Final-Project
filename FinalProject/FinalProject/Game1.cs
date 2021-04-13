@@ -6,16 +6,12 @@ using System.Collections.Generic;
 namespace FinalProject 
 {
     
-    enum GameState 
-    {
-
+    enum GameState {
         MainMenu,
         Game,
         Pause,
         Credits,
         GameOver
-
-
     }
 
     public class Game1 : Game 
@@ -125,6 +121,7 @@ namespace FinalProject
                     if (state.IsKeyDown(Keys.Space))
                     {
                         activeState = GameState.Game;
+                        gameBoard.GetLevelFromFile(startingLevelNum);
                     }
                     //
                     if (state.IsKeyDown(Keys.C))
@@ -180,7 +177,7 @@ namespace FinalProject
                             {
                                 if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                 {
-                                    gameBoard.AddTowerToBoard(new Tower(1, 10, 100, 10, 10, width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                    gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                                 }
                             }
                         }
@@ -191,7 +188,7 @@ namespace FinalProject
                         activeState = GameState.GameOver;
                     }
 
-                        previousMouseState = mouseState;
+                    previousMouseState = mouseState;
                     base.Update(gameTime);
                     break;
 

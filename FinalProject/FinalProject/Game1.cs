@@ -136,7 +136,7 @@ namespace FinalProject
                     MouseState mouseState = Mouse.GetState();
                     /*mana system code by lance
                      it's all commented because there's no card objects that i can make my code interact with, so some of it is pseudocode*/
-                    /*if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+                    /*if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player mana >= card mana cost)
                      {
                         Card1.Rectangle.X = mouseposition x
                         Card1.Rectangle.Y = mouseposition y
@@ -160,10 +160,10 @@ namespace FinalProject
                   
                           
                      }
-                    if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+                    if (Card2.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player mana >= card mana cost)
                      {
-                        Card1.Rectangle.X = mouseposition x
-                        Card1.Rectangle.Y = mouseposition y
+                        Card2.Rectangle.X = mouseposition x
+                        Card2.Rectangle.Y = mouseposition y
                         if (mousestate.leftbutton == buttonstate.released)
                             {
                                    for (int width = 0; width < 15; width++)
@@ -184,10 +184,10 @@ namespace FinalProject
                   
                           
                      }
-                   if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+                   if (Card3.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player mana >= card mana cost)
                      {
-                        Card1.Rectangle.X = mouseposition x
-                        Card1.Rectangle.Y = mouseposition y
+                        Card3.Rectangle.X = mouseposition x
+                        Card3.Rectangle.Y = mouseposition y
                         if (mousestate.leftbutton == buttonstate.released)
                             {
                                    for (int width = 0; width < 15; width++)

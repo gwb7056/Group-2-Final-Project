@@ -13,7 +13,7 @@ namespace FinalProject
     class Basic_Archer_Tower : Tower
     {
         //constructor
-        public Basic_Archer_Tower(int x, int y, Texture2D texture):base(0.5, 5, 70, 30, 30, x, y, texture)
+        public Basic_Archer_Tower(int x, int y, Texture2D texture):base(0.5, 5, 70, 30, 30, 0.5, x, y, texture)
         {
 
         }

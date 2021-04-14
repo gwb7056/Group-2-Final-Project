@@ -10,10 +10,10 @@ namespace FinalProject
     //Author: Liam Alexiou
     //Purpose: To create/define a specific tower
     //Restrictions: Calls upon the parent class.
-    class Wizard_Tower:Tower
+    class Wizard_Tower : Tower
     {
         //constructor
-        public Wizard_Tower(int x, int y, Texture2D texture) : base(0.2, 15, 100, 40, 40, 1, x, y, texture)
+        public Wizard_Tower(int x, int y, Texture2D texture) : base(0.2, 15, 100, 40, 40, x, y, texture)
         {
 
         }

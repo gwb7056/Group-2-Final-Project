@@ -11,7 +11,7 @@ namespace FinalProject
 	//Purpose: To create a stationary tower entity that damages enemy entities in passing.
 	//Restrictions: N/A?
 
-	public class Tower
+	public class Tower : Card
 {
 		//fields
 		protected double fireRate;
@@ -19,7 +19,6 @@ namespace FinalProject
 		protected int range;
 		protected int currentDuration;
 		protected int maxDuration;
-		protected double manaCost;
 		protected Texture2D texture;
 		protected Rectangle rect;
 		protected Rectangle circle;
@@ -30,19 +29,18 @@ namespace FinalProject
 		public int Range { get{ return range; } }
 		public int CurrentDuration { get{ return currentDuration; } set { currentDuration = value; } }
 		public int MaxDurration { get{ return maxDuration; } }
-		public double ManaCost { get { return manaCost; } }
 		public int X { get { return rect.X; } set { rect.X = value; } }
 		public int Y { get { return rect.Y; } set { rect.Y = value; } }
 		public Texture2D Texture { get { return texture; } }
 
 		//constructor
-		public Tower(double fr, int dmg, int rng, int curDur, int maxDur, double mana, int x, int y, Texture2D texture){
+		public Tower(double fr, int dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture) : base (x, y)
+		{
 			this.fireRate = fr;
 			this.damage = dmg;
 			this.range = rng;
 			this.currentDuration = maxDur;
 			this.maxDuration = maxDur;
-			this.manaCost = mana;
 			rect = new Rectangle(x, y, 40, 40);
 			this.texture = texture;
 

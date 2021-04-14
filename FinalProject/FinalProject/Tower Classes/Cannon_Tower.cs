@@ -10,7 +10,7 @@ namespace FinalProject
     //Author: Liam Alexiou
     //Purpose: To create/define a specific tower
     //Restrictions: Calls upon the parent class.
-    class Cannon_Tower:Tower
+    public class Cannon_Tower:Tower
     {
         //fields
         private Rectangle circleAOE;
@@ -18,7 +18,7 @@ namespace FinalProject
         private int rangeAOE;
 
         //constructor
-        public Cannon_Tower(int x, int y, Texture2D texture) : base(0.21, 10, 30, 55, 55, x, y, texture)
+        public Cannon_Tower(int x, int y, Texture2D texture) : base(0.5, 5, 70, 30, 30, x, y, texture)//base(0.21, 10, 30, 55, 55, x, y, texture)
         {
             this.rangeAOE = 5;
         }

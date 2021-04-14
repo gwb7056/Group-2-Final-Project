@@ -383,6 +383,22 @@ namespace FinalProject {
             }
         }
 
+        public bool AddTowerToBoard(Cannon_Tower t)
+        {
+            if (boardSpaces[t.Y / tileSize, t.X / tileSize].Equals("o"))
+            {
+                boardSpaces[t.Y / tileSize, t.X / tileSize] = "t";
+                towersOnBoard.Add(t);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
         /// <summary>
         /// Reduce the tower duration by 1 for each tower on the board
         /// Remove towers that's duration is finished

@@ -32,6 +32,9 @@ namespace FinalProject
         Texture2D pathTexture;
         Texture2D closedSpaceTexture;
 
+        //deck stuff
+
+
         //Tower Textures:
         List<Texture2D> towerTextures;
         Texture2D towerTexture;
@@ -151,6 +154,7 @@ namespace FinalProject
                     break;
 
                 case GameState.Game:
+                    //mana system by lance
                     //reminders: make the towers inherit from card class
                     if (card == null)
                     {

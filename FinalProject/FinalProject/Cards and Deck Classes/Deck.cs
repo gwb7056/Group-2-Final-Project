@@ -20,6 +20,12 @@ namespace FinalProject
         private List<Card> hand;
         private List<Card> discard;
 
+
+        public Deck()
+        {
+            DrawHand();
+        }
+
         //properties
         //
 

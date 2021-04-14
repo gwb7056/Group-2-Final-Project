@@ -35,6 +35,7 @@ namespace FinalProject
         //Tower Textures:
         List<Texture2D> towerTextures;
         Texture2D towerTexture;
+        Texture2D towerTexture1;
         List<Rectangle> towerPositions;
         MouseState previousMouseState;
         MouseState mouseState;
@@ -103,6 +104,7 @@ namespace FinalProject
             //Tower Textures:
             towerTextures = new List<Texture2D>();
             towerTexture = Content.Load<Texture2D>("tower");
+            towerTexture1 = Content.Load<Texture2D>("cannontower");
 
             //Enemy Textures:
             enemyTextures = new List<Texture2D>();
@@ -152,10 +154,10 @@ namespace FinalProject
                     //reminders: make the towers inherit from card class
                     if (card == null)
                     {
-                        number = rng.Next(0, 1);
+                        number = rng.Next(0, 2);
                         if (number == 0)
                         {
-                            card = new Cannon_Tower(0, 0, towerTexture);
+                            card = new Cannon_Tower(0, 0, towerTexture1);
                             card.PosX = 0;
                             card.PosY = 0;
                             card.ManaCost = 1;
@@ -172,10 +174,10 @@ namespace FinalProject
                     }
                     if (card1 == null)
                     {
-                        number = rng.Next(0, 1);
+                        number = rng.Next(0, 2);
                         if (number == 0)
                         {
-                            card1 = new Cannon_Tower(0, 0, towerTexture);
+                            card1 = new Cannon_Tower(0, 0, towerTexture1);
                             card1.PosX = 60;
                             card1.PosY = 0;
                             card1.ManaCost = 1;
@@ -192,10 +194,10 @@ namespace FinalProject
                     }
                     if (card2 == null)
                     {
-                        number = rng.Next(0, 1);
+                        number = rng.Next(0, 2);
                         if (number == 0)
                         {
-                            card2 = new Cannon_Tower(0, 0, towerTexture);
+                            card2 = new Cannon_Tower(0, 0, towerTexture1);
                             card2.PosX = 120;
                             card2.PosY = 0;
                             card2.ManaCost = 1;
@@ -225,12 +227,12 @@ namespace FinalProject
                                 {
                                     if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                     { 
-                                        gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                        /*gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                                         player.Mana--;
-                                        card = null;
-                                        /*if (card is Cannon_Tower)
+                                        card = null;*/
+                                        if (card is Cannon_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1));
                                             player.Mana--;
                                             card = null;
                                         }
@@ -239,7 +241,7 @@ namespace FinalProject
                                             gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                                             player.Mana--;
                                             card = null;
-                                        }*/
+                                        }
                                     }
                                 }
                             }
@@ -265,12 +267,12 @@ namespace FinalProject
                                 {
                                     if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                     {
-                                        gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                        /*gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                                         player.Mana--;
-                                        card1 = null;
-                                        /*if (card1 is Cannon_Tower)
+                                        card = null;*/
+                                        if (card1 is Cannon_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1));
                                             player.Mana--;
                                             card1 = null;
                                         }
@@ -279,7 +281,7 @@ namespace FinalProject
                                             gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                                             player.Mana--;
                                             card1 = null;
-                                        }*/
+                                        }
                                     }
                                 }
                             }
@@ -304,12 +306,12 @@ namespace FinalProject
                                 {
                                     if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                     {
-                                        gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                        player.Mana--;
-                                        card2 = null;
-                                        /*if (card2 is Cannon_Tower)
+                                        /*gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                         player.Mana--;
+                                         card = null;*/
+                                        if (card2 is Cannon_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1));
                                             player.Mana--;
                                             card2 = null;
                                         }
@@ -318,7 +320,7 @@ namespace FinalProject
                                             gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
                                             player.Mana--;
                                             card2 = null;
-                                        }*/
+                                        }
                                     }
                                 }
                             }
@@ -434,15 +436,36 @@ namespace FinalProject
                     _spriteBatch.DrawString(font, "Mana: " + player.Mana, new Vector2(50, 150), Color.White);
                     if (card != null)
                     {
-                        _spriteBatch.Draw(towerTexture, card.CardPosition, Color.White);
+                        if (card is Mortar_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture, card.CardPosition, Color.White);
+                        }
+                        else if (card is Cannon_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture1, card.CardPosition, Color.White);
+                        }
                     }
                     if (card1 != null)
                     {
-                        _spriteBatch.Draw(towerTexture, card1.CardPosition, Color.White);
+                        if (card1 is Mortar_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture, card1.CardPosition, Color.White);
+                        }
+                        else if (card1 is Cannon_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture1, card1.CardPosition, Color.White);
+                        }
                     }
                     if (card2 != null)
                     {
-                        _spriteBatch.Draw(towerTexture, card2.CardPosition, Color.White);
+                        if (card2 is Mortar_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture, card2.CardPosition, Color.White);
+                        }
+                        else if (card2 is Cannon_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture1, card2.CardPosition, Color.White);
+                        }
                     }
                     break;
 

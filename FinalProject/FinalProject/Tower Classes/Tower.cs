@@ -80,5 +80,12 @@ namespace FinalProject
 			sb.Draw(texture, rect, Color.White);
 
         }
+		
+		//Spells methods -----Not sure if we're doing 
+		//Reset method
+		//Purpose: Reset the duration to max
+		//Restrictions: Not really, pretty basic
+		//No return values
+
 	}
 }

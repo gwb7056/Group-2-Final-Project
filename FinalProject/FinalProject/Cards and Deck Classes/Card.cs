@@ -5,14 +5,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-//****TO BE IMPLEMENTED LATER****
+
 //Author: Liam Alexiou
 //Purpose: To provide methods to be called on the individual cards.
 //Restrictions: Nah
 
 namespace FinalProject 
 {
-    //Liam Calls dibs on coding this, maybe even the Deck class so its easier, final choice is up to everyone else.
+    
     class Card 
     {
         //fields

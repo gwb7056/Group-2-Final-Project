@@ -1,12 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FinalProject 
 {
     
-    enum GameState {
+    enum GameState 
+    {
         MainMenu,
         Game,
         Pause,
@@ -32,6 +37,7 @@ namespace FinalProject
         Texture2D towerTexture;
         List<Rectangle> towerPositions;
         MouseState previousMouseState;
+        MouseState mouseState;
 
         //Enemy Texture:
         List<Texture2D> enemyTextures;
@@ -41,6 +47,15 @@ namespace FinalProject
         Texture2D playerTexture;
         Player player;
         Texture2D playerHealthTexture;
+
+        //Card Stuff:
+        Texture2D cardTexture;
+        Card card;
+        Card card1;
+        Card card2;
+        
+        int number;
+        Random rng = new Random();
 
         //Game Objects and Fields:
         Board gameBoard;
@@ -61,10 +76,9 @@ namespace FinalProject
 
         protected override void Initialize() 
         {
-
             towerPositions = new List<Rectangle>();
             base.Initialize();
-
+          
             //Change the window size
             _graphics.PreferredBackBufferWidth = 600;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
@@ -76,6 +90,8 @@ namespace FinalProject
         {
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //card stuff
 
             //Fonts:
             font = Content.Load<SpriteFont>("Arial12");
@@ -133,84 +149,189 @@ namespace FinalProject
                     break;
 
                 case GameState.Game:
-                    MouseState mouseState = Mouse.GetState();
-                    /*mana system code by lance
-                     it's all commented because there's no card objects that i can make my code interact with, so some of it is pseudocode*/
-                    /*if (Card1.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player mana >= card mana cost)
-                     {
-                        Card1.Rectangle.X = mouseposition x
-                        Card1.Rectangle.Y = mouseposition y
-                        if (mousestate.leftbutton == buttonstate.released)
-                            {
-                                   for (int width = 0; width < 15; width++)
+                    //reminders: make the towers inherit from card class
+                    if (card == null)
+                    {
+                        number = rng.Next(0, 1);
+                        if (number == 0)
                         {
-
-                            for (int height = 0; height < 15; height++)
+                            card = new Cannon_Tower(0, 0, towerTexture);
+                            card.PosX = 0;
+                            card.PosY = 0;
+                            card.ManaCost = 1;
+                           
+                        }
+                        else if (number == 1)
+                        {
+                            card = new Mortar_Tower(0, 0, towerTexture);
+                            card.PosX = 0;
+                            card.PosY = 0;
+                            card.ManaCost = 1;
+                            
+                        }
+                    }
+                    if (card1 == null)
+                    {
+                        number = rng.Next(0, 1);
+                        if (number == 0)
+                        {
+                            card1 = new Cannon_Tower(0, 0, towerTexture);
+                            card1.PosX = 60;
+                            card1.PosY = 0;
+                            card1.ManaCost = 1;
+                           
+                        }
+                        else if (number == 1)
+                        {
+                            card1 = new Mortar_Tower(0, 0, towerTexture);
+                            card1.PosX = 60;
+                            card1.PosY = 0;
+                            card1.ManaCost = 1;
+                           
+                        }
+                    }
+                    if (card2 == null)
+                    {
+                        number = rng.Next(0, 1);
+                        if (number == 0)
+                        {
+                            card2 = new Cannon_Tower(0, 0, towerTexture);
+                            card2.PosX = 120;
+                            card2.PosY = 0;
+                            card2.ManaCost = 1;
+                            
+                   
+                        }
+                        else if (number == 1)
+                        {
+                            card2 = new Mortar_Tower(0, 0, towerTexture);
+                            card2.PosX = 120;
+                            card2.PosY = 0;
+                            card2.ManaCost = 1;
+                           
+                        }
+                    }
+                    mouseState = Mouse.GetState();
+                    if (card.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= card.ManaCost)
+                    {
+                        card.PosX = mouseState.Position.X - 20;
+                        card.PosY = mouseState.Position.Y - 20;
+                        if (mouseState.RightButton == ButtonState.Pressed)
+                        {
+                            towerCount++;
+                            for (int width = 0; width < 15; width++)
                             {
-                                if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                for (int height = 0; height < 15; height++)
                                 {
-                                    gameBoard.AddCardToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                     mana--;
+                                    if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                    { 
+                                        gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                        player.Mana--;
+                                        card = null;
+                                        /*if (card is Cannon_Tower)
+                                        {
+                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            player.Mana--;
+                                            card = null;
+                                        }
+                                        if (card is Mortar_Tower)
+                                        {
+                                            gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            player.Mana--;
+                                            card = null;
+                                        }*/
+                                    }
                                 }
                             }
-                           if (mousestate.rightbutton == buttonstate.pressed)
-                                 {
-                                     card position = original position;
-                                  } 
-                  
-                          
-                     }
-                    if (Card2.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player mana >= card mana cost)
-                     {
-                        Card2.Rectangle.X = mouseposition x
-                        Card2.Rectangle.Y = mouseposition y
-                        if (mousestate.leftbutton == buttonstate.released)
-                            {
-                                   for (int width = 0; width < 15; width++)
+                        }
+                      
+                    }
+                    else if (card.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= card.ManaCost)
+                    {
+                        card.PosX = 0;
+                        card.PosY = 0;
+                    }
+                    if (card1.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= card1.ManaCost)
+                    {
+                        
+                        card1.PosX = mouseState.Position.X - 20;
+                        card1.PosY = mouseState.Position.Y - 20;
+                        if (mouseState.RightButton == ButtonState.Pressed)
                         {
-
-                            for (int height = 0; height < 15; height++)
+                            towerCount++;
+                            for (int width = 0; width < 15; width++)
                             {
-                                if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                for (int height = 0; height < 15; height++)
                                 {
-                                    gameBoard.AddCardToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                     mana--;
+                                    if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                    {
+                                        gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                        player.Mana--;
+                                        card1 = null;
+                                        /*if (card1 is Cannon_Tower)
+                                        {
+                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            player.Mana--;
+                                            card1 = null;
+                                        }
+                                        if (card1 is Mortar_Tower)
+                                        {
+                                            gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            player.Mana--;
+                                            card1 = null;
+                                        }*/
+                                    }
                                 }
                             }
-                           if (mousestate.rightbutton == buttonstate.pressed)
-                                 {
-                                     card position = original position;
-                                  } 
-                  
-                          
-                     }
-                   if (Card3.Rectangle.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player mana >= card mana cost)
-                     {
-                        Card3.Rectangle.X = mouseposition x
-                        Card3.Rectangle.Y = mouseposition y
-                        if (mousestate.leftbutton == buttonstate.released)
-                            {
-                                   for (int width = 0; width < 15; width++)
+                        }
+                      
+                    }
+                    else if (card1.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= card1.ManaCost)
+                    {
+                        card1.PosX = 60;
+                        card1.PosY = 0;
+                    }
+                    if (card2.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= card2.ManaCost)
+                    {
+                        card2.PosX = mouseState.Position.X - 20;
+                        card2.PosY = mouseState.Position.Y - 20;
+                        if (mouseState.RightButton == ButtonState.Pressed)
                         {
-
-                            for (int height = 0; height < 15; height++)
+                            towerCount++;
+                            for (int width = 0; width < 15; width++)
                             {
-                                if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                for (int height = 0; height < 15; height++)
                                 {
-                                    gameBoard.AddCardToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                     mana--;
+                                    if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
+                                    {
+                                        gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                        player.Mana--;
+                                        card2 = null;
+                                        /*if (card2 is Cannon_Tower)
+                                        {
+                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            player.Mana--;
+                                            card2 = null;
+                                        }
+                                        if (card2 is Mortar_Tower)
+                                        {
+                                            gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
+                                            player.Mana--;
+                                            card2 = null;
+                                        }*/
+                                    }
                                 }
                             }
-                           if (mousestate.rightbutton == buttonstate.pressed)
-                                 {
-                                     card position = original position;
-                                  } 
-                  
-                          
-                     } 
-                    */
+                        }
+                        
+                    }
+                    else if (card2.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= card2.ManaCost)
+                    {
+                        card2.PosX = 120;
+                        card2.PosY = 0;
+                    }
                     frameCounter1 += 1;
-                    if (frameCounter1 % 60 == 0)
+                    if (frameCounter1 % 120 == 0)
                     {
                         if (player.Mana < 10)
                         {
@@ -234,7 +355,7 @@ namespace FinalProject
 
                     //Spawning towers
 
-                    if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+                    /*if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
                     {
 
                         towerCount++;
@@ -249,7 +370,7 @@ namespace FinalProject
                                 }
                             }
                         }
-                    }
+                    }*/
 
                     if (player.Health <= 0)
                     {
@@ -310,6 +431,19 @@ namespace FinalProject
 
                     _spriteBatch.DrawString(font, "Press \"P\" to pause.", new Vector2(50, 50), Color.White);
                     _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 100), Color.White);
+                    _spriteBatch.DrawString(font, "Mana: " + player.Mana, new Vector2(50, 150), Color.White);
+                    if (card != null)
+                    {
+                        _spriteBatch.Draw(towerTexture, card.CardPosition, Color.White);
+                    }
+                    if (card1 != null)
+                    {
+                        _spriteBatch.Draw(towerTexture, card1.CardPosition, Color.White);
+                    }
+                    if (card2 != null)
+                    {
+                        _spriteBatch.Draw(towerTexture, card2.CardPosition, Color.White);
+                    }
                     break;
 
                 case GameState.Pause:

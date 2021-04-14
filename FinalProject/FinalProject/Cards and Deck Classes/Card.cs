@@ -16,19 +16,71 @@ namespace FinalProject
     class Card 
     {
         //fields
-        private Rectangle cardRect;
-        private Texture2D cardTexture;
+        protected Texture2D cardTexture;
+        protected Rectangle cardPosition;
+        protected int manaCost;
 
         //properties
-        private Rectangle CardRect { get { return cardRect; } set { cardRect = value; } }
-        private Texture2D CardTexture { get { return cardTexture; } }
+
+        public Texture2D CardTexture
+        {
+            get
+            {
+                return cardTexture;
+            }
+            set
+            {
+                cardTexture = value;
+            }
+        }
+        public Rectangle CardPosition
+        {
+            get
+            {
+                return cardPosition;
+            }
+        }
+        public int PosX
+        {
+            get
+            {
+                return cardPosition.X;
+            }
+            set
+            {
+                cardPosition.X = value;
+            }
+        }
+
+        public int PosY
+        {
+            get
+            {
+                return cardPosition.Y;
+            }
+            set
+            {
+                cardPosition.Y = value;
+            }
+        }
+
+        public int ManaCost
+        {
+            get
+            {
+                return manaCost;
+            }
+            set
+            {
+                manaCost = value;
+            }
+        }
 
         //constructor
-        public Card(Tower tower, int xPos, int yPos)
+        public Card(int x, int y)
         {
-            //so that we can use "cardTexture" in this class rather than constantly needing a tower input
-            this.cardTexture = tower.Texture;
-            this.cardRect = new Rectangle(xPos, yPos, 30, 80);
+            cardPosition = new Rectangle(x, y, 50, 50);
+            manaCost = 1;
         }
         /*public Card(Spell spell, int xPos, int yPos)
         {
@@ -41,10 +93,10 @@ namespace FinalProject
         //Purpose: Draw the card, duh
         //Restrictions: accepts a spritebatch
         //No return values.
-        public void Draw(SpriteBatch sb)
+        public void DrawCard(SpriteBatch sb)
         {
 
-            sb.Draw(cardTexture, cardRect, Color.White);
+            sb.Draw(cardTexture, cardPosition, Color.White);
 
         }
     }

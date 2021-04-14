@@ -8,15 +8,16 @@ using Microsoft.Xna.Framework.Input;
 namespace FinalProject
 {
     //Author: Liam Alexiou
-    //Purpose: To create/define a specific tower
-    //Restrictions: Calls upon the parent class.
-    class Wizard_Tower : Tower
+    //Purpose: Resets a tower's duration
+    class Ctrl_Alt_Del : Spells
     {
-        //constructor
-        public Wizard_Tower(int x, int y, Texture2D texture) : base(0.2, 15, 100, 40, 40, x, y, texture)
+        //potentially code here to check if at a valid position
+
+        public Ctrl_Alt_Del(Texture2D texture):base(1, texture)
         {
 
         }
+
 
 
     }

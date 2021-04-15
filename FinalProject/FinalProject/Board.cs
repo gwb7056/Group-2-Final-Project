@@ -383,22 +383,6 @@ namespace FinalProject {
             }
         }
 
-        public bool AddTowerToBoard(Cannon_Tower t)
-        {
-            if (boardSpaces[t.Y / tileSize, t.X / tileSize].Equals("o"))
-            {
-                boardSpaces[t.Y / tileSize, t.X / tileSize] = "t";
-                towersOnBoard.Add(t);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
-
         /// <summary>
         /// Reduce the tower duration by 1 for each tower on the board
         /// Remove towers that's duration is finished
@@ -454,6 +438,21 @@ namespace FinalProject {
                     i--;
                 }
             }
+        }
+
+        public Tower GetTowerAtPoint(int x, int y) {
+            int xcord = x % tileSize;
+            int ycord = y % tileSize;
+
+            if(boardSpaces[ycord, xcord].Equals("t")) {
+                foreach(Tower t in towersOnBoard) {
+                    if(t.X / tileSize == xcord && t.Y / tileSize == ycord) {
+                        return t;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

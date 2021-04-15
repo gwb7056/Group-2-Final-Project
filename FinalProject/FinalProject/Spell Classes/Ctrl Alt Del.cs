@@ -18,7 +18,15 @@ namespace FinalProject
 
         }
 
-
+        //method, we think this way would be easier
+        //Preform function
+        //Purpose: TO do the desired task of each spell --- this one is to reset the durration 
+        //Restrictions: Different for each class
+        //No return values
+        public void ResetDur(Tower tower)
+        {
+            tower.CurrentDuration = tower.MaxDurration;
+        }
 
     }
 }

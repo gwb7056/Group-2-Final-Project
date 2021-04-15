@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 namespace FinalProject 
 {
     
-    class Card 
+    public class Card 
     {
         //fields
         protected Texture2D cardTexture;

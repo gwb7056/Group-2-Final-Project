@@ -20,6 +20,14 @@ namespace FinalProject
         private List<Card> hand;
         private List<Card> discard;
 
+
+        public Deck()
+        {
+            this.deck = new List<Card>();
+            this.hand = new List<Card>();
+            this.discard = new List<Card>();
+        }
+
         //properties
         //
 

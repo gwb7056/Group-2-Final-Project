@@ -411,11 +411,15 @@ namespace FinalProject {
         /// <summary>
         /// For each enemy, if in the right frame for their firerate, damage the enemy in the front
         /// </summary>
-        public void TowersDamageEnemies(int frameCounter) {
-            for(int j = 0; j < towersOnBoard.Count; j++) {
+        public void TowersDamageEnemies(int frameCounter) 
+        {
+            
+            for(int j = 0; j < towersOnBoard.Count; j++) 
+            {
                 Tower t = towersOnBoard[j];
 
-                if(frameCounter % (tileSize/t.FireRate) == 0) {
+                if(frameCounter % (tileSize/t.FireRate) == 0) 
+                {
                     t.EnemyInRange(enemiesOnBoard);
                 }
             }
@@ -434,6 +438,21 @@ namespace FinalProject {
                     i--;
                 }
             }
+        }
+
+        public Tower GetTowerAtPoint(int x, int y) {
+            int xcord = x % tileSize;
+            int ycord = y % tileSize;
+
+            if(boardSpaces[ycord, xcord].Equals("t")) {
+                foreach(Tower t in towersOnBoard) {
+                    if(t.X / tileSize == xcord && t.Y / tileSize == ycord) {
+                        return t;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

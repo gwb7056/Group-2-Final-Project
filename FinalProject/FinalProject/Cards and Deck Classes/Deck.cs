@@ -20,11 +20,54 @@ namespace FinalProject
         private List<Card> hand;
         private List<Card> discard;
 
-
         public Deck()
         {
-            
-            DrawHand();
+            for (int index = 0; index < 3; index++)
+            {
+                
+            }
+            for (int index = 0; index < 3; index++)
+            {
+
+            }
+            for (int index = 0; index < 3; index++)
+            {
+
+            }
+            for (int index = 0; index < 3; index++)
+            {
+
+            }
+            for (int index = 0; index < 3; index++)
+            {
+
+            }
+            for (int index = 0; index < 3; index++)
+            {
+
+            }
+
+
+
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+            deck.Add(new Card(0, 400));
+
         }
 
         //properties

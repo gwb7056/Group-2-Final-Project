@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace FinalProject 
 {
+    /// <summary>
+    /// This enum allows players to win, lose, pause, etc...
+    /// </summary>
     enum GameState 
     {
         MainMenu,
@@ -17,12 +20,18 @@ namespace FinalProject
         Credits,
         GameOver
     }
-
+    /// <summary>
+    /// Handles all game functionality
+    /// </summary>
     public class Game1 : Game 
     {
-        private GameState activeState = GameState.MainMenu;
+        //General Game Properties:
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private GameState activeState;
+        private KeyboardState keyBoardState;
+        private MouseState mouseState;
+        private MouseState previousMouseState;
 
         //Fonts:
         SpriteFont font;
@@ -31,17 +40,12 @@ namespace FinalProject
         Texture2D pathTexture;
         Texture2D closedSpaceTexture;
 
-        //deck stuff
-
-
         //Tower Textures:
         List<Texture2D> towerTextures;
         Texture2D towerTexture;
         Texture2D towerTexture1;
         List<Rectangle> towerPositions;
-        MouseState previousMouseState;
-        MouseState mouseState;
-
+        
         //Enemy Texture:
         List<Texture2D> enemyTextures;
         Texture2D enemyTestTexture;
@@ -130,7 +134,7 @@ namespace FinalProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            KeyboardState state = Keyboard.GetState();
+            keyBoardState = Keyboard.GetState();
 
             //switch to determine what gamestate we're in
             //  Temporarily making the switches determined by key press rather than button press
@@ -139,13 +143,13 @@ namespace FinalProject
                 //In the main menu
                 case GameState.MainMenu:
                     //
-                    if (state.IsKeyDown(Keys.Space))
+                    if (keyBoardState.IsKeyDown(Keys.Space))
                     {
                         activeState = GameState.Game;
                         gameBoard.GetLevelFromFile(startingLevelNum);
                     }
                     //
-                    if (state.IsKeyDown(Keys.C))
+                    if (keyBoardState.IsKeyDown(Keys.C))
                     {
                         activeState = GameState.Credits;
                     }
@@ -235,15 +239,20 @@ namespace FinalProject
                                         card = null;*/
                                         if (card is Cannon_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1));
-                                            player.Mana--;
-                                            card = null;
+                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1)))
+                                            {
+                                                player.Mana--;
+                                                card = null;
+                                            }
                                         }
                                         if (card is Mortar_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                            player.Mana--;
-                                            card = null;
+                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture)))
+                                            {
+                                                player.Mana--;
+                                                card = null;
+                                            }
+
                                         }
                                     }
                                 }
@@ -275,15 +284,21 @@ namespace FinalProject
                                         card = null;*/
                                         if (card1 is Cannon_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1));
-                                            player.Mana--;
-                                            card1 = null;
+                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1)))
+                                            {
+                                                player.Mana--;
+                                                card1 = null;
+                                            }
+                                           
                                         }
                                         if (card1 is Mortar_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                            player.Mana--;
-                                            card1 = null;
+                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture)))
+                                            {
+                                                player.Mana--;
+                                                card1 = null;
+                                            }
+
                                         }
                                     }
                                 }
@@ -314,15 +329,21 @@ namespace FinalProject
                                          card = null;*/
                                         if (card2 is Cannon_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1));
-                                            player.Mana--;
-                                            card2 = null;
+                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1)))
+                                            {
+                                                player.Mana--;
+                                                card2 = null;
+                                            }
+                                         
                                         }
                                         if (card2 is Mortar_Tower)
                                         {
-                                            gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                            player.Mana--;
-                                            card2 = null;
+                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture)))
+                                            {
+                                                player.Mana--;
+                                                card2 = null;
+                                            }
+                                           
                                         }
                                     }
                                 }
@@ -345,7 +366,7 @@ namespace FinalProject
                     }
 
                     //changing enum states
-                    if (state.IsKeyDown(Keys.P))
+                    if (keyBoardState.IsKeyDown(Keys.P))
                     {
                         activeState = GameState.Pause;
                     }
@@ -387,25 +408,25 @@ namespace FinalProject
                     break;
 
                 case GameState.Pause:
-                    if (state.IsKeyDown(Keys.M))
+                    if (keyBoardState.IsKeyDown(Keys.M))
                     {
                         activeState = GameState.MainMenu;
                     }
-                    if (state.IsKeyDown(Keys.Space))
+                    if (keyBoardState.IsKeyDown(Keys.Space))
                     {
                         activeState = GameState.Game;
                     }
                     break;
 
                 case GameState.Credits:
-                    if (state.IsKeyDown(Keys.M))
+                    if (keyBoardState.IsKeyDown(Keys.M))
                     {
                         activeState = GameState.MainMenu;
                     }
                     break;
 
                 case GameState.GameOver:
-                    if (state.IsKeyDown(Keys.M))
+                    if (keyBoardState.IsKeyDown(Keys.M))
                     {
                         activeState = GameState.MainMenu;
                     }

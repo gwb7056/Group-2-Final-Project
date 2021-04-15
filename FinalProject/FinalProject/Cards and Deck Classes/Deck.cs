@@ -23,6 +23,7 @@ namespace FinalProject
 
         public Deck()
         {
+            
             DrawHand();
         }
 

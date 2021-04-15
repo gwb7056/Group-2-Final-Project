@@ -23,8 +23,9 @@ namespace FinalProject
 
         public Deck()
         {
-            
-            DrawHand();
+            this.deck = new List<Card>();
+            this.hand = new List<Card>();
+            this.discard = new List<Card>();
         }
 
         //properties

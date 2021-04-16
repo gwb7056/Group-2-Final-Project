@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using FinalProject.Enemy_Classes;
 
 namespace FinalProject {
     /// <summary>
@@ -230,14 +231,29 @@ namespace FinalProject {
                     //Create temp list
                     List<Enemy> waveTempList = new List<Enemy>();
                     //Create enemies based on data in file
-                    int.TryParse(splitLine[0], out int enemyNum);
-                    int.TryParse(splitLine[1], out int speed);
-                    int.TryParse(splitLine[2], out int health);
-                    for (int i = 0; i < enemyNum; i++) {
-                        waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize),
-                            enemyTextures[0],
-                            health, //Health
-                            speed)); //Speed (num pixels moved per frame)
+                    for(int j = 0; j < splitLine.Length; j += 2) {
+                    int.TryParse(splitLine[j], out int enemyNum);
+                    int.TryParse(splitLine[j + 1], out int enemyType);
+                        if(enemyType == 1) {
+                            for (int i = 0; i < enemyNum; i++) {
+                                waveTempList.Add(new Amazons_Warriors(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                            }
+                        }
+                        else if(enemyType == 2) {
+                            for (int i = 0; i < enemyNum; i++) {
+                                waveTempList.Add(new Ninja(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                            }
+                        }
+                        else if(enemyType == 3) {
+                            for (int i = 0; i < enemyNum; i++) {
+                                waveTempList.Add(new Shieldmaiden(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                            }
+                        }
+                        else if(enemyType == 4) {
+                            for (int i = 0; i < enemyNum; i++) {
+                                waveTempList.Add(new Swordman(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                            }
+                        }
                     }
                     //Put the list for that wave into the wave list
                     enemyWaveList.Add(waveTempList);

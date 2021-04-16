@@ -147,6 +147,7 @@ namespace FinalProject
                     {
                         activeState = GameState.Game;
                         gameBoard.GetLevelFromFile(startingLevelNum);
+                        player.Health = 100;
                     }
                     //
                     if (keyBoardState.IsKeyDown(Keys.C))

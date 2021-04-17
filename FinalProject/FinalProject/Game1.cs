@@ -18,7 +18,8 @@ namespace FinalProject
         Game,
         Pause,
         Credits,
-        GameOver
+        GameOver,
+        LevelFinished
     }
     /// <summary>
     /// Handles all game functionality
@@ -71,6 +72,7 @@ namespace FinalProject
         int frameCounter1 = 0;
         int towerCount = 0;
         int startingLevelNum = 0;
+        int totalNumLevels = 2;
 
         public Game1() 
         {
@@ -404,6 +406,10 @@ namespace FinalProject
                         activeState = GameState.GameOver;
                     }
 
+                    if (gameBoard.LevelFinished) {
+                        activeState = GameState.LevelFinished;
+                    }
+
                     previousMouseState = mouseState;
                     base.Update(gameTime);
                     break;
@@ -432,6 +438,20 @@ namespace FinalProject
                         activeState = GameState.MainMenu;
                     }
                     break;
+
+                case GameState.LevelFinished:
+                    if (keyBoardState.IsKeyDown(Keys.M)) {
+                        activeState = GameState.MainMenu;
+                        startingLevelNum = 0;
+                    }
+                    else if (keyBoardState.IsKeyDown(Keys.N) && startingLevelNum + 1 < totalNumLevels) {
+                        activeState = GameState.Game;
+                        gameBoard.GetLevelFromFile(startingLevelNum += 1);
+                        player.Health = 100;
+                        player.PlayerPosition = new Rectangle(gameBoard.PathEndCords[0] * gameBoard.TileSize,
+                            gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+                    }
+                    break;
             }
             
         }
@@ -446,8 +466,18 @@ namespace FinalProject
                 case GameState.MainMenu:
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(200, 200), Color.Black);
                     _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(150, 250), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"C\" for credits.", new Vector2(150, 300), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"C\" for cre" +
+                        "_dits.", new Vector2(150, 300), Color.Black);
                     break;
+
+                case GameState.LevelFinished:
+                    _spriteBatch.DrawString(font, "YOU COMPLETED THE LEVEL!", new Vector2(200, 200), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to return the the main menu", new Vector2(150, 250), Color.Black);
+                    if(startingLevelNum + 1 < totalNumLevels) {
+                        _spriteBatch.DrawString(font, "Press \"N\" to go to the next level", new Vector2(150, 300), Color.Black);
+                    }
+                    break;
+
 
                 case GameState.Game:
                     //Draw the board and entities on the board

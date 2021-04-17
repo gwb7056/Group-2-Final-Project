@@ -289,11 +289,64 @@ namespace FinalProject {
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             //Keep enemies staggered
+            if(enemiesMovingOnBoard == 0) {
+                enemiesMovingOnBoard += 1;
+            }
             int enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
+            bool enemyToMoveNumIncreased = false;
+
+            //For each enemy thats moving, find the target
+            for (int s = 0; s < enemyToMoveNum; s++) {
+                //Get the enemy and their current position
+                Enemy e = enemiesOnBoard[s];
+                int enemyX = e.X / tileSize;
+                int enemyY = e.Y / tileSize;
+
+                if((e.X == e.TargetX && e.Y == e.TargetY) || e.TargetY == -1) {
+                    if(!e.HitFirstTarget && !enemyToMoveNumIncreased && e.TargetY != -1) {
+                        e.HitFirstTarget = true;
+                        enemyToMoveNumIncreased = true;
+                        enemiesMovingOnBoard += 1;
+                    }
+
+                    //If they have reached the end of the path, remove from list and put into output
+                    if(e.X == pathEndCords[0] * tileSize && e.Y == pathEndCords[1] * tileSize) {
+                        output.Add(e);
+                        enemiesOnBoard.RemoveAt(s);
+                        s--;
+                        enemyToMoveNum--;
+                    }   
+                    //Check in all four directions if the next space in that direction is the path and isn't where they last were
+                    else if ((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
+                        enemyX += 1;
+                        e.LastPos = new int[2] { (enemyX - 1) * tileSize, enemyY * tileSize };
+                    }
+                    else if (boardSpaces[enemyY + 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY + 1) {
+                        enemyY += 1;
+                        e.LastPos = new int[2] { enemyX * tileSize, (enemyY - 1) * tileSize };
+                    }
+                    else if (boardSpaces[enemyY, enemyX - 1].Equals("p") && e.LastPos[0] / tileSize != enemyX - 1) {
+                        enemyX -= 1;
+                        e.LastPos = new int[2] { (enemyX + 1) * tileSize, enemyY * tileSize };
+                    }
+                    else if (boardSpaces[enemyY - 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY - 1) {
+                        enemyY -= 1;
+                        e.LastPos = new int[2] { enemyX * tileSize, (enemyY + 1) * tileSize };
+                    }
+                    //Check to see if the next step is the final step
+                    else if (boardSpaces[enemyY, enemyX + 1].Equals("e")) {
+                        enemyX += 1;
+                    }
+
+                    //Set the target to the found tile
+                    e.TargetX = enemyX * tileSize;
+                    e.TargetY = enemyY * tileSize;
+                }
+            }
 
             //If the first enemy, and by extention all enemies, are on their target tiles, find the next target
             //Also if the wave has just begun, set the very first target
-            if((enemiesOnBoard[0].X == enemiesOnBoard[0].TargetX && enemiesOnBoard[0].Y == enemiesOnBoard[0].TargetY) || enemiesMovingOnBoard == 0) {
+            /*if((enemiesOnBoard[0].X == enemiesOnBoard[0].TargetX && enemiesOnBoard[0].Y == enemiesOnBoard[0].TargetY) || enemiesMovingOnBoard == 0) {
                 enemiesMovingOnBoard += 1;
                 enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
 
@@ -337,7 +390,7 @@ namespace FinalProject {
                     e.TargetX = enemyX * tileSize;
                     e.TargetY = enemyY * tileSize;
                 }
-            }
+            }*/
 
             //For each enemy moving, move them one pixel per speed in that direction
             for(int i = 0; i < enemyToMoveNum; i++) {

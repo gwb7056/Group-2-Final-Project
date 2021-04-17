@@ -23,6 +23,7 @@ namespace FinalProject
         private int[] lastPos;
         private int[] targetPos = new int[]{-1, -1};
         private Texture2D texture;
+        private bool hitFirstTarget = false;
 
         // Properties
         /// <summary>
@@ -47,6 +48,7 @@ namespace FinalProject
 
         public int TargetX { get { return targetPos[0];} set { targetPos[0] = value;} }
         public int TargetY { get { return targetPos[1];} set { targetPos[1] = value;} }
+        public bool HitFirstTarget { get { return hitFirstTarget;} set { hitFirstTarget = value;} }
 
         /// <summary>
         /// Gets the width of the enemy rectangle for collision detection with tower range

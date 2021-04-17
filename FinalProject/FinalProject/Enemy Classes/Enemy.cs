@@ -18,7 +18,7 @@ namespace FinalProject
 
         // Field
         private int health;
-        private int speed;
+        private double speed;
         private Rectangle rect;
         private int[] lastPos;
         private int[] targetPos = new int[]{-1, -1};
@@ -34,7 +34,7 @@ namespace FinalProject
         /// <summary>
         /// Get or Set speed of the enemy
         /// </summary>
-        public int Speed { get { return speed; } set { speed = value; } }
+        public double Speed { get { return speed; } set { speed = value; } }
 
         /// <summary>
         /// Get or Set the X position of the enemy
@@ -85,7 +85,7 @@ namespace FinalProject
         /// <param name="texture">What the enemy looks like?</param>
         /// <param name="health">How much health does he have?</param>
         /// <param name="speed">How fast is he?</param>
-        public Enemy(Rectangle rect, Texture2D texture, int health, int speed)
+        public Enemy(Rectangle rect, Texture2D texture, int health, double speed)
             
         {
             this.health = health;

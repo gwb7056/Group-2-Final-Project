@@ -46,6 +46,9 @@ namespace FinalProject {
         //File IO reader
         StreamReader input;
 
+        //Bool variables
+        bool levelFinished = false;
+
         //Read the correct level given to create the board object
         public Board(int level, List<Texture2D> _towerTextures, List<Texture2D> _enemyTextures) {
             levelNum = level;
@@ -131,6 +134,12 @@ namespace FinalProject {
         public List<Enemy> EnemiesOnBoard {
             get {
                 return enemiesOnBoard;
+            }
+        }
+
+        public bool LevelFinished {
+            get {
+                return levelFinished;
             }
         }
 
@@ -222,7 +231,9 @@ namespace FinalProject {
 
                 //Load the waves of the level
                 waveNum = 0;
+                levelFinished = false;
                 enemyWaveList = new List<List<Enemy>>();
+                towersOnBoard = new List<Tower>();
 
                 //Go until there are no more waves to load
                 while (line != "~~~") {
@@ -280,13 +291,10 @@ namespace FinalProject {
             //All enemies that have made it to the player/end of path
             List<Enemy> output = new List<Enemy>();
 
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            //Stand in as currently when we run out of waves the game crashes
-            //This just stops this
+            //This just stops the game from crashing
             if(enemiesOnBoard.Count == 0) {
                 return output;
             }
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             //Keep enemies staggered
             if(enemiesMovingOnBoard == 0) {
@@ -344,54 +352,6 @@ namespace FinalProject {
                 }
             }
 
-            //If the first enemy, and by extention all enemies, are on their target tiles, find the next target
-            //Also if the wave has just begun, set the very first target
-            /*if((enemiesOnBoard[0].X == enemiesOnBoard[0].TargetX && enemiesOnBoard[0].Y == enemiesOnBoard[0].TargetY) || enemiesMovingOnBoard == 0) {
-                enemiesMovingOnBoard += 1;
-                enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
-
-                //For each enemy thats moving, find the target
-                for (int s = 0; s < enemyToMoveNum; s++) {
-                    //Get the enemy and their current position
-                    Enemy e = enemiesOnBoard[s];
-                    int enemyX = e.X / tileSize;
-                    int enemyY = e.Y / tileSize;
-
-                    //If they have reached the end of the path, remove from list and put into output
-                    if(e.X == pathEndCords[0] * tileSize && e.Y == pathEndCords[1] * tileSize) {
-                        output.Add(e);
-                        enemiesOnBoard.RemoveAt(s);
-                        s--;
-                        enemyToMoveNum--;
-                    }   
-                    //Check in all four directions if the next space in that direction is the path and isn't where they last were
-                    else if ((boardSpaces[enemyY, enemyX + 1].Equals("p") || boardSpaces[enemyY, enemyX + 1].Equals("s")) && e.LastPos[0] / tileSize != enemyX + 1) {
-                        enemyX += 1;
-                        e.LastPos = new int[2] { (enemyX - 1) * tileSize, enemyY * tileSize };
-                    }
-                    else if (boardSpaces[enemyY + 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY + 1) {
-                        enemyY += 1;
-                        e.LastPos = new int[2] { enemyX * tileSize, (enemyY - 1) * tileSize };
-                    }
-                    else if (boardSpaces[enemyY, enemyX - 1].Equals("p") && e.LastPos[0] / tileSize != enemyX - 1) {
-                        enemyX -= 1;
-                        e.LastPos = new int[2] { (enemyX + 1) * tileSize, enemyY * tileSize };
-                    }
-                    else if (boardSpaces[enemyY - 1, enemyX].Equals("p") && e.LastPos[1] / tileSize != enemyY - 1) {
-                        enemyY -= 1;
-                        e.LastPos = new int[2] { enemyX * tileSize, (enemyY + 1) * tileSize };
-                    }
-                    //Check to see if the next step is the final step
-                    else if (boardSpaces[enemyY, enemyX + 1].Equals("e")) {
-                        enemyX += 1;
-                    }
-
-                    //Set the target to the found tile
-                    e.TargetX = enemyX * tileSize;
-                    e.TargetY = enemyY * tileSize;
-                }
-            }*/
-
             //For each enemy moving, move them one pixel per speed in that direction
             for(int i = 0; i < enemyToMoveNum; i++) {
                 Enemy e = enemiesOnBoard[i];
@@ -425,9 +385,7 @@ namespace FinalProject {
             waveNum += 1;
 
             if (enemyWaveList.Count == 0) {
-                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                //Add what happens at the end of the level
-                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                levelFinished = true;
             }
             else {
                 for (int i = 0; i < enemyWaveList[0].Count; i++) {

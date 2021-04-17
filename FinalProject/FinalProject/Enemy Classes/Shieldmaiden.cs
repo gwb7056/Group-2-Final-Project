@@ -24,7 +24,7 @@ namespace FinalProject.Enemy_Classes
         private Texture2D texture;
 
         public Shieldmaiden(Rectangle rect, Texture2D texture)
-            : base(rect, texture, 50, 5)
+            : base(rect, texture, 50, 1)
         {
 
             damage = Damage;

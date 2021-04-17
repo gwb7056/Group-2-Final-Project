@@ -120,6 +120,9 @@ namespace FinalProject
             //Enemy Textures:
             enemyTextures = new List<Texture2D>();
             enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("fallguy"));
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("ninjaTexture"));
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("shieldmaidenTexture"));
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("swordmanTexture"));
 
             //Player Textures:
             playerTexture = Content.Load<Texture2D>("among us");
@@ -480,8 +483,7 @@ namespace FinalProject
                 case GameState.MainMenu:
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(200, 200), Color.Black);
                     _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(150, 250), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"C\" for cre" +
-                        "_dits.", new Vector2(150, 300), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"C\" for credits.", new Vector2(150, 300), Color.Black);
                     break;
 
                 case GameState.LevelFinished:

@@ -233,6 +233,7 @@ namespace FinalProject {
                 waveNum = 0;
                 levelFinished = false;
                 enemyWaveList = new List<List<Enemy>>();
+                towersOnBoard = new List<Tower>();
 
                 //Go until there are no more waves to load
                 while (line != "~~~") {

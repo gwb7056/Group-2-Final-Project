@@ -11,7 +11,7 @@ namespace FinalProject
 	//Purpose: To create a stationary tower entity that damages enemy entities in passing.
 	//Restrictions: N/A?
 
-	public class Tower : Card
+	 public class Tower : Card
 {
 		//fields
 		protected double fireRate;
@@ -28,7 +28,7 @@ namespace FinalProject
 		public int Damage { get{ return damage; } }
 		public int Range { get{ return range; } }
 		public int CurrentDuration { get{ return currentDuration; } set { currentDuration = value; } }
-		public int MaxDurration { get{ return maxDuration; } }
+		public int MaxDuration { get{ return maxDuration; } }
 		public int X { get { return rect.X; } set { rect.X = value; } }
 		public int Y { get { return rect.Y; } set { rect.Y = value; } }
 		public Texture2D Texture { get { return texture; } }

@@ -24,7 +24,7 @@ namespace FinalProject
         //returns a tower
         public Tower BackupTower(Tower tower)
         {
-            Tower backup = new Tower(tower.FireRate, tower.Damage, tower.Range, tower.CurrentDuration/2, tower.MaxDurration,tower.X, tower.Y, tower.Texture);
+            Tower backup = new Tower(tower.FireRate, tower.Damage, tower.Range, tower.CurrentDuration/2, tower.MaxDuration,tower.X, tower.Y, tower.Texture);
             return backup;
         }
 

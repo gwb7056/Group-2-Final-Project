@@ -72,6 +72,9 @@ namespace FinalProject
         int towerCount = 0;
         int startingLevelNum = 0;
 
+        //deck stuff
+        Deck deck;
+
         public Game1() 
         {
 
@@ -126,6 +129,17 @@ namespace FinalProject
             //Creating player
             player = new Player(playerTexture, playerHealthTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize,
             gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+
+            //deck stuff
+            deck = new Deck();
+            for (int index = 0; index < 3; index++)
+            {
+                deck.Cards[index] = new Cannon_Tower(0, 0, towerTexture1);
+            }
+            for (int index = 3; index < 6; index++)
+            {
+                deck.Cards[index] = new Mortar_Tower(0, 0, towerTexture);
+            }
         }
 
         protected override void Update(GameTime gameTime) 
@@ -492,6 +506,19 @@ namespace FinalProject
                             _spriteBatch.Draw(towerTexture1, card2.CardPosition, Color.White);
                         }
                     }
+                    //drawing deck
+                    foreach (Card card in deck.Cards)
+                    {
+                        if (card is Cannon_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture1, new Rectangle(400, 0, 50, 50), Color.White);
+                        }
+                        if (card is Mortar_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture, new Rectangle(400, 0, 50, 50), Color.White);
+                        }
+                    }
+                    
                     break;
 
                 case GameState.Pause:

@@ -16,7 +16,6 @@ namespace FinalProject
 
         //player properties
         Texture2D playerTexture;
-        Texture2D playerHealthTexture;
         Rectangle playerPosition;
         int health;
         int currentHealth;
@@ -33,14 +32,13 @@ namespace FinalProject
         /// <param name="y">y coord of the player</param>
         /// <param name="width">width of the player</param>
         /// <param name="height">height of the player</param>
-        public Player(Texture2D playerTexture, Texture2D playerHealthTexture, int x, int y, int width, int height)
+        public Player(Texture2D playerTexture, int x, int y, int width, int height)
         {
 
             this.playerTexture = playerTexture;
-            this.playerHealthTexture = playerHealthTexture;
             playerPosition = new Rectangle(x, y, width, height);
             health = 100;
-            mana = 10;
+            mana = 30;
         }
         /// <summary>
         /// gets and sets the player's mana value

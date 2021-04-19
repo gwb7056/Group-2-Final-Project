@@ -74,17 +74,12 @@ namespace FinalProject
         //
 
 
-
-
-
-
-
         //methods
         //Draw Hand method -- can't be called "Draw"
         //Purpose: Add a card from the deck to the hand;
         //Restrictions: ///////////////
         //No return values;
-        public void DrawHand()
+        public void DrawToHand()
         {
             hand.Add(deck[0]);
             //----------------could add more code to this method,
@@ -145,6 +140,10 @@ namespace FinalProject
 
             deck = temporaryDeck;
         }
+
+
+
+
     }
 
 }

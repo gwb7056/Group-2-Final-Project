@@ -13,7 +13,7 @@ namespace FinalProject
     class Wizard_Tower : Tower
     {
         //constructor
-        public Wizard_Tower(int x, int y, Texture2D texture) : base(0.2, 15, 100, 40, 40, x, y, texture)
+        public Wizard_Tower(int x, int y, Texture2D texture) : base(0.5, 15, 100, 40, 40, x, y, texture)
         {
 
         }

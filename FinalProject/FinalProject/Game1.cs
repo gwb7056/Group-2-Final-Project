@@ -18,7 +18,8 @@ namespace FinalProject
         Game,
         Pause,
         Credits,
-        GameOver
+        GameOver,
+        LevelFinished
     }
     /// <summary>
     /// Handles all game functionality
@@ -71,6 +72,10 @@ namespace FinalProject
         int frameCounter1 = 0;
         int towerCount = 0;
         int startingLevelNum = 0;
+        int totalNumLevels = 2;
+
+        //deck stuff
+        Deck deck;
 
         public Game1() 
         {
@@ -115,6 +120,9 @@ namespace FinalProject
             //Enemy Textures:
             enemyTextures = new List<Texture2D>();
             enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("fallguy"));
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("ninjaTexture"));
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("shieldmaidenTexture"));
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("swordmanTexture"));
 
             //Player Textures:
             playerTexture = Content.Load<Texture2D>("among us");
@@ -126,6 +134,17 @@ namespace FinalProject
             //Creating player
             player = new Player(playerTexture, playerHealthTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize,
             gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+
+            //deck stuff
+            deck = new Deck();
+            for (int index = 0; index < 3; index++)
+            {
+                deck.Cards[index] = new Cannon_Tower(0, 0, towerTexture1);
+            }
+            for (int index = 3; index < 6; index++)
+            {
+                deck.Cards[index] = new Mortar_Tower(0, 0, towerTexture);
+            }
         }
 
         protected override void Update(GameTime gameTime) 
@@ -147,6 +166,7 @@ namespace FinalProject
                     {
                         activeState = GameState.Game;
                         gameBoard.GetLevelFromFile(startingLevelNum);
+                        player.Health = 100;
                     }
                     //
                     if (keyBoardState.IsKeyDown(Keys.C))
@@ -403,6 +423,10 @@ namespace FinalProject
                         activeState = GameState.GameOver;
                     }
 
+                    if (gameBoard.LevelFinished) {
+                        activeState = GameState.LevelFinished;
+                    }
+
                     previousMouseState = mouseState;
                     base.Update(gameTime);
                     break;
@@ -431,6 +455,20 @@ namespace FinalProject
                         activeState = GameState.MainMenu;
                     }
                     break;
+
+                case GameState.LevelFinished:
+                    if (keyBoardState.IsKeyDown(Keys.M)) {
+                        activeState = GameState.MainMenu;
+                        startingLevelNum = 0;
+                    }
+                    else if (keyBoardState.IsKeyDown(Keys.N) && startingLevelNum + 1 < totalNumLevels) {
+                        activeState = GameState.Game;
+                        gameBoard.GetLevelFromFile(startingLevelNum += 1);
+                        player.Health = 100;
+                        player.PlayerPosition = new Rectangle(gameBoard.PathEndCords[0] * gameBoard.TileSize,
+                            gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+                    }
+                    break;
             }
             
         }
@@ -447,6 +485,15 @@ namespace FinalProject
                     _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(150, 250), Color.Black);
                     _spriteBatch.DrawString(font, "Press \"C\" for credits.", new Vector2(150, 300), Color.Black);
                     break;
+
+                case GameState.LevelFinished:
+                    _spriteBatch.DrawString(font, "YOU COMPLETED THE LEVEL!", new Vector2(200, 200), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to return the the main menu", new Vector2(150, 250), Color.Black);
+                    if(startingLevelNum + 1 < totalNumLevels) {
+                        _spriteBatch.DrawString(font, "Press \"N\" to go to the next level", new Vector2(150, 300), Color.Black);
+                    }
+                    break;
+
 
                 case GameState.Game:
                     //Draw the board and entities on the board
@@ -491,6 +538,19 @@ namespace FinalProject
                             _spriteBatch.Draw(towerTexture1, card2.CardPosition, Color.White);
                         }
                     }
+                    //drawing deck
+                    foreach (Card card in deck.Cards)
+                    {
+                        if (card is Cannon_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture1, new Rectangle(400, 0, 50, 50), Color.White);
+                        }
+                        if (card is Mortar_Tower)
+                        {
+                            _spriteBatch.Draw(towerTexture, new Rectangle(400, 0, 50, 50), Color.White);
+                        }
+                    }
+                    
                     break;
 
                 case GameState.Pause:

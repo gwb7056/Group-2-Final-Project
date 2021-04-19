@@ -16,62 +16,70 @@ namespace FinalProject
     class Deck 
     {
         //fields
-        private List<Card> deck;
+        private List<Card> deck = new List<Card>();
         private List<Card> hand;
         private List<Card> discard;
+        private Texture2D texture;
 
         public Deck()
         {
+            /*for (int index = 0; index < 3; index++)
+            {
+                deck.Add(new Basic_Archer_Tower(0, 400, texture));
+            }*/
             for (int index = 0; index < 3; index++)
             {
-                
+                deck.Add(new Card(400, 0));
             }
             for (int index = 0; index < 3; index++)
             {
-
+                deck.Add(new Card(400,0));
+            }
+            /*for (int index = 0; index < 3; index++)
+            {
+                deck.Add(new Sniper_Tower(0, 400, texture));
             }
             for (int index = 0; index < 3; index++)
             {
-
+                deck.Add(new Wizard_Tower(0, 400, texture));
             }
             for (int index = 0; index < 3; index++)
             {
-
+                deck.Add(new Backup(texture));
             }
             for (int index = 0; index < 3; index++)
             {
-
-            }
-            for (int index = 0; index < 3; index++)
-            {
-
-            }
-
-
-
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-            deck.Add(new Card(0, 400));
-
+                deck.Add(new Ctrl_Alt_Del(texture));
+            }*/
         }
 
+        public void DrawDeck(SpriteBatch sb)
+        {
+            foreach (Card card in deck)
+            {
+                card.DrawCard(sb);
+            }
+        }
         //properties
         //
+        public List<Card> Cards
+        {
+            get
+            {
+                return deck;
+            }
+        }
+
+        public Texture2D Texture
+        {
+            set
+            {
+                texture = value;
+            }
+        }
+
+
+
 
 
         //methods
@@ -140,10 +148,6 @@ namespace FinalProject
 
             deck = temporaryDeck;
         }
-
-
-
-
     }
 
 }

@@ -102,6 +102,9 @@ namespace FinalProject
                 return playerPosition;
 
             }
+            set {
+                playerPosition = value;
+            }
 
         }
 

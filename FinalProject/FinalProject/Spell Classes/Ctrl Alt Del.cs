@@ -25,7 +25,7 @@ namespace FinalProject
         //No return values
         public void ResetDur(Tower tower)
         {
-            tower.CurrentDuration = tower.MaxDurration;
+            tower.CurrentDuration = tower.MaxDuration;
         }
 
     }

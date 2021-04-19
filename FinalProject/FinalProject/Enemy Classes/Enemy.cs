@@ -18,11 +18,12 @@ namespace FinalProject
 
         // Field
         private int health;
-        private int speed;
+        private double speed;
         private Rectangle rect;
         private int[] lastPos;
         private int[] targetPos = new int[]{-1, -1};
         private Texture2D texture;
+        private bool hitFirstTarget = false;
 
         // Properties
         /// <summary>
@@ -33,7 +34,7 @@ namespace FinalProject
         /// <summary>
         /// Get or Set speed of the enemy
         /// </summary>
-        public int Speed { get { return speed; } set { speed = value; } }
+        public double Speed { get { return speed; } set { speed = value; } }
 
         /// <summary>
         /// Get or Set the X position of the enemy
@@ -47,6 +48,7 @@ namespace FinalProject
 
         public int TargetX { get { return targetPos[0];} set { targetPos[0] = value;} }
         public int TargetY { get { return targetPos[1];} set { targetPos[1] = value;} }
+        public bool HitFirstTarget { get { return hitFirstTarget;} set { hitFirstTarget = value;} }
 
         /// <summary>
         /// Gets the width of the enemy rectangle for collision detection with tower range
@@ -83,7 +85,7 @@ namespace FinalProject
         /// <param name="texture">What the enemy looks like?</param>
         /// <param name="health">How much health does he have?</param>
         /// <param name="speed">How fast is he?</param>
-        public Enemy(Rectangle rect, Texture2D texture, int health, int speed)
+        public Enemy(Rectangle rect, Texture2D texture, int health, double speed)
             
         {
             this.health = health;

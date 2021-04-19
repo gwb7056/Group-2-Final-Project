@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using FinalProject.Enemy_Classes;
 
 namespace FinalProject {
     /// <summary>
@@ -44,6 +45,9 @@ namespace FinalProject {
 
         //File IO reader
         StreamReader input;
+
+        //Bool variables
+        bool levelFinished = false;
 
         //Read the correct level given to create the board object
         public Board(int level, List<Texture2D> _towerTextures, List<Texture2D> _enemyTextures) {
@@ -130,6 +134,12 @@ namespace FinalProject {
         public List<Enemy> EnemiesOnBoard {
             get {
                 return enemiesOnBoard;
+            }
+        }
+
+        public bool LevelFinished {
+            get {
+                return levelFinished;
             }
         }
 
@@ -221,7 +231,9 @@ namespace FinalProject {
 
                 //Load the waves of the level
                 waveNum = 0;
+                levelFinished = false;
                 enemyWaveList = new List<List<Enemy>>();
+                towersOnBoard = new List<Tower>();
 
                 //Go until there are no more waves to load
                 while (line != "~~~") {
@@ -230,14 +242,33 @@ namespace FinalProject {
                     //Create temp list
                     List<Enemy> waveTempList = new List<Enemy>();
                     //Create enemies based on data in file
-                    int.TryParse(splitLine[0], out int enemyNum);
-                    int.TryParse(splitLine[1], out int speed);
-                    int.TryParse(splitLine[2], out int health);
-                    for (int i = 0; i < enemyNum; i++) {
-                        waveTempList.Add(new Enemy(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize),
-                            enemyTextures[0],
-                            health, //Health
-                            speed)); //Speed (num pixels moved per frame)
+                    for(int j = 0; j < splitLine.Length; j += 2) {
+                    int.TryParse(splitLine[j], out int enemyNum);
+                    int.TryParse(splitLine[j + 1], out int enemyType);
+                        if(enemyType == 1) {
+                            for (int i = 0; i < enemyNum; i++) {
+                                waveTempList.Add(new Amazons_Warriors(new Rectangle((pathStartCords[0] - 1) * tileSize, 
+                                    pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                            }
+                        }
+                        else if(enemyType == 2) {
+                            for (int i = 0; i < enemyNum; i++) {
+                                waveTempList.Add(new Ninja(new Rectangle((pathStartCords[0] - 1) * tileSize, 
+                                    pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[1]));
+                            }
+                        }
+                        else if(enemyType == 3) {
+                            for (int i = 0; i < enemyNum; i++) {
+                                waveTempList.Add(new Shieldmaiden(new Rectangle((pathStartCords[0] - 1) * tileSize, 
+                                    pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[2]));
+                            }
+                        }
+                        else if(enemyType == 4) {
+                            for (int i = 0; i < enemyNum; i++) {
+                                waveTempList.Add(new Swordman(new Rectangle((pathStartCords[0] - 1) * tileSize, 
+                                    pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[3]));
+                            }
+                        }
                     }
                     //Put the list for that wave into the wave list
                     enemyWaveList.Add(waveTempList);
@@ -264,29 +295,31 @@ namespace FinalProject {
             //All enemies that have made it to the player/end of path
             List<Enemy> output = new List<Enemy>();
 
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            //Stand in as currently when we run out of waves the game crashes
-            //This just stops this
+            //This just stops the game from crashing
             if(enemiesOnBoard.Count == 0) {
                 return output;
             }
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             //Keep enemies staggered
-            int enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
-
-            //If the first enemy, and by extention all enemies, are on their target tiles, find the next target
-            //Also if the wave has just begun, set the very first target
-            if((enemiesOnBoard[0].X == enemiesOnBoard[0].TargetX && enemiesOnBoard[0].Y == enemiesOnBoard[0].TargetY) || enemiesMovingOnBoard == 0) {
+            if(enemiesMovingOnBoard == 0) {
                 enemiesMovingOnBoard += 1;
-                enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
+            }
+            int enemyToMoveNum = Math.Min(enemiesMovingOnBoard, enemiesOnBoard.Count);
+            bool enemyToMoveNumIncreased = false;
 
-                //For each enemy thats moving, find the target
-                for (int s = 0; s < enemyToMoveNum; s++) {
-                    //Get the enemy and their current position
-                    Enemy e = enemiesOnBoard[s];
-                    int enemyX = e.X / tileSize;
-                    int enemyY = e.Y / tileSize;
+            //For each enemy thats moving, find the target
+            for (int s = 0; s < enemyToMoveNum; s++) {
+                //Get the enemy and their current position
+                Enemy e = enemiesOnBoard[s];
+                int enemyX = e.X / tileSize;
+                int enemyY = e.Y / tileSize;
+
+                if((e.X == e.TargetX && e.Y == e.TargetY) || e.TargetY == -1) {
+                    if(!e.HitFirstTarget && !enemyToMoveNumIncreased && e.TargetY != -1) {
+                        e.HitFirstTarget = true;
+                        enemyToMoveNumIncreased = true;
+                        enemiesMovingOnBoard += 1;
+                    }
 
                     //If they have reached the end of the path, remove from list and put into output
                     if(e.X == pathEndCords[0] * tileSize && e.Y == pathEndCords[1] * tileSize) {
@@ -356,9 +389,7 @@ namespace FinalProject {
             waveNum += 1;
 
             if (enemyWaveList.Count == 0) {
-                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                //Add what happens at the end of the level
-                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                levelFinished = true;
             }
             else {
                 for (int i = 0; i < enemyWaveList[0].Count; i++) {

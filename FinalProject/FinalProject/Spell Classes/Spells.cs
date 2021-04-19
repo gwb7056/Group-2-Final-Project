@@ -10,7 +10,7 @@ namespace FinalProject
     //Author: Liam Alexiou
     //Purpose: To be the parent class, thus organizing all of the things something needs to be a spell.
     //Restrictions: Not really, as the spells should have a lot of functions.
-    class Spells
+    public class Spells : Card
     {
         //fields
         private double manaCost;
@@ -21,7 +21,7 @@ namespace FinalProject
         public Texture2D Texture { get { return texture; } }
 
         //constructor
-        public Spells(double mana, Texture2D texture)
+        public Spells(double mana, Texture2D texture) : base(default, default)
         {
             this.manaCost = mana;
             this.texture = texture;

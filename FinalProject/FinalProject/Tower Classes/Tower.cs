@@ -33,10 +33,7 @@ namespace FinalProject
 		public int Y { get { return rect.Y; } set { rect.Y = value; } }
 		public Texture2D TowerTexture { get { return texture; } }
 
-		public Tower() : base ()
-        {
 
-        }
 		//constructor
 		public Tower(double fr, int dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture) : base ()//(null, 2, x, y)
 		{

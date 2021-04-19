@@ -3,29 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-/// <summary>
-/// Game Title: Magic The Towering
-/// Genre: Tower Defense
-/// Objective: Defend the base from enemies trying to attack it
-/// Tools: You can summon different types of towers and (soon) spells to stop enemies from making contact with the base
-/// Mechanics: The game is organized into a 15x15 tile board (think of it as a chess board)
-///     There is a designated path (marked by color) that trails from the left side of the board to the right side of the board
-///     That path is the path that the enemies move along to get to the base
-///     The base is located at the very end of the path
-///     Some of the tiles outside the path (marked by the color green) are where you will place your defenses
-///     This chess board layout ensures that all entities are placed in a very organized and cohesive manner.
-///     The player has a hand which is a set of cards he is restricted to playing
-///     If the player needs more cards in his hand after playing some, the Mana System will draw cards from the deck to place in their hand
-///     After the player plays a card, that card goes in a discard pile
-///     Eventually, the deck will run out of cards to draw from
-///     This is where the discard pile comes in
-///     The discard pile is shuffled and every card that has been discarded will now be pushed onto the deck again
-///     The deck fills up and the player can continue drawing cards onto their hand to play
-/// </summary>
 namespace FinalProject 
 {
     /// <summary>
@@ -40,11 +18,13 @@ namespace FinalProject
         GameOver,
         LevelFinished
     }
+
     /// <summary>
     /// Handles all game functionality
     /// </summary>
     public class Game1 : Game 
     {
+
         //General Game Properties: How the player will operate the game
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -152,9 +132,9 @@ namespace FinalProject
                 deck.Push(new Wizard_Tower());
             }
             ShuffleDeck();
-            handPositions[0] = new Rectangle(0, 0, 50, 50);
-            handPositions[1] = new Rectangle(60, 0, 50, 50);
-            handPositions[2] = new Rectangle(120, 0, 50, 50);
+            handPositions[0] = new Rectangle(0, 0, 70, 70);
+            handPositions[1] = new Rectangle(80, 0, 70, 70);
+            handPositions[2] = new Rectangle(160, 0, 70, 70);
             hand[0] = deck.Pop();
             hand[1] = deck.Pop();
             hand[2] = deck.Pop();
@@ -229,6 +209,7 @@ namespace FinalProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            //gets the keyboard state to register game state changes
             keyBoardState = Keyboard.GetState();
 
             //switch to determine what gamestate we're in
@@ -252,11 +233,19 @@ namespace FinalProject
                     //No options menu for now
                     break;
 
-                ///This entire game state is the Mana System
-                ///Author: Lance Noble
+                ///This game state is where the Mana System is located
+                ///Mana system was made by Lance Noble
                 case GameState.Game:
-                    
-                    ///
+
+                    //changing enum states
+                    if (keyBoardState.IsKeyDown(Keys.P))
+                    {
+                        activeState = GameState.Pause;
+                    }
+
+                    ///if there's no more cards to draw from the deck on to your hand to play
+                    ///shuffle the cards in the discard pile and push them back onto the deck to fill it up
+                    ///then the player can draw cards from the deck again
                     if (deck.Count == 0)
                     {
                         ShuffleDiscard();
@@ -265,6 +254,11 @@ namespace FinalProject
                             deck.Push(discard.Pop());
                         }
                     }
+
+                    ///when a player plays a card, it makes sense for that card to disappear and get discarded
+                    ///so place in the player's hand that the played card came from becomes empty
+                    ///in that situation, the player then must draw from the deck and replace that empty spot in their hand with a new card
+                    ///this is what this section of code does
                     if (hand[0] == null)
                     {
                         hand[0] = deck.Pop();
@@ -274,21 +268,28 @@ namespace FinalProject
                     if (hand[1] == null)
                     {
                         hand[1] = deck.Pop();
-                        handPositions[1].X = 60;
+                        handPositions[1].X = 80;
                         handPositions[1].Y = 0;
                     }
                     if (hand[2] == null)
                     {
                         hand[2] = deck.Pop();
-                        handPositions[2].X = 120;
+                        handPositions[2].X = 160;
                         handPositions[2].Y = 0;
                     }
 
+                    //Gets the mouse state to register all functionalities of the mana system
                     mouseState = Mouse.GetState();
+
+                    ///Please refer to the CheckSummons method body for more details
+                    ///This method is called once for every card in the player's hand
+                    ///The player can have a maximum of three cards in their hand at at time
                     CheckSummons(0);
                     CheckSummons(1);
                     CheckSummons(2);
 
+                    ///this frame counter sets the pace for the player's mana regeneration
+                    ///the higher the number after the mod (%) operation is, the longer it takes for the player to regenerate mana
                     frameCounter1 += 1;
                     if (frameCounter1 % 120 == 0)
                     {
@@ -297,26 +298,18 @@ namespace FinalProject
                             player.Mana++;
                         }
                     }
-
-                    //changing enum states
-                    if (keyBoardState.IsKeyDown(Keys.P))
-                    {
-                        activeState = GameState.Pause;
-                    }
-                    //The rest of the code for game
+                    ///this frame counter sets the pace for how often the towers check for enemies in range
                     frameCounter0 += 1;
                     gameBoard.TowersDamageEnemies(frameCounter0);
                     player.TakeDamage(gameBoard.MoveEnemies());
-
-                    if(frameCounter0 % 60 == 0) {
+                    if(frameCounter0 % 60 == 0) 
+                    {
                         gameBoard.ReduceTowerTimers();
                     }
-
                     if (player.Health <= 0)
                     {
                         activeState = GameState.GameOver;
                     }
-
                     if (gameBoard.LevelFinished) 
                     {
                         activeState = GameState.LevelFinished;
@@ -368,7 +361,6 @@ namespace FinalProject
 
         protected override void Draw(GameTime gameTime) 
         {
-
             GraphicsDevice.Clear(Color.ForestGreen);
             _spriteBatch.Begin();
             switch (activeState)
@@ -429,6 +421,10 @@ namespace FinalProject
 
         }
 
+        /// <summary>
+        /// This method draws out the cards currently in the player's hand to let them know what they can play
+        /// </summary>
+        /// <param name="index">the index of one of the three cards in the player's hand to draw</param>
         public void DrawHand(int index)
         {
             if (hand[index] != null)
@@ -456,6 +452,12 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// This method shuffles the deck
+        /// This is only called once, and it's called in the Initialize method
+        /// This is because after the deck is initially shuffled, the rest of the shuffling will be done in the discard pile
+        /// CREDITS TO LIAM ALEXIOU FOR THIS METHOD
+        /// </summary>
         public void ShuffleDeck()
         {
             List<Card> tempDeck = new List<Card>();
@@ -472,6 +474,12 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// This method shuffles the discard pile
+        /// This is the one that's called over and over
+        /// This is because the deck will continuously be empty, so the discard has to be ready to shuffle and pop the discarded cards back into the deck
+        /// CREDITS TO LIAM ALEXIOU FOR THIS METHOD
+        /// </summary>
         public void ShuffleDiscard()
         {
             List<Card> tempDeck = new List<Card>();
@@ -488,12 +496,29 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// This method allows players to interact with the cards (i.e. drag them around) and use them to summon
+        /// Here are the mechanics to summon a card:
+        ///     hover your mouse cursor over the card you want to summon
+        ///     hold left click and drag it to the position at which you want to summon
+        ///     WHILE holding left click, press right click to summon it
+        ///     There's a neat mechanic where you can hold left click and hover your mouse over multiple cards
+        ///     all the cards you hovered over will now be dragable
+        ///     and if you keep pressing right click, all the cards under your mouse cursor will be summoned in the same order that your cursor hovered them in
+        ///     if you want to cancel the summon, just let go of the left click button
+        /// This method checks for the specified card in the player's hand.
+        /// If that card is an Archer Tower, for example, 
+        /// then call the real constructor of the Archer Tower that properly initializes all its properties (i.e. firerate, duration, range, etc.)
+        /// The point of every tower class' default constructors is to simulate the idea that the cards in the deck/hand/discard are not really towers/spells.
+        /// The cards are simply a vessel or key or reference point that can activate the summoning of a real tower/spell.
+        /// </summary>
+        /// <param name="index">the index of one of the three cards in the player's hand to check summons for</param>
         public void CheckSummons(int index)
         {
             if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= 1)
             {
-                handPositions[index].X = mouseState.Position.X - 20;
-                handPositions[index].Y = mouseState.Position.Y - 20;
+                handPositions[index].X = mouseState.Position.X - 30;
+                handPositions[index].Y = mouseState.Position.Y - 30;
                 if (mouseState.RightButton == ButtonState.Pressed)
                 {
                     towerCount++;
@@ -510,7 +535,6 @@ namespace FinalProject
                                         player.Mana--;
                                         discard.Push(hand[index]);
                                         hand[index] = null;
-
                                     }
                                 }
                                 if (hand[index] is Cannon_Tower)
@@ -519,9 +543,7 @@ namespace FinalProject
                                     {
                                         player.Mana--;
                                         discard.Push(hand[index]);
-
                                         hand[index] = null;
-
                                     }
                                 }
                                 if (hand[index] is Mortar_Tower)
@@ -530,11 +552,8 @@ namespace FinalProject
                                     {
                                         player.Mana--;
                                         discard.Push(hand[index]);
-
                                         hand[index] = null;
-
                                     }
-
                                 }
                                 if (hand[index] is Sniper_Tower)
                                 {
@@ -543,7 +562,6 @@ namespace FinalProject
                                         player.Mana--;
                                         discard.Push(hand[index]);
                                         hand[index] = null;
-
                                     }
                                 }
                                 if (hand[index] is Wizard_Tower)
@@ -553,14 +571,12 @@ namespace FinalProject
                                         player.Mana--;
                                         discard.Push(hand[index]);
                                         hand[index] = null;
-
                                     }
                                 }
                             }
                         }
                     }
                 }
-
             }
             if (index == 0)
             {
@@ -574,7 +590,7 @@ namespace FinalProject
             {
                 if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
                 {
-                    handPositions[index].X = 60;
+                    handPositions[index].X = 80;
                     handPositions[index].Y = 0;
                 }
             }
@@ -582,7 +598,7 @@ namespace FinalProject
             {
                 if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
                 {
-                    handPositions[index].X = 120;
+                    handPositions[index].X = 160;
                     handPositions[index].Y = 0;
                 }
             }

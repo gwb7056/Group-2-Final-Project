@@ -19,10 +19,8 @@ namespace FinalProject
 
         //constructor
 
-        public Cannon_Tower() : base()
-        {
-
-        }
+        public Cannon_Tower() : base() { }
+      
         public Cannon_Tower(int x, int y, Texture2D texture) : base(0.7, 5, 70, 30, 30, x, y, texture)//base(0.21, 10, 30, 55, 55, x, y, texture)
         {
             this.rangeAOE = 5;

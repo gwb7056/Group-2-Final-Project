@@ -155,7 +155,7 @@ namespace FinalProject
             cannonCard = Content.Load<Texture2D>("cannoncard");
             mortarCard = Content.Load<Texture2D>("mortarcard");
             sniperCard = Content.Load<Texture2D>("snipercard");
-            wizardCard = Content.Load<Texture2D>("snipercard");
+            wizardCard = Content.Load<Texture2D>("wizardcard");
             for (int count = 1; count <= 3; count++)
             {
                 deck.Push(new Basic_Archer_Tower());

@@ -16,24 +16,39 @@ namespace FinalProject
     class Deck 
     {
         //fields
-        private List<Card> deck = new List<Card>();
+        private List<Card> deck;
         private List<Card> hand;
         private List<Card> discard;
         private Texture2D texture;
 
         public Deck()
         {
+            deck = new List<Card>();
+            hand = new List<Card>();
+            hand.Add(null);
+            hand.Add(null);
+            hand.Add(null);
+            hand.Add(null);
+            hand.Add(null);
+            hand.Add(null);
+            hand.Add(null);
+            hand.Add(null);
+            discard = new List<Card>();
             /*for (int index = 0; index < 3; index++)
             {
                 deck.Add(new Basic_Archer_Tower(0, 400, texture));
             }*/
             for (int index = 0; index < 3; index++)
             {
-                deck.Add(new Card(400, 0));
+                //deck.Add(new Card(null, 2, 400, 0));
+                deck.Add(null);
+                discard.Add(null);
             }
             for (int index = 0; index < 3; index++)
             {
-                deck.Add(new Card(400,0));
+                //deck.Add(new Card(null, 2, 400, 0));
+                deck.Add(null);
+                discard.Add(null);
             }
             /*for (int index = 0; index < 3; index++)
             {
@@ -53,20 +68,35 @@ namespace FinalProject
             }*/
         }
 
-        public void DrawDeck(SpriteBatch sb)
-        {
-            foreach (Card card in deck)
-            {
-                card.DrawCard(sb);
-            }
-        }
         //properties
         //
+        public List<Card> DiscardCards
+        {
+            get
+            {
+                return discard;
+            }
+            set
+            {
+                discard = value;
+            }
+        }
+        public List<Card> HandCards
+        {
+            get
+            {
+                return hand;
+            }
+        }
         public List<Card> Cards
         {
             get
             {
                 return deck;
+            }
+            set
+            {
+                deck = value;
             }
         }
 
@@ -87,11 +117,18 @@ namespace FinalProject
         //Purpose: Add a card from the deck to the hand;
         //Restrictions: ///////////////
         //No return values;
-        public void DrawHand()
+        public Card DrawHand()
         {
-            hand.Add(deck[0]);
+            if (deck.Count == 0)
+            {
+                return null;
+            }
+           
+            Card card = deck[deck.Count - 1];
+            //hand.Add(deck[deck.Count - 1]);
             //----------------could add more code to this method,
-            deck.RemoveAt(0);
+            deck.RemoveAt(deck.Count - 1);
+            return card;
         }
 
 
@@ -117,14 +154,26 @@ namespace FinalProject
             int control = 1; //----never changes, as discard.Count does change
 
             //while loop 
-            while (control < discard.Count)
+            /* while (control < discard.Count)
+             {
+                 int temp = myRNG.Next(0, discard.Count);
+                 temporaryDeck.Add(discard[temp]);
+                 discard.RemoveAt(temp);
+             }*/
+            int count = discard.Count;
+           for (int index = 0; index < count; index++)
             {
                 int temp = myRNG.Next(0, discard.Count);
-                temporaryDeck.Add(discard[temp]);
+                deck.Add(discard[temp]);
                 discard.RemoveAt(temp);
             }
 
-            deck = temporaryDeck;
+           // deck = temporaryDeck;
+            for (int index = 0; index < deck.Count; index++)
+            {
+                deck[index].PosX = 400;
+                deck[index].PosY = 0;
+            }
         }
 
 

@@ -32,7 +32,7 @@ namespace FinalProject
         private GameState activeState;
         private KeyboardState keyBoardState;
         private MouseState mouseState;
-        private MouseState previousMouseState;
+        
 
         //Fonts:
         SpriteFont font;
@@ -43,13 +43,12 @@ namespace FinalProject
 
         //Tower Textures:
         List<Texture2D> towerTextures;
-        Texture2D towerTexture;
-        Texture2D towerTexture1;
-        List<Rectangle> towerPositions;
+        
         
         //Enemy Texture:
         List<Texture2D> enemyTextures;
         Texture2D enemyTestTexture;
+        
 
         //Player Textures:
         Texture2D playerTexture;
@@ -74,21 +73,37 @@ namespace FinalProject
         int startingLevelNum = 0;
         int totalNumLevels = 2;
 
-        //deck stuff
-        Deck deck;
+        //deck n card stuff
+        Deck deck1;
+        Stack<Card> deck;
+        Stack<Card> discard;
+        Card[] hand;
+        Card hand0;
+        Card hand1;
+        Card hand2;
+        List<Card> drawableDeck;
+        Rectangle card0Position;
+        Rectangle card1Position;
+        Rectangle card2Position;
+        Rectangle deckPosition;
+        Rectangle discardPosition;
+        Texture2D archerCard;
+        Texture2D cannonCard;
+        Texture2D mortarCard;
+        Texture2D sniperCard;
+        Texture2D wizardCard;
 
         public Game1() 
         {
-
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
+            
         }
 
         protected override void Initialize() 
         {
-            towerPositions = new List<Rectangle>();
+           
             base.Initialize();
           
             //Change the window size
@@ -98,12 +113,73 @@ namespace FinalProject
 
         }
 
+        /*public void CheckSummons(int )
+        {
+
+        }*/
+
+        public void ShuffleDeck()
+        {
+            Random rng = new Random();
+            List<Card> tempDeck = new List<Card>();
+            int index2;
+            for (int index = 0; index < 15; index++)
+            {
+                tempDeck.Add(deck.Pop());
+            }
+            for (int index1 = 0; index1 < 15; index1++)
+            {
+                index2 = rng.Next(0, tempDeck.Count);
+                deck.Push(tempDeck[index2]);
+                tempDeck.Remove(tempDeck[index2]);
+            }
+        }
+
         protected override void LoadContent() 
         {
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //card stuff
+            //deck n card stuff
+            deck = new Stack<Card>();
+            discard = new Stack<Card>();
+            hand = new Card[3];
+            
+            drawableDeck = new List<Card>();
+            card0Position = new Rectangle(0, 0, 50, 50);
+            card1Position = new Rectangle(60, 0, 50, 50);
+            card2Position = new Rectangle(120, 0, 50, 50);
+            deckPosition = new Rectangle(200, 0, 50, 50);
+            discardPosition = new Rectangle(300, 0, 50, 50);
+            archerCard = Content.Load<Texture2D>("archercard");
+            cannonCard = Content.Load<Texture2D>("cannoncard");
+            mortarCard = Content.Load<Texture2D>("mortarcard");
+            sniperCard = Content.Load<Texture2D>("snipercard");
+            wizardCard = Content.Load<Texture2D>("snipercard");
+            for (int count = 1; count <= 3; count++)
+            {
+                deck.Push(new Basic_Archer_Tower());
+            }
+            for (int count = 1; count <= 3; count++)
+            {
+                deck.Push(new Cannon_Tower());
+            }
+            for (int count = 1; count <= 3; count++)
+            {
+                deck.Push(new Mortar_Tower());
+            }
+            for (int count = 1; count <= 3; count++)
+            {
+                deck.Push(new Sniper_Tower());
+            }
+            for (int count = 1; count <= 3; count++)
+            {
+                deck.Push(new Wizard_Tower());
+            }
+            ShuffleDeck();
+            hand0 = deck.Pop();
+            hand1 = deck.Pop();
+            hand2 = deck.Pop();
 
             //Fonts:
             font = Content.Load<SpriteFont>("Arial12");
@@ -114,8 +190,7 @@ namespace FinalProject
 
             //Tower Textures:
             towerTextures = new List<Texture2D>();
-            towerTexture = Content.Load<Texture2D>("tower");
-            towerTexture1 = Content.Load<Texture2D>("cannontower");
+            
 
             //Enemy Textures:
             enemyTextures = new List<Texture2D>();
@@ -123,7 +198,7 @@ namespace FinalProject
 
             //Player Textures:
             playerTexture = Content.Load<Texture2D>("among us");
-            playerHealthTexture = Content.Load<Texture2D>("health");
+           
 
             //Creating gameBoard
             gameBoard = new Board(startingLevelNum, towerTextures, enemyTextures);
@@ -132,16 +207,7 @@ namespace FinalProject
             player = new Player(playerTexture, playerHealthTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize,
             gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
 
-            //deck stuff
-            deck = new Deck();
-            for (int index = 0; index < 3; index++)
-            {
-                deck.Cards[index] = new Cannon_Tower(0, 0, towerTexture1);
-            }
-            for (int index = 3; index < 6; index++)
-            {
-                deck.Cards[index] = new Mortar_Tower(0, 0, towerTexture);
-            }
+            
         }
 
         protected override void Update(GameTime gameTime) 
@@ -176,72 +242,39 @@ namespace FinalProject
                 case GameState.Game:
                     //mana system by lance
                     //reminders: make the towers inherit from card class
-                    if (card == null)
+                    if (deck.Count == 0)
                     {
-                        number = rng.Next(0, 2);
-                        if (number == 0)
+                        for(int index = 0; index < 12; index++)
                         {
-                            card = new Cannon_Tower(0, 0, towerTexture1);
-                            card.PosX = 0;
-                            card.PosY = 0;
-                            card.ManaCost = 1;
-                           
-                        }
-                        else if (number == 1)
-                        {
-                            card = new Mortar_Tower(0, 0, towerTexture);
-                            card.PosX = 0;
-                            card.PosY = 0;
-                            card.ManaCost = 1;
-                            
+                            deck.Push(discard.Pop());
                         }
                     }
-                    if (card1 == null)
+                    if (hand0 == null)
                     {
-                        number = rng.Next(0, 2);
-                        if (number == 0)
-                        {
-                            card1 = new Cannon_Tower(0, 0, towerTexture1);
-                            card1.PosX = 60;
-                            card1.PosY = 0;
-                            card1.ManaCost = 1;
-                           
-                        }
-                        else if (number == 1)
-                        {
-                            card1 = new Mortar_Tower(0, 0, towerTexture);
-                            card1.PosX = 60;
-                            card1.PosY = 0;
-                            card1.ManaCost = 1;
-                           
-                        }
+                        hand0 = deck.Pop();
+                        card0Position.X = 0;
+                        card0Position.Y = 0;
                     }
-                    if (card2 == null)
+                    if (hand1 == null)
                     {
-                        number = rng.Next(0, 2);
-                        if (number == 0)
-                        {
-                            card2 = new Cannon_Tower(0, 0, towerTexture1);
-                            card2.PosX = 120;
-                            card2.PosY = 0;
-                            card2.ManaCost = 1;
-                            
-                   
-                        }
-                        else if (number == 1)
-                        {
-                            card2 = new Mortar_Tower(0, 0, towerTexture);
-                            card2.PosX = 120;
-                            card2.PosY = 0;
-                            card2.ManaCost = 1;
-                           
-                        }
+                        hand1 = deck.Pop();
+                        card1Position.X = 60;
+                        card1Position.Y = 0;
                     }
+                    if (hand2 == null)
+                    {
+                        
+                        hand2 = deck.Pop();
+                        card2Position.X = 120;
+                        card2Position.Y = 0;
+                    }
+
                     mouseState = Mouse.GetState();
-                    if (card.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= card.ManaCost)
+                    
+                    if (card0Position.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= 1)
                     {
-                        card.PosX = mouseState.Position.X - 20;
-                        card.PosY = mouseState.Position.Y - 20;
+                        card0Position.X = mouseState.Position.X - 20;
+                        card0Position.Y = mouseState.Position.Y - 20;
                         if (mouseState.RightButton == ButtonState.Pressed)
                         {
                             towerCount++;
@@ -251,25 +284,58 @@ namespace FinalProject
                                 {
                                     if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                     { 
-                                        /*gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                        player.Mana--;
-                                        card = null;*/
-                                        if (card is Cannon_Tower)
+                                        if (hand0 is Basic_Archer_Tower)
                                         {
-                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1)))
+                                            if (gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, archerCard)))
                                             {
                                                 player.Mana--;
-                                                card = null;
+                                                discard.Push(hand0);
+                                                hand0 = null;
+                                                
                                             }
                                         }
-                                        if (card is Mortar_Tower)
+                                        if (hand0 is Cannon_Tower)
                                         {
-                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture)))
+                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, cannonCard)))
                                             {
                                                 player.Mana--;
-                                                card = null;
+                                                discard.Push(hand0);
+                                                
+                                                hand0 = null;
+                                                
+                                            }
+                                        }
+                                        if (hand0 is Mortar_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, mortarCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand0);
+
+                                                hand0 = null;
+                                               
                                             }
 
+                                        }
+                                        if (hand0 is Sniper_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Sniper_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, sniperCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand0);
+                                                hand0 = null;
+                                                
+                                            }
+                                        }
+                                        if (hand0 is Wizard_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Wizard_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, wizardCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand0);
+                                                hand0 = null;
+                                               
+                                            }
                                         }
                                     }
                                 }
@@ -277,16 +343,15 @@ namespace FinalProject
                         }
                       
                     }
-                    else if (card.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= card.ManaCost)
+                    else if (card0Position.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
                     {
-                        card.PosX = 0;
-                        card.PosY = 0;
+                        card0Position.X = 0;
+                        card0Position.Y = 0;
                     }
-                    if (card1.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= card1.ManaCost)
+                    if (card1Position.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= 1)
                     {
-                        
-                        card1.PosX = mouseState.Position.X - 20;
-                        card1.PosY = mouseState.Position.Y - 20;
+                        card1Position.X = mouseState.Position.X - 20;
+                        card1Position.Y = mouseState.Position.Y - 20;
                         if (mouseState.RightButton == ButtonState.Pressed)
                         {
                             towerCount++;
@@ -296,42 +361,74 @@ namespace FinalProject
                                 {
                                     if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                     {
-                                        /*gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                        player.Mana--;
-                                        card = null;*/
-                                        if (card1 is Cannon_Tower)
+                                        if (hand1 is Basic_Archer_Tower)
                                         {
-                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1)))
+                                            if (gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, archerCard)))
                                             {
                                                 player.Mana--;
-                                                card1 = null;
+                                                discard.Push(hand1);
+                                                hand1 = null;
+                                                
                                             }
-                                           
                                         }
-                                        if (card1 is Mortar_Tower)
+                                        if (hand1 is Cannon_Tower)
                                         {
-                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture)))
+                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, cannonCard)))
                                             {
                                                 player.Mana--;
-                                                card1 = null;
+                                                discard.Push(hand1);
+                                                
+                                                hand1 = null;
+                                               
+                                            }
+                                        }
+                                        if (hand1 is Mortar_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, mortarCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand1);
+                                                
+                                                hand1 = null;
+                                                
                                             }
 
+                                        }
+                                        if (hand1 is Sniper_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Sniper_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, sniperCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand1);
+                                                hand1 = null;
+                                                
+                                            }
+                                        }
+                                        if (hand1 is Wizard_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Wizard_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, wizardCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand1);
+                                                hand1 = null;
+                                                
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                      
+
                     }
-                    else if (card1.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= card1.ManaCost)
+                    else if (card1Position.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
                     {
-                        card1.PosX = 60;
-                        card1.PosY = 0;
+                        card1Position.X = 60;
+                        card1Position.Y = 0;
                     }
-                    if (card2.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= card2.ManaCost)
+                    if (card2Position.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= 1)
                     {
-                        card2.PosX = mouseState.Position.X - 20;
-                        card2.PosY = mouseState.Position.Y - 20;
+                        card2Position.X = mouseState.Position.X - 20;
+                        card2Position.Y = mouseState.Position.Y - 20;
                         if (mouseState.RightButton == ButtonState.Pressed)
                         {
                             towerCount++;
@@ -341,37 +438,65 @@ namespace FinalProject
                                 {
                                     if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
                                     {
-                                        /*gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                         player.Mana--;
-                                         card = null;*/
-                                        if (card2 is Cannon_Tower)
+                                        if (hand2 is Basic_Archer_Tower)
                                         {
-                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture1)))
+                                            if (gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, archerCard)))
                                             {
                                                 player.Mana--;
-                                                card2 = null;
+                                                discard.Push(hand2);
+                                                hand2 = null;
+
                                             }
-                                         
                                         }
-                                        if (card2 is Mortar_Tower)
+                                        if (hand2 is Cannon_Tower)
                                         {
-                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture)))
+                                            if (gameBoard.AddTowerToBoard(new Cannon_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, cannonCard)))
                                             {
                                                 player.Mana--;
-                                                card2 = null;
+                                                discard.Push(hand2);
+                                              
+                                                hand2 = null;
                                             }
-                                           
+                                        }
+                                        if (hand2 is Mortar_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Mortar_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, mortarCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand2);
+                                               
+                                                hand2 = null;
+                                            }
+
+                                        }
+                                        if (hand2 is Sniper_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Sniper_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, sniperCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand2);
+                                                hand2 = null;
+                                            }
+                                        }
+                                        if (hand2 is Wizard_Tower)
+                                        {
+                                            if (gameBoard.AddTowerToBoard(new Wizard_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, wizardCard)))
+                                            {
+                                                player.Mana--;
+                                                discard.Push(hand2);
+                                                hand2 = null;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                        
+
                     }
-                    else if (card2.CardPosition.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= card2.ManaCost)
+                    else if (card2Position.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
                     {
-                        card2.PosX = 120;
-                        card2.PosY = 0;
+                        card2Position.X = 120;
+                        card2Position.Y = 0;
                     }
                     frameCounter1 += 1;
                     if (frameCounter1 % 120 == 0)
@@ -396,25 +521,6 @@ namespace FinalProject
                         gameBoard.ReduceTowerTimers();
                     }
 
-                    //Spawning towers
-
-                    /*if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
-                    {
-
-                        towerCount++;
-                        for (int width = 0; width < 15; width++)
-                        {
-
-                            for (int height = 0; height < 15; height++)
-                            {
-                                if (gameBoard.GetRectangleAtIndex(width, height).Contains(mouseState.Position))
-                                {
-                                    gameBoard.AddTowerToBoard(new Basic_Archer_Tower(width * gameBoard.TileSize, height * gameBoard.TileSize, towerTexture));
-                                }
-                            }
-                        }
-                    }*/
-
                     if (player.Health <= 0)
                     {
                         activeState = GameState.GameOver;
@@ -424,7 +530,8 @@ namespace FinalProject
                         activeState = GameState.LevelFinished;
                     }
 
-                    previousMouseState = mouseState;
+                   
+
                     base.Update(gameTime);
                     break;
 
@@ -503,52 +610,77 @@ namespace FinalProject
                     _spriteBatch.DrawString(font, "Press \"P\" to pause.", new Vector2(50, 50), Color.White);
                     _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 100), Color.White);
                     _spriteBatch.DrawString(font, "Mana: " + player.Mana, new Vector2(50, 150), Color.White);
-                    if (card != null)
+
+                    if (hand0 != null)
                     {
-                        if (card is Mortar_Tower)
+                        if (hand0 is Basic_Archer_Tower)
                         {
-                            _spriteBatch.Draw(towerTexture, card.CardPosition, Color.White);
+                            _spriteBatch.Draw(archerCard, card0Position, Color.White);
                         }
-                        else if (card is Cannon_Tower)
+                        if (hand0 is Cannon_Tower)
                         {
-                            _spriteBatch.Draw(towerTexture1, card.CardPosition, Color.White);
+                            _spriteBatch.Draw(cannonCard, card0Position, Color.White);
+                        }
+                        if (hand0 is Mortar_Tower)
+                        {
+                            _spriteBatch.Draw(mortarCard, card0Position, Color.White);
+                        }
+                        if (hand0 is Sniper_Tower)
+                        {
+                            _spriteBatch.Draw(sniperCard, card0Position, Color.White);
+                        }
+                        if (hand0 is Wizard_Tower)
+                        {
+                            _spriteBatch.Draw(wizardCard, card0Position, Color.White);
                         }
                     }
-                    if (card1 != null)
+                    if (hand1 != null)
                     {
-                        if (card1 is Mortar_Tower)
+                        if (hand1 is Basic_Archer_Tower)
                         {
-                            _spriteBatch.Draw(towerTexture, card1.CardPosition, Color.White);
+                            _spriteBatch.Draw(archerCard, card1Position, Color.White);
                         }
-                        else if (card1 is Cannon_Tower)
+                        if (hand1 is Cannon_Tower)
                         {
-                            _spriteBatch.Draw(towerTexture1, card1.CardPosition, Color.White);
+                            _spriteBatch.Draw(cannonCard, card1Position, Color.White);
+                        }
+                        if (hand1 is Mortar_Tower)
+                        {
+                            _spriteBatch.Draw(mortarCard, card1Position, Color.White);
+                        }
+                        if (hand1 is Sniper_Tower)
+                        {
+                            _spriteBatch.Draw(sniperCard, card1Position, Color.White);
+                        }
+                        if (hand1 is Wizard_Tower)
+                        {
+                            _spriteBatch.Draw(wizardCard, card1Position, Color.White);
                         }
                     }
-                    if (card2 != null)
+                    if (hand2 != null)
                     {
-                        if (card2 is Mortar_Tower)
+                        if (hand2 is Basic_Archer_Tower)
                         {
-                            _spriteBatch.Draw(towerTexture, card2.CardPosition, Color.White);
+                            _spriteBatch.Draw(archerCard, card2Position, Color.White);
                         }
-                        else if (card2 is Cannon_Tower)
+                        if (hand2 is Cannon_Tower)
                         {
-                            _spriteBatch.Draw(towerTexture1, card2.CardPosition, Color.White);
+                            _spriteBatch.Draw(cannonCard, card2Position, Color.White);
+                        }
+                        if (hand2 is Mortar_Tower)
+                        {
+                            _spriteBatch.Draw(mortarCard, card2Position, Color.White);
+                        }
+                        if (hand2 is Sniper_Tower)
+                        {
+                            _spriteBatch.Draw(sniperCard, card2Position, Color.White);
+                        }
+                        if (hand2 is Wizard_Tower)
+                        {
+                            _spriteBatch.Draw(wizardCard, card2Position, Color.White);
                         }
                     }
-                    //drawing deck
-                    foreach (Card card in deck.Cards)
-                    {
-                        if (card is Cannon_Tower)
-                        {
-                            _spriteBatch.Draw(towerTexture1, new Rectangle(400, 0, 50, 50), Color.White);
-                        }
-                        if (card is Mortar_Tower)
-                        {
-                            _spriteBatch.Draw(towerTexture, new Rectangle(400, 0, 50, 50), Color.White);
-                        }
-                    }
-                    
+                  
                     break;
 
                 case GameState.Pause:

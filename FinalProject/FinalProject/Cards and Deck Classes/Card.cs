@@ -16,39 +16,43 @@ namespace FinalProject
     public class Card 
     {
         //fields
-        protected Texture2D cardTexture;
-        protected Rectangle cardPosition;
-        protected int manaCost;
+        protected Texture2D texture;
+        protected Rectangle position;
+        protected int cost;
 
         //properties
 
-        public Texture2D CardTexture
+        public Texture2D Texture 
         {
             get
             {
-                return cardTexture;
+                return texture;
             }
             set
             {
-                cardTexture = value;
+                texture = value;
             }
         }
-        public Rectangle CardPosition
+        public Rectangle Position
         {
             get
             {
-                return cardPosition;
+                return position;
+            }
+            set
+            {
+                position = value;
             }
         }
         public int PosX
         {
             get
             {
-                return cardPosition.X;
+                return position.X;
             }
             set
             {
-                cardPosition.X = value;
+                position.X = value;
             }
         }
 
@@ -56,11 +60,11 @@ namespace FinalProject
         {
             get
             {
-                return cardPosition.Y;
+                return position.Y;
             }
             set
             {
-                cardPosition.Y = value;
+                position.Y = value;
             }
         }
 
@@ -68,19 +72,24 @@ namespace FinalProject
         {
             get
             {
-                return manaCost;
+                return cost;
             }
             set
             {
-                manaCost = value;
+                cost = value;
             }
         }
 
-        //constructor
-        public Card(int x, int y)
+        public Card()
         {
-            cardPosition = new Rectangle(x, y, 50, 50);
-            manaCost = 1;
+
+        }
+        //constructor
+        public Card(Texture2D texture, int cost, int x, int y)
+        {
+            this.texture = texture;
+            this.cost = cost;
+            position = new Rectangle(x, y, 50, 50);
         }
         /*public Card(Spell spell, int xPos, int yPos)
         {
@@ -96,7 +105,7 @@ namespace FinalProject
         public void DrawCard(SpriteBatch sb)
         {
 
-            sb.Draw(cardTexture, cardPosition, Color.White);
+            sb.Draw(texture, position, Color.White);
 
         }
     }

@@ -35,6 +35,10 @@ namespace FinalProject
 
 
 		//constructor
+		public Tower() : base()
+        {
+
+        }
 		public Tower(double fr, int dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture) : base ()//(null, 2, x, y)
 		{
 			this.fireRate = fr;

@@ -247,22 +247,26 @@ namespace FinalProject {
                     int.TryParse(splitLine[j + 1], out int enemyType);
                         if(enemyType == 1) {
                             for (int i = 0; i < enemyNum; i++) {
-                                waveTempList.Add(new Amazons_Warriors(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                                waveTempList.Add(new Amazons_Warriors(new Rectangle((pathStartCords[0] - 1) * tileSize, 
+                                    pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
                             }
                         }
                         else if(enemyType == 2) {
                             for (int i = 0; i < enemyNum; i++) {
-                                waveTempList.Add(new Ninja(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                                waveTempList.Add(new Ninja(new Rectangle((pathStartCords[0] - 1) * tileSize, 
+                                    pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[1]));
                             }
                         }
                         else if(enemyType == 3) {
                             for (int i = 0; i < enemyNum; i++) {
-                                waveTempList.Add(new Shieldmaiden(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                                waveTempList.Add(new Shieldmaiden(new Rectangle((pathStartCords[0] - 1) * tileSize, 
+                                    pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[2]));
                             }
                         }
                         else if(enemyType == 4) {
                             for (int i = 0; i < enemyNum; i++) {
-                                waveTempList.Add(new Swordman(new Rectangle((pathStartCords[0] - 1) * tileSize, pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[0]));
+                                waveTempList.Add(new Swordman(new Rectangle((pathStartCords[0] - 1) * tileSize, 
+                                    pathStartCords[1] * tileSize, tileSize, tileSize), enemyTextures[3]));
                             }
                         }
                     }

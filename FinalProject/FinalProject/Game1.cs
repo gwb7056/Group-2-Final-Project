@@ -422,7 +422,7 @@ namespace FinalProject
                             }
                         }
 
-                    }
+                    } 
                     else if (card1Position.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
                     {
                         card1Position.X = 60;

@@ -111,23 +111,23 @@ namespace FinalProject
             _graphics.PreferredBackBufferWidth = 600;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
-            for (int count = 1; count <= 3; count++)
+            for (int count = 0; count < 2; count++)
             {
                 deck.Push(new Basic_Archer_Tower());
             }
-            for (int count = 1; count <= 3; count++)
+            for (int count = 0; count < 2; count++)
             {
                 deck.Push(new Cannon_Tower());
             }
-            for (int count = 1; count <= 3; count++)
+            for (int count = 0; count < 2; count++)
             {
                 deck.Push(new Mortar_Tower());
             }
-            for (int count = 1; count <= 3; count++)
+            for (int count = 0; count < 2; count++)
             {
                 deck.Push(new Sniper_Tower());
             }
-            for (int count = 1; count <= 3; count++)
+            for (int count = 0; count < 2; count++)
             {
                 deck.Push(new Wizard_Tower());
             }
@@ -249,7 +249,8 @@ namespace FinalProject
                     if (deck.Count == 0)
                     {
                         ShuffleDiscard();
-                        for(int index = 0; index < 12; index++)
+                        int count = discard.Count;
+                        for(int index = 0; index < count; index++)
                         {
                             deck.Push(discard.Pop());
                         }
@@ -482,11 +483,12 @@ namespace FinalProject
         {
             List<Card> tempDeck = new List<Card>();
             int index2;
-            for (int index = 0; index < 15; index++)
+            int count = deck.Count;
+            for (int index = 0; index < count; index++)
             {
                 tempDeck.Add(deck.Pop());
             }
-            for (int index1 = 0; index1 < 15; index1++)
+            for (int index1 = 0; index1 < count; index1++)
             {
                 index2 = rng.Next(0, tempDeck.Count);
                 deck.Push(tempDeck[index2]);
@@ -504,11 +506,12 @@ namespace FinalProject
         {
             List<Card> tempDeck = new List<Card>();
             int index2;
-            for (int index = 0; index < 12; index++)
+            int count = discard.Count;
+            for (int index = 0; index < count; index++)
             {
                 tempDeck.Add(discard.Pop());
             }
-            for (int index1 = 0; index1 < 12; index1++)
+            for (int index1 = 0; index1 < count; index1++)
             {
                 index2 = rng.Next(0, tempDeck.Count);
                 discard.Push(tempDeck[index2]);

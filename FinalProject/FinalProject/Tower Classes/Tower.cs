@@ -26,6 +26,28 @@ namespace FinalProject
 		protected Texture2D texture;
 		protected Rectangle rect;
 		protected Rectangle circle;
+		protected bool isFiring;
+
+		public bool IsFiring
+        {
+            get
+            {
+				return isFiring;
+            }
+            set
+            {
+				isFiring = value;
+            }
+        }
+
+		public Rectangle TowerPosition
+		{
+			get
+			{
+				return rect;
+			}
+
+		}
 
 		/// <summary>
 		/// Gets the tower's fire rate
@@ -79,7 +101,7 @@ namespace FinalProject
 			this.maxDuration = maxDur;
 			rect = new Rectangle(x, y, 40, 40);
 			this.texture = texture;
-
+			isFiring = false;
 			this.circle = new Rectangle(x - rng, y - rng, rng * 2, rng * 2);
 		}
 
@@ -97,8 +119,13 @@ namespace FinalProject
 				if (Math.Sqrt((Math.Pow((enemies[i].X) - (circle.X + range), 2)) + Math.Pow((enemies[i].Y) - (circle.Y + range), 2)) < (range + enemies[i].Width))
 				{
 					enemies[i].Health -= damage;
+					IsFiring = true;
 					break;
 				}
+                else
+                {
+					IsFiring = false;
+                }
 			}
 
 		}

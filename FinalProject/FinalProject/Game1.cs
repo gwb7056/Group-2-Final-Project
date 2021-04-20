@@ -395,6 +395,26 @@ namespace FinalProject
                     DrawHand(1);
                     DrawHand(2);
 
+                    for (int index = 0; index < gameBoard.TowersOnBoard.Count; index++)
+                    {
+                        if (gameBoard.TowersOnBoard[index].TowerPosition.Contains(mouseState.Position))
+                        {
+                            if (gameBoard.TowersOnBoard[index].IsFiring)
+                            {
+                                _spriteBatch.DrawString(font, $"This tower is firing", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 15), Color.White);
+                            }
+                            else if (!gameBoard.TowersOnBoard[index].IsFiring)
+                            {
+                                _spriteBatch.DrawString(font, $"This tower is not firing", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 15), Color.White);
+                            }
+                            _spriteBatch.DrawString(font, $"Fire Rate: {gameBoard.TowersOnBoard[index].FireRate}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y), Color.White);
+                            _spriteBatch.DrawString(font, $"Damage: {gameBoard.TowersOnBoard[index].FireRate}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 30), Color.White);
+                            _spriteBatch.DrawString(font, $"Range: {gameBoard.TowersOnBoard[index].Range}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 45), Color.White);
+                            _spriteBatch.DrawString(font, $"Current Duration: {gameBoard.TowersOnBoard[index].CurrentDuration}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 60), Color.White);
+                            _spriteBatch.DrawString(font, $"Max Duration: {gameBoard.TowersOnBoard[index].MaxDuration}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 75), Color.White);
+                        }
+                    }
+
                     break;
 
                 case GameState.Pause:

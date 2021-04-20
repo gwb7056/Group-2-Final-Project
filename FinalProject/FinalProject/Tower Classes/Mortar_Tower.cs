@@ -42,7 +42,12 @@ namespace FinalProject
                     {
                         if (Math.Sqrt((Math.Pow((enemies[z].X) - (circleAOE.X + rangeAOE), 2)) + Math.Pow((enemies[z].Y) - (circleAOE.Y + rangeAOE), 2)) < (rangeAOE + enemies[z].Width))
                         {
+                            IsFiring = true;
                             enemies[z].Health -= damage;
+                        }
+                        else
+                        {
+                            IsFiring = false;
                         }
                     }
                     break;

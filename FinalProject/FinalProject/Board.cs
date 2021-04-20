@@ -65,6 +65,17 @@ namespace FinalProject {
         }
 
         /// <summary>
+        /// gets towers on board
+        /// </summary>
+        public List<Tower> TowersOnBoard
+        {
+            get
+            {
+                return towersOnBoard;
+            }
+        }
+
+        /// <summary>
         /// The current Level, Setting this also causes the board to read the new level num from the file
         /// </summary>
         public int LevelNum {

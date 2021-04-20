@@ -41,7 +41,8 @@ namespace FinalProject {
         //Board size variables
         int levelWidth = 15;
         int levelHeight = 15;
-        int tileSize = 40;
+        int tileSize = 80;
+        int stepSize;
 
         //File IO reader
         StreamReader input;
@@ -60,6 +61,8 @@ namespace FinalProject {
 
             towerTextures = _towerTextures;
             enemyTextures = _enemyTextures;
+
+            stepSize = tileSize / 40;
 
             GetLevelFromFile(levelNum);
         }
@@ -373,17 +376,17 @@ namespace FinalProject {
 
                 for(int s = 0; s < e.Speed; s++) {
                     if(e.Y > e.TargetY) {
-                        e.Y -= 1;
+                        e.Y -= stepSize;
                     }
                     else if(e.Y < e.TargetY){
-                        e.Y += 1;
+                        e.Y += stepSize;
                     }
 
                     if(e.X > e.TargetX) {
-                        e.X -= 1;
+                        e.X -= stepSize;
                     }
                     else if(e.X < e.TargetX){
-                        e.X += 1;
+                        e.X += stepSize;
                     }
                 }
             }

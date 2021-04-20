@@ -108,8 +108,8 @@ namespace FinalProject
         {
             base.Initialize();
             //Change the window size
-            _graphics.PreferredBackBufferWidth = 600;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
+            _graphics.PreferredBackBufferWidth = 1200;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = 1200;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
             for (int count = 0; count < 2; count++)
             {
@@ -132,9 +132,9 @@ namespace FinalProject
                 deck.Push(new Wizard_Tower());
             }
             ShuffleDeck();
-            handPositions[0] = new Rectangle(0, 0, 70, 70);
-            handPositions[1] = new Rectangle(80, 0, 70, 70);
-            handPositions[2] = new Rectangle(160, 0, 70, 70);
+            handPositions[0] = new Rectangle(0, 0, 80, 80);
+            handPositions[1] = new Rectangle(80, 0, 80, 80);
+            handPositions[2] = new Rectangle(160, 0, 80, 80);
             hand[0] = deck.Pop();
             hand[1] = deck.Pop();
             hand[2] = deck.Pop();
@@ -196,7 +196,7 @@ namespace FinalProject
             ///Creating the player (base)
             ///Please refer to Player.cs class for more details
             player = new Player(playerTexture, gameBoard.PathEndCords[0] * gameBoard.TileSize,
-            gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+            gameBoard.PathEndCords[1] * gameBoard.TileSize, gameBoard.TileSize, gameBoard.TileSize);
         }
 
         /// <summary>
@@ -223,6 +223,8 @@ namespace FinalProject
                     {
                         activeState = GameState.Game;
                         gameBoard.GetLevelFromFile(startingLevelNum);
+                        player.PlayerPosition = new Rectangle(gameBoard.PathEndCords[0] * gameBoard.TileSize,
+                            gameBoard.PathEndCords[1] * gameBoard.TileSize, gameBoard.TileSize, gameBoard.TileSize);
                         player.Health = 100;
                     }
                     //
@@ -353,7 +355,7 @@ namespace FinalProject
                         gameBoard.GetLevelFromFile(startingLevelNum += 1);
                         player.Health = 100;
                         player.PlayerPosition = new Rectangle(gameBoard.PathEndCords[0] * gameBoard.TileSize,
-                            gameBoard.PathEndCords[1] * gameBoard.TileSize, 40, 40);
+                            gameBoard.PathEndCords[1] * gameBoard.TileSize, gameBoard.TileSize, gameBoard.TileSize);
                     }
                     break;
             }
@@ -367,16 +369,16 @@ namespace FinalProject
             switch (activeState)
             {
                 case GameState.MainMenu:
-                    _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(200, 200), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(150, 250), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"C\" for credits.", new Vector2(150, 300), Color.Black);
+                    _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(400, 400), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(300, 500), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"C\" for credits.", new Vector2(300, 600), Color.Black);
                     break;
 
                 case GameState.LevelFinished:
-                    _spriteBatch.DrawString(font, "YOU COMPLETED THE LEVEL!", new Vector2(200, 200), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"M\" to return the the main menu", new Vector2(150, 250), Color.Black);
+                    _spriteBatch.DrawString(font, "YOU COMPLETED THE LEVEL!", new Vector2(400, 400), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to return the the main menu", new Vector2(300, 500), Color.Black);
                     if(startingLevelNum + 1 < totalNumLevels) {
-                        _spriteBatch.DrawString(font, "Press \"N\" to go to the next level", new Vector2(150, 300), Color.Black);
+                        _spriteBatch.DrawString(font, "Press \"N\" to go to the next level", new Vector2(300, 600), Color.Black);
                     }
                     break;
 
@@ -388,9 +390,9 @@ namespace FinalProject
                     //Drawing player
                     player.Draw(_spriteBatch);
 
-                    _spriteBatch.DrawString(font, "Press \"P\" to pause.", new Vector2(50, 50), Color.White);
-                    _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(50, 100), Color.White);
-                    _spriteBatch.DrawString(font, "Mana: " + player.Mana, new Vector2(50, 150), Color.White);
+                    _spriteBatch.DrawString(font, "Press \"P\" to pause.", new Vector2(100, 100), Color.White);
+                    _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(100, 200), Color.White);
+                    _spriteBatch.DrawString(font, "Mana: " + player.Mana, new Vector2(100, 300), Color.White);
 
                     DrawHand(0);
                     DrawHand(1);
@@ -419,20 +421,20 @@ namespace FinalProject
                     break;
 
                 case GameState.Pause:
-                    _spriteBatch.DrawString(font, "PAUSE MENU", new Vector2(200, 200), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(150, 250), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(150, 300), Color.Black);
+                    _spriteBatch.DrawString(font, "PAUSE MENU", new Vector2(400, 400), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(300, 500), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(300, 600), Color.Black);
                     break;
 
                 case GameState.Credits:
-                    _spriteBatch.DrawString(font, "CREDITS MENU", new Vector2(200, 200), Color.Black);
-                    _spriteBatch.DrawString(font, "Griffin Brown, Kylian Hervet, Liam Alexiou, Lance Noble", new Vector2(100, 250), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(150, 300), Color.Black);
+                    _spriteBatch.DrawString(font, "CREDITS MENU", new Vector2(400, 400), Color.Black);
+                    _spriteBatch.DrawString(font, "Griffin Brown, Kylian Hervet, Liam Alexiou, Lance Noble", new Vector2(200, 500), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(300, 600), Color.Black);
                     break;
 
                 case GameState.GameOver:
                     _spriteBatch.DrawString(font, "GAME OVER", new Vector2(200, 200), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(150, 250), Color.Black);
+                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(300, 500), Color.Black);
                     break;
             }
 

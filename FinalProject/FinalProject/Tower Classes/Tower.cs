@@ -99,7 +99,7 @@ namespace FinalProject
 			this.range = rng;
 			this.currentDuration = maxDur;
 			this.maxDuration = maxDur;
-			rect = new Rectangle(x, y, 40, 40);
+			rect = new Rectangle(x, y, 80, 80);
 			this.texture = texture;
 			isFiring = false;
 			this.circle = new Rectangle(x - rng, y - rng, rng * 2, rng * 2);

@@ -409,7 +409,7 @@ namespace FinalProject
                                 _spriteBatch.DrawString(font, $"This tower is not firing", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 15), Color.White);
                             }
                             _spriteBatch.DrawString(font, $"Fire Rate: {gameBoard.TowersOnBoard[index].FireRate}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y), Color.White);
-                            _spriteBatch.DrawString(font, $"Damage: {gameBoard.TowersOnBoard[index].FireRate}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 30), Color.White);
+                            _spriteBatch.DrawString(font, $"Damage: {gameBoard.TowersOnBoard[index].Damage}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 30), Color.White);
                             _spriteBatch.DrawString(font, $"Range: {gameBoard.TowersOnBoard[index].Range}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 45), Color.White);
                             _spriteBatch.DrawString(font, $"Current Duration: {gameBoard.TowersOnBoard[index].CurrentDuration}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 60), Color.White);
                             _spriteBatch.DrawString(font, $"Max Duration: {gameBoard.TowersOnBoard[index].MaxDuration}", new Vector2(gameBoard.TowersOnBoard[index].X, gameBoard.TowersOnBoard[index].Y - 75), Color.White);

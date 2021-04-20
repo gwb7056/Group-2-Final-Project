@@ -544,8 +544,9 @@ namespace FinalProject
         {
             if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && player.Mana >= 1)
             {
-                handPositions[index].X = mouseState.Position.X - 30;
-                handPositions[index].Y = mouseState.Position.Y - 30;
+                handPositions[index].X = mouseState.Position.X - 40;
+                handPositions[index].Y = mouseState.Position.Y - 40;
+                
                 if (mouseState.RightButton == ButtonState.Pressed)
                 {
                     towerCount++;
@@ -623,29 +624,28 @@ namespace FinalProject
                     handPositions[index].Y = 0;
                 }
             }
-            if (index == 0)
+            else if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
             {
-                if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
+                if (index == 0)
                 {
                     handPositions[index].X = 0;
                     handPositions[index].Y = 0;
                 }
-            }
-            else if (index == 1)
-            {
-                if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
+                if (index == 1)
                 {
                     handPositions[index].X = 80;
                     handPositions[index].Y = 0;
                 }
-            }
-            else if (index == 2)
-            {
-                if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Released && player.Mana >= 1)
+                if (index == 2)
                 {
                     handPositions[index].X = 160;
                     handPositions[index].Y = 0;
                 }
+            }
+            else if (handPositions[index].X != 0 && handPositions[index].X != 80 && handPositions[index].X != 160 && handPositions[index].Y != 0)
+            {
+                handPositions[index].X = mouseState.Position.X - 40;
+                handPositions[index].Y = mouseState.Position.Y - 40;
             }
         }
     }

@@ -418,6 +418,9 @@ namespace FinalProject
                         }
                     }
 
+                    _spriteBatch.DrawString(font, $"Cards in Deck: {deck.Count}", new Vector2(300, 5), Color.White);
+                    _spriteBatch.DrawString(font, $"Cards in Discard: {discard.Count}", new Vector2(300, 25), Color.White);
+
                     break;
 
                 case GameState.Pause:

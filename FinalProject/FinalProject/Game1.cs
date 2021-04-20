@@ -446,7 +446,6 @@ namespace FinalProject
             base.Draw(gameTime);
 
         }
-
         /// <summary>
         /// This method draws out the cards currently in the player's hand to let them know what they can play
         /// </summary>
@@ -604,6 +603,24 @@ namespace FinalProject
                             }
                         }
                     }
+                }
+            }
+            else if (handPositions[index].Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && !(player.Mana >= 1))
+            {
+                if (index == 0)
+                {
+                    handPositions[index].X = 0;
+                    handPositions[index].Y = 0;
+                }
+                if (index == 1)
+                {
+                    handPositions[index].X = 80;
+                    handPositions[index].Y = 0;
+                }
+                if (index == 2)
+                {
+                    handPositions[index].X = 160;
+                    handPositions[index].Y = 0;
                 }
             }
             if (index == 0)

@@ -17,10 +17,6 @@ namespace FinalProject.Enemy_Classes
     {
 
         private double damage;
-        private Rectangle rect;
-        private int[] lastPos;
-        private int[] targetPos = new int[] { -1, -1 };
-        private Texture2D texture;
 
         public Amazons_Warriors(Rectangle rect, Texture2D texture)
             : base( rect, texture, 20, 2.5)

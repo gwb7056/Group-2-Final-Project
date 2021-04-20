@@ -17,10 +17,6 @@ namespace FinalProject
     {
 
         private double damage;
-        private Rectangle rect;
-        private int[] lastPos;
-        private int[] targetPos = new int[] { -1, -1 };
-        private Texture2D texture;
 
         public Swordman(Rectangle rect, Texture2D texture)
             : base(rect, texture, 10, 2.5)

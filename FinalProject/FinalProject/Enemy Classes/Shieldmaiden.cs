@@ -18,10 +18,6 @@ namespace FinalProject.Enemy_Classes
     {
 
         private double damage;
-        private Rectangle rect;
-        private int[] lastPos;
-        private int[] targetPos = new int[] { -1, -1 };
-        private Texture2D texture;
 
         public Shieldmaiden(Rectangle rect, Texture2D texture)
             : base(rect, texture, 50, 1)

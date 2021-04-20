@@ -46,8 +46,19 @@ namespace FinalProject
         /// </summary>
         public int Y { get { return rect.Y; } set { rect.Y = value; } }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int TargetX { get { return targetPos[0];} set { targetPos[0] = value;} }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int TargetY { get { return targetPos[1];} set { targetPos[1] = value;} }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool HitFirstTarget { get { return hitFirstTarget;} set { hitFirstTarget = value;} }
 
         /// <summary>

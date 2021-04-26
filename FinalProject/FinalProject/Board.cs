@@ -32,6 +32,7 @@ namespace FinalProject {
         //Number variables
         int levelNum;
         int waveNum;
+        int totalWaveNum;
         int enemiesMovingOnBoard;
 
         //Textures
@@ -100,6 +101,15 @@ namespace FinalProject {
             }
             set {
                 waveNum = value;
+            }
+        }
+
+        /// <summary>
+        /// Get the total number of waves
+        /// </summary>
+        public int TotalWaveNum {
+            get {
+                return totalWaveNum;
             }
         }
 
@@ -245,6 +255,7 @@ namespace FinalProject {
 
                 //Load the waves of the level
                 waveNum = 0;
+                totalWaveNum = 0;
                 levelFinished = false;
                 enemyWaveList = new List<List<Enemy>>();
                 towersOnBoard = new List<Tower>();
@@ -286,6 +297,7 @@ namespace FinalProject {
                     }
                     //Put the list for that wave into the wave list
                     enemyWaveList.Add(waveTempList);
+                    totalWaveNum ++;
                 }
 
                 input.Close();

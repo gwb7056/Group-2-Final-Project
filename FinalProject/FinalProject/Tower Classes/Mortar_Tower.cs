@@ -20,7 +20,7 @@ namespace FinalProject
         //constructor
         public Mortar_Tower() : base() { }
        
-        public Mortar_Tower(int x, int y, Texture2D texture): base(2, 5, 70, 30, 30, x, y, texture)
+        public Mortar_Tower(int x, int y, Texture2D texture): base(2, 5, 140, 30, 30, x, y, texture)
         {
             this.rangeAOE = 10;
         }

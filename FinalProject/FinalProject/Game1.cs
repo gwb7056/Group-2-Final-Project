@@ -391,8 +391,9 @@ namespace FinalProject
                     player.Draw(_spriteBatch);
 
                     _spriteBatch.DrawString(font, "Press \"P\" to pause.", new Vector2(100, 100), Color.White);
-                    _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(100, 200), Color.White);
-                    _spriteBatch.DrawString(font, "Mana: " + player.Mana, new Vector2(100, 300), Color.White);
+                    _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(100, 150), Color.White);
+                    _spriteBatch.DrawString(font, "Mana: " + player.Mana, new Vector2(100, 200), Color.White);
+                    _spriteBatch.DrawString(font, "Wave: " + gameBoard.WaveNum + "/" + gameBoard.TotalWaveNum, new Vector2(100, 250), Color.White);
 
                     DrawHand(0);
                     DrawHand(1);

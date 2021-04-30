@@ -33,7 +33,7 @@ namespace FinalProject
             this.playerTexture = playerTexture;
             playerPosition = new Rectangle(x, y, width, height);
             health = 100;
-            mana = 30;
+            mana = 5;
         }
 
         /// <summary>

@@ -296,7 +296,7 @@ namespace FinalProject
                     frameCounter1 += 1;
                     if (frameCounter1 % 120 == 0)
                     {
-                        if (player.Mana < 30)
+                        if (player.Mana < 5)
                         {
                             player.Mana++;
                         }

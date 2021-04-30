@@ -118,7 +118,7 @@ namespace FinalProject
 				//Detecting if the distance between the two entities is less than their combined radii
 				if (Math.Sqrt((Math.Pow((enemies[i].X) - (circle.X + range), 2)) + Math.Pow((enemies[i].Y) - (circle.Y + range), 2)) < (range + enemies[i].Width))
 				{
-					enemies[i].Health -= damage;
+					enemies[i].Health -= (int)damage;
 					IsFiring = true;
 					break;
 				}

@@ -1,5 +1,5 @@
 For Enemy waves:
-Number Type
+[Number] [Type]
 
 types:
 1 - amazon warrior

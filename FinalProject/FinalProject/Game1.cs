@@ -24,7 +24,6 @@ namespace FinalProject
     /// </summary>
     public class Game1 : Game 
     {
-
         //General Game Properties: How the player will operate the game
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;

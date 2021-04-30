@@ -96,8 +96,7 @@ namespace FinalProject
         /// <param name="texture">What the enemy looks like?</param>
         /// <param name="health">How much health does he have?</param>
         /// <param name="speed">How fast is he?</param>
-        public Enemy(Rectangle rect, Texture2D texture, int health, double speed)
-            
+        public Enemy(Rectangle rect, Texture2D texture, int health, double speed)    
         {
             this.health = health;
             this.speed = speed;

@@ -23,7 +23,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build: buttonDown.png
+/build:buttonDown.png
 
 #begin buttonUp.png
 /importer:TextureImporter
@@ -35,7 +35,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build: buttonUp.png
+/build:buttonUp.png
 
 #begin among us.png
 /importer:TextureImporter

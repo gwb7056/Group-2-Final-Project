@@ -34,6 +34,7 @@ namespace FinalProject
         
         //Graphics: What can be seen in the game
         private SpriteFont font;
+        private SpriteFont fancyFont;
         private Texture2D pathTexture;
         private Texture2D closedSpaceTexture;
         private Texture2D enemyTestTexture;
@@ -43,8 +44,12 @@ namespace FinalProject
         private Texture2D mortarCard;
         private Texture2D sniperCard;
         private Texture2D wizardCard;
+        private Texture2D menuScreen;
+        private Texture2D buttonUp;
+        private Texture2D buttonDown;
         private List<Texture2D> towerTextures;
         private List<Texture2D> enemyTextures;
+
 
         /// <summary>
         /// The Board:
@@ -158,6 +163,11 @@ namespace FinalProject
             mortarCard = Content.Load<Texture2D>("mortartower");
             sniperCard = Content.Load<Texture2D>("snipertower");
             wizardCard = Content.Load<Texture2D>("wizardtower");
+
+            //adding the buttons & menus
+            menuScreen = Content.Load<Texture2D>("MenuFinal");
+            buttonUp = Content.Load<Texture2D>("buttonUp");
+            buttonDown = Content.Load<Texture2D>("buttonDown");
             
             ///This is a plain basic font 
             ///We'll use this to show how much health the base has and how much mana the player has left
@@ -165,6 +175,9 @@ namespace FinalProject
             ///Using text to visually represent all this stuff is fine
             ///However, ideally, it would be nice to make visuals.
             font = Content.Load<SpriteFont>("Arial12");
+
+            //this is the fancy font, used for menus and buttons.
+            fancyFont = Content.Load<SpriteFont>("File");
 
             ///These are the options for textures that each tile can have
             ///the path textures are marked by (coffee?) colored squares and signify where the enemies will be moving
@@ -211,6 +224,8 @@ namespace FinalProject
 
             //gets the keyboard state to register game state changes
             keyBoardState = Keyboard.GetState();
+            //Gets the mouse state to register all functionalities of the mana system
+            mouseState = Mouse.GetState();
 
             //switch to determine what gamestate we're in
             //  Temporarily making the switches determined by key press rather than button press
@@ -219,7 +234,7 @@ namespace FinalProject
                 //In the main menu
                 case GameState.MainMenu:
                     //
-                    if (keyBoardState.IsKeyDown(Keys.Space))
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592))
                     {
                         activeState = GameState.Game;
                         gameBoard.GetLevelFromFile(startingLevelNum);
@@ -228,7 +243,7 @@ namespace FinalProject
                         player.Health = 100;
                     }
                     //
-                    if (keyBoardState.IsKeyDown(Keys.C))
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 600 && mouseState.Y < 742))
                     {
                         activeState = GameState.Credits;
                     }
@@ -281,8 +296,7 @@ namespace FinalProject
                         handPositions[2].Y = 0;
                     }
 
-                    //Gets the mouse state to register all functionalities of the mana system
-                    mouseState = Mouse.GetState();
+                    
 
                     ///Please refer to the CheckSummons method body for more details
                     ///This method is called once for every card in the player's hand
@@ -369,9 +383,28 @@ namespace FinalProject
             switch (activeState)
             {
                 case GameState.MainMenu:
-                    _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(400, 400), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(300, 500), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"C\" for credits.", new Vector2(300, 600), Color.Black);
+                    _spriteBatch.Draw(menuScreen, new Rectangle(0, 0, 1200, 1200), Color.White);
+                    //drawing the playgame button
+                    if ((mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592))
+                    {
+                        _spriteBatch.Draw(buttonDown, new Rectangle(450, 450, 312, 142), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(buttonUp, new Rectangle(450, 450, 312, 142), Color.White);
+                    }
+                    _spriteBatch.DrawString(fancyFont, "Play Game", new Vector2(535, 500), Color.Black);
+                    //drawing the credits
+                    if ((mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 600 && mouseState.Y < 742))
+                    {
+                        _spriteBatch.Draw(buttonDown, new Rectangle(450, 600, 312, 142), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(buttonUp, new Rectangle(450, 600, 312, 142), Color.White);
+                    }
+                    _spriteBatch.DrawString(fancyFont, "Credits", new Vector2(550, 650), Color.Black);
+
                     break;
 
                 case GameState.LevelFinished:

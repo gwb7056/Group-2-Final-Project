@@ -153,11 +153,11 @@ namespace FinalProject
             One set is the set of card textures that actually look like cards with idk a symbol signifying which card is which
             You'll see that set of card textures in your hand.
             Another set is the set of the actual tower textures (and soon to come) spells that you'll see when you summon a tower using the cards*/
-            archerCard = Content.Load<Texture2D>("archercard");
-            cannonCard = Content.Load<Texture2D>("cannoncard");
-            mortarCard = Content.Load<Texture2D>("mortarcard");
-            sniperCard = Content.Load<Texture2D>("snipercard");
-            wizardCard = Content.Load<Texture2D>("wizardcard");
+            archerCard = Content.Load<Texture2D>("archertower");
+            cannonCard = Content.Load<Texture2D>("cannontower2");
+            mortarCard = Content.Load<Texture2D>("mortartower");
+            sniperCard = Content.Load<Texture2D>("snipertower");
+            wizardCard = Content.Load<Texture2D>("wizardtower");
             
             ///This is a plain basic font 
             ///We'll use this to show how much health the base has and how much mana the player has left

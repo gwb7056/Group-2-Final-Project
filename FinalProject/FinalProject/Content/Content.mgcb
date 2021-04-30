@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin buttonDown.png
+#begin ../../../../../../OneDrive/Desktop/CodeAssets/buttonDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,9 +23,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build: buttonDown.png
+/build: ../../../../../../OneDrive/Desktop/CodeAssets/buttonDown.png;buttonDown.png
 
-#begin buttonUp.png
+#begin ../../../../../../OneDrive/Desktop/CodeAssets/buttonUp.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,7 +35,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build: buttonUp.png
+/build: ../../../../../../OneDrive/Desktop/CodeAssets/buttonUp.png;buttonUp.png
 
 #begin among us.png
 /importer:TextureImporter

@@ -19,7 +19,7 @@ namespace FinalProject
 	{
 		// Tower Properties: What every tower must have
 		protected double fireRate;
-		protected int damage;
+		protected double damage;
 		protected int range;
 		protected int currentDuration;
 		protected int maxDuration;
@@ -57,7 +57,7 @@ namespace FinalProject
 		/// <summary>
 		/// Gets the tower's damage
 		/// </summary>
-		public int Damage { get { return damage; } }
+		public double Damage { get { return damage; } }
 
 		/// <summary>
 		/// Gets the tower's range
@@ -92,7 +92,7 @@ namespace FinalProject
 		//constructor
 		public Tower() : base() { }
 
-		public Tower(double fr, int dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture) : base()
+		public Tower(double fr, double dmg, int rng, int curDur, int maxDur, int x, int y, Texture2D texture) : base()
 		{
 			this.fireRate = fr;
 			this.damage = dmg;

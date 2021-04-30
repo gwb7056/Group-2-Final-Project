@@ -19,7 +19,7 @@ namespace FinalProject.Enemy_Classes
         private double damage;
 
         public Ninja(Rectangle rect, Texture2D texture)
-            : base(rect, texture, 10, 5)
+            : base(rect, texture, 20, 6.5)
         {
 
             damage = Damage * 4;

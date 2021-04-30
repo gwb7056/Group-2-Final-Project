@@ -17,7 +17,7 @@ namespace FinalProject
     {
 
         // Field
-        private int health;
+        private double health;
         private double speed;
         private Rectangle rect;
         private int[] lastPos;
@@ -29,7 +29,7 @@ namespace FinalProject
         /// <summary>
         /// Get or Set the Health of the enemy
         /// </summary>
-        public int Health { get { return health; } set { health = value; } }
+        public double Health { get { return health; } set { health = value; } }
 
         /// <summary>
         /// Get or Set speed of the enemy
@@ -96,7 +96,7 @@ namespace FinalProject
         /// <param name="texture">What the enemy looks like?</param>
         /// <param name="health">How much health does he have?</param>
         /// <param name="speed">How fast is he?</param>
-        public Enemy(Rectangle rect, Texture2D texture, int health, double speed)
+        public Enemy(Rectangle rect, Texture2D texture, double health, double speed)
             
         {
             this.health = health;

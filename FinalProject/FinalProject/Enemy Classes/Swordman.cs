@@ -19,7 +19,7 @@ namespace FinalProject
         private double damage;
 
         public Swordman(Rectangle rect, Texture2D texture)
-            : base(rect, texture, 10, 2.5)
+            : base(rect, texture, 100, 2.5)
         {
 
             damage = Damage * 2;

@@ -19,7 +19,7 @@ namespace FinalProject.Enemy_Classes
         private double damage;
 
         public Amazons_Warriors(Rectangle rect, Texture2D texture)
-            : base( rect, texture, 20, 2.5)
+            : base( rect, texture, 50, 2.5)
         {
 
             damage = Damage * 4;

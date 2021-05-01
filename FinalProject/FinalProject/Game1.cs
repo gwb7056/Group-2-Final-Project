@@ -191,10 +191,10 @@ namespace FinalProject
             ///This is because the Board object (gameBoard) that will be instantiated in a couple of lines take in this list
             ///gameBoard will use this list to assign the proper texture to every enemy that it will spawn
             ///Please refer to Board.cs class for more details
-            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("fallguy"));    //amazon warrior
-            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("ninjaTexture")); //ninja
-            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("shieldmaidenTexture")); //shieldmaiden
-            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("swordmanTexture")); //swordman
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("amazonenemy"));    //amazon warrior
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("ninjaenemy")); //ninja
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("shieldenemy")); //shield enemy
+            enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("swordenemy")); //swordman
 
             ///This is the player texture that will signify what the base looks like and where it is
             ///It's an among us character, but now that we're solidifying the algorithms,

@@ -30,10 +30,12 @@ namespace FinalProject
         private GameState activeState;
         private KeyboardState keyBoardState;
         private MouseState mouseState;
+        private MouseState previousState;
         
         //Graphics: What can be seen in the game
         private SpriteFont font;
         private SpriteFont fancyFont;
+        private SpriteFont fancyCredits;
         private Texture2D pathTexture;
         private Texture2D closedSpaceTexture;
         private Texture2D enemyTestTexture;
@@ -44,6 +46,8 @@ namespace FinalProject
         private Texture2D sniperCard;
         private Texture2D wizardCard;
         private Texture2D menuScreen;
+        private Texture2D pauseScreen;
+        private Texture2D creditsScreen;
         private Texture2D buttonUp;
         private Texture2D buttonDown;
         private List<Texture2D> towerTextures;
@@ -165,6 +169,8 @@ namespace FinalProject
 
             //adding the buttons & menus
             menuScreen = Content.Load<Texture2D>("MenuFinal");
+            pauseScreen = Content.Load<Texture2D>("AltMenu");
+            creditsScreen = Content.Load<Texture2D>("Credits");
             buttonUp = Content.Load<Texture2D>("buttonUp");
             buttonDown = Content.Load<Texture2D>("buttonDown");
             
@@ -175,8 +181,9 @@ namespace FinalProject
             ///However, ideally, it would be nice to make visuals.
             font = Content.Load<SpriteFont>("Arial12");
 
-            //this is the fancy font, used for menus and buttons.
+            //these are the fancy fonts, used for menus and buttons.
             fancyFont = Content.Load<SpriteFont>("File");
+            fancyCredits = Content.Load<SpriteFont>("FancyCredits");
 
             ///These are the options for textures that each tile can have
             ///the path textures are marked by (coffee?) colored squares and signify where the enemies will be moving
@@ -199,7 +206,7 @@ namespace FinalProject
             ///This is the player texture that will signify what the base looks like and where it is
             ///It's an among us character, but now that we're solidifying the algorithms,
             ///We can look towards working on assets
-            playerTexture = Content.Load<Texture2D>("among us");
+            playerTexture = Content.Load<Texture2D>("castle");
            
             ///Creating the game board
             ///Please refer to Board.cs class for more details
@@ -233,7 +240,7 @@ namespace FinalProject
                 //In the main menu
                 case GameState.MainMenu:
                     //
-                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592))
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592) && previousState.LeftButton.Equals(ButtonState.Released))
                     {
                         activeState = GameState.Game;
                         gameBoard.GetLevelFromFile(startingLevelNum);
@@ -242,7 +249,7 @@ namespace FinalProject
                         player.Health = 100;
                     }
                     //
-                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 600 && mouseState.Y < 742))
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 600 && mouseState.Y < 742) && previousState.LeftButton.Equals(ButtonState.Released))
                     {
                         activeState = GameState.Credits;
                     }
@@ -334,18 +341,18 @@ namespace FinalProject
                     break;
 
                 case GameState.Pause:
-                    if (keyBoardState.IsKeyDown(Keys.M))
-                    {
-                        activeState = GameState.MainMenu;
-                    }
-                    if (keyBoardState.IsKeyDown(Keys.Space))
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592) && previousState.LeftButton.Equals(ButtonState.Released))
                     {
                         activeState = GameState.Game;
+                    }
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 600 && mouseState.Y < 742) && previousState.LeftButton.Equals(ButtonState.Released))
+                    {
+                        activeState = GameState.MainMenu;
                     }
                     break;
 
                 case GameState.Credits:
-                    if (keyBoardState.IsKeyDown(Keys.M))
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 850 && mouseState.Y < 992) && previousState.LeftButton.Equals(ButtonState.Released))
                     {
                         activeState = GameState.MainMenu;
                     }
@@ -372,7 +379,7 @@ namespace FinalProject
                     }
                     break;
             }
-            
+            previousState = Mouse.GetState();
         }
 
         protected override void Draw(GameTime gameTime) 
@@ -457,15 +464,43 @@ namespace FinalProject
                     break;
 
                 case GameState.Pause:
-                    _spriteBatch.DrawString(font, "PAUSE MENU", new Vector2(400, 400), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"Spacebar\" to play game.", new Vector2(300, 500), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(300, 600), Color.Black);
+                    _spriteBatch.Draw(pauseScreen, new Rectangle(0, 0, 1200, 1200), Color.White);
+                    //drawing the resume button
+                    if ((mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592))
+                    {
+                        _spriteBatch.Draw(buttonDown, new Rectangle(450, 450, 312, 142), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(buttonUp, new Rectangle(450, 450, 312, 142), Color.White);
+                    }
+                    _spriteBatch.DrawString(fancyFont, "Resume", new Vector2(550, 500), Color.Black);
+                    //drawing the main menu button
+                    if ((mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 600 && mouseState.Y < 742))
+                    {
+                        _spriteBatch.Draw(buttonDown, new Rectangle(450, 600, 312, 142), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(buttonUp, new Rectangle(450, 600, 312, 142), Color.White);
+                    }
+                    _spriteBatch.DrawString(fancyFont, "Main Menu", new Vector2(525, 650), Color.Black);
                     break;
 
                 case GameState.Credits:
-                    _spriteBatch.DrawString(font, "CREDITS MENU", new Vector2(400, 400), Color.Black);
-                    _spriteBatch.DrawString(font, "Griffin Brown, Kylian Hervet, Liam Alexiou, Lance Noble", new Vector2(200, 500), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(300, 600), Color.Black);
+                    _spriteBatch.Draw(creditsScreen, new Rectangle(0, 0, 1200, 1200), Color.White);
+                    //drawing the main menu button
+                    if ((mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 850 && mouseState.Y < 992))
+                    {
+                        _spriteBatch.Draw(buttonDown, new Rectangle(450, 850, 312, 142), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(buttonUp, new Rectangle(450, 850, 312, 142), Color.White);
+                    }
+                    _spriteBatch.DrawString(fancyFont, "Main Menu", new Vector2(525, 905), Color.Black);
+                    _spriteBatch.DrawString(fancyCredits, "This game was developed by: \n      *  Lance Noble \n" +
+                        "      *  Griffin Brown \n      *  Kylian Hervet \n      *  Liam Alexiou", new Vector2(330, 400), Color.Black);
                     break;
 
                 case GameState.GameOver:

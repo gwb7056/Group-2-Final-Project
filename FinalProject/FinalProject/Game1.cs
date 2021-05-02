@@ -48,6 +48,9 @@ namespace FinalProject
         private Texture2D menuScreen;
         private Texture2D pauseScreen;
         private Texture2D creditsScreen;
+        private Texture2D gameOver;
+        private Texture2D gameWin;
+        private Texture2D pauseButton;
         private Texture2D buttonUp;
         private Texture2D buttonDown;
         private List<Texture2D> towerTextures;
@@ -171,9 +174,12 @@ namespace FinalProject
             menuScreen = Content.Load<Texture2D>("MenuFinal");
             pauseScreen = Content.Load<Texture2D>("AltMenu");
             creditsScreen = Content.Load<Texture2D>("Credits");
+            gameOver = Content.Load<Texture2D>("GameOver");
+            gameWin = Content.Load<Texture2D>("victory");
             buttonUp = Content.Load<Texture2D>("buttonUp");
             buttonDown = Content.Load<Texture2D>("buttonDown");
-            
+            pauseButton = Content.Load<Texture2D>("pause");
+
             ///This is a plain basic font 
             ///We'll use this to show how much health the base has and how much mana the player has left
             ///Also used to show the state of the game (aka whether you won, lost, pause, etc.)
@@ -261,7 +267,7 @@ namespace FinalProject
                 case GameState.Game:
 
                     //changing enum states
-                    if (keyBoardState.IsKeyDown(Keys.P))
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 1150 && mouseState.X < 1200) && (mouseState.Y > 0 && mouseState.Y < 50) && previousState.LeftButton.Equals(ButtonState.Released))
                     {
                         activeState = GameState.Pause;
                     }
@@ -359,18 +365,18 @@ namespace FinalProject
                     break;
 
                 case GameState.GameOver:
-                    if (keyBoardState.IsKeyDown(Keys.M))
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592) && previousState.LeftButton.Equals(ButtonState.Released))
                     {
                         activeState = GameState.MainMenu;
                     }
                     break;
 
                 case GameState.LevelFinished:
-                    if (keyBoardState.IsKeyDown(Keys.M)) {
+                    if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592) && previousState.LeftButton.Equals(ButtonState.Released)) {
                         activeState = GameState.MainMenu;
                         startingLevelNum = 0;
                     }
-                    else if (keyBoardState.IsKeyDown(Keys.N) && startingLevelNum + 1 < totalNumLevels) {
+                    else if (mouseState.LeftButton.Equals(ButtonState.Pressed) && (mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 600 && mouseState.Y < 742) && previousState.LeftButton.Equals(ButtonState.Released) && startingLevelNum + 1 < totalNumLevels) {
                         activeState = GameState.Game;
                         gameBoard.GetLevelFromFile(startingLevelNum += 1);
                         player.Health = 100;
@@ -414,10 +420,29 @@ namespace FinalProject
                     break;
 
                 case GameState.LevelFinished:
-                    _spriteBatch.DrawString(font, "YOU COMPLETED THE LEVEL!", new Vector2(400, 400), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"M\" to return the the main menu", new Vector2(300, 500), Color.Black);
-                    if(startingLevelNum + 1 < totalNumLevels) {
-                        _spriteBatch.DrawString(font, "Press \"N\" to go to the next level", new Vector2(300, 600), Color.Black);
+                    _spriteBatch.Draw(gameWin, new Rectangle(0, 0, 1200, 1200), Color.White);
+                    //drawing the main menu button
+                    if ((mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592))
+                    {
+                        _spriteBatch.Draw(buttonDown, new Rectangle(450, 450, 312, 142), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(buttonUp, new Rectangle(450, 450, 312, 142), Color.White);
+                    }
+                    _spriteBatch.DrawString(fancyFont, "Main Menu", new Vector2(535, 500), Color.Black);
+                    //drawing the next level
+                    if (startingLevelNum + 1 < totalNumLevels)
+                    {
+                        if ((mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 600 && mouseState.Y < 742))
+                        {
+                            _spriteBatch.Draw(buttonDown, new Rectangle(450, 600, 312, 142), Color.White);
+                        }
+                        else
+                        {
+                            _spriteBatch.Draw(buttonUp, new Rectangle(450, 600, 312, 142), Color.White);
+                        }
+                        _spriteBatch.DrawString(fancyFont, "Next Level", new Vector2(530, 650), Color.Black);
                     }
                     break;
 
@@ -429,7 +454,6 @@ namespace FinalProject
                     //Drawing player
                     player.Draw(_spriteBatch);
 
-                    _spriteBatch.DrawString(font, "Press \"P\" to pause.", new Vector2(100, 100), Color.White);
                     _spriteBatch.DrawString(font, "Health: " + player.Health, new Vector2(100, 150), Color.White);
                     _spriteBatch.DrawString(font, "Mana: " + player.Mana, new Vector2(100, 200), Color.White);
                     _spriteBatch.DrawString(font, "Wave: " + gameBoard.WaveNum + "/" + gameBoard.TotalWaveNum, new Vector2(100, 250), Color.White);
@@ -460,6 +484,8 @@ namespace FinalProject
 
                     _spriteBatch.DrawString(font, $"Cards in Deck: {deck.Count}", new Vector2(300, 5), Color.White);
                     _spriteBatch.DrawString(font, $"Cards in Discard: {discard.Count}", new Vector2(300, 25), Color.White);
+
+                    _spriteBatch.Draw(pauseButton, new Rectangle(1150, 0, 50, 50), Color.White);
 
                     break;
 
@@ -504,8 +530,17 @@ namespace FinalProject
                     break;
 
                 case GameState.GameOver:
-                    _spriteBatch.DrawString(font, "GAME OVER", new Vector2(200, 200), Color.Black);
-                    _spriteBatch.DrawString(font, "Press \"M\" to go back to the Menu.", new Vector2(300, 500), Color.Black);
+                    _spriteBatch.Draw(gameOver, new Rectangle(0, 0, 1200, 1200), Color.White);
+                    //drawing the main menu button
+                    if ((mouseState.X > 450 && mouseState.X < 762) && (mouseState.Y > 450 && mouseState.Y < 592))
+                    {
+                        _spriteBatch.Draw(buttonDown, new Rectangle(450, 450, 312, 142), Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(buttonUp, new Rectangle(450, 450, 312, 142), Color.White);
+                    }
+                    _spriteBatch.DrawString(fancyFont, "Main Menu", new Vector2(535, 500), Color.Black);
                     break;
             }
 

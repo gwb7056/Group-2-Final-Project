@@ -53,6 +53,7 @@ namespace FinalProject
         private Texture2D pauseButton;
         private Texture2D buttonUp;
         private Texture2D buttonDown;
+        private Texture2D healthBar;
         private List<Texture2D> towerTextures;
         private List<Texture2D> enemyTextures;
 
@@ -208,6 +209,7 @@ namespace FinalProject
             enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("ninjaenemy")); //ninja
             enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("shieldenemy")); //shield enemy
             enemyTextures.Add(enemyTestTexture = Content.Load<Texture2D>("swordenemy")); //swordman
+            healthBar = Content.Load<Texture2D>("square");
 
             ///This is the player texture that will signify what the base looks like and where it is
             ///It's an among us character, but now that we're solidifying the algorithms,
@@ -461,6 +463,11 @@ namespace FinalProject
                     DrawHand(0);
                     DrawHand(1);
                     DrawHand(2);
+
+                    foreach (Enemy enemy in gameBoard.EnemiesOnBoard)
+                    {
+                        _spriteBatch.Draw(healthBar, new Rectangle(enemy.X, enemy.Y, (int)enemy.Health / 2, 10), Color.White);
+                    }
 
                     for (int index = 0; index < gameBoard.TowersOnBoard.Count; index++)
                     {

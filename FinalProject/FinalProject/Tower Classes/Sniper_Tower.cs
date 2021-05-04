@@ -15,7 +15,7 @@ namespace FinalProject
         //constructor
         public Sniper_Tower() : base() { }
 
-        public Sniper_Tower(int x, int y, Texture2D texture) : base(4, 15, 280, 30, 30, x, y, texture) { }
+        public Sniper_Tower(int x, int y, Texture2D texture) : base(5, 15, 280, 30, 30, x, y, texture) { }
       
     }
 }

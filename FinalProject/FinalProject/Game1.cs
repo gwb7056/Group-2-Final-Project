@@ -321,7 +321,7 @@ namespace FinalProject
 
                     ///this frame counter sets the pace for the player's mana regeneration
                     ///the higher the number after the mod (%) operation is, the longer it takes for the player to regenerate mana
-                    frameCounter1 += 1;
+                    frameCounter1 += 2;
                     if (frameCounter1 % 120 == 0)
                     {
                         if (player.Mana < 5)
